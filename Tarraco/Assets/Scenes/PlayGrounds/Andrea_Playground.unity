@@ -617,7 +617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5d75d9f1adeaf548a4594d4190dde52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  theTrap: {fileID: 11400000, guid: 8c902b53683658441aa7952fa00596dd, type: 2}
+  type: 0
 --- !u!1 &1831057377
 GameObject:
   m_ObjectHideFlags: 0

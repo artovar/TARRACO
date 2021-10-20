@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class TrapController : MonoBehaviour
 {
+    public enum trapType
+    {
+        MUD,
+        ICE,
+        FIRE
+    }
+    public trapType type;
+
     private float originalSpeed = 0;
-    public Trap theTrap;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    void Start() {}
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Player"))
@@ -19,14 +23,17 @@ public class TrapController : MonoBehaviour
             Transform jugador = other.transform.parent.transform.parent.transform.parent; //El jugador es el bisabuelo de las piernas
 
             ARP.APR.Scripts.APRController playerController = jugador.GetComponent<ARP.APR.Scripts.APRController>(); //Obtenemos el controlador ARP
-            
-            if(playerController.moveSpeed > originalSpeed){
+
+            if(originalSpeed == 0){
                 originalSpeed = playerController.moveSpeed;
             }
 
-            switch(theTrap.name){
-                case "mud": 
+            switch(type.ToString()){
+                case "MUD": 
                     isMud(playerController);
+                    break;
+                case "ICE":
+                    isIce(playerController);
                     break;
             }
         }
@@ -44,5 +51,9 @@ public class TrapController : MonoBehaviour
 
     private void isMud(ARP.APR.Scripts.APRController playerController) {        
         playerController.moveSpeed -= 3;
+    }
+
+    private void isIce(ARP.APR.Scripts.APRController playerController) {        
+        playerController.moveSpeed += 7;
     }
 }
