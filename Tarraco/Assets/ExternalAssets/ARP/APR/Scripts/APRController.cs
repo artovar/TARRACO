@@ -19,11 +19,10 @@ namespace ARP.APR.Scripts
 {
 	public class APRController : MonoBehaviour
 	{
-    
+
 		//-------------------------------------------------------------
 		//--Variables
 		//-------------------------------------------------------------
-    
 
 		//Active Ragdoll Player parts
 		public GameObject
@@ -55,14 +54,14 @@ namespace ARP.APR.Scripts
 		public string forwardBackward = "Vertical";
 		public string leftRight = "Horizontal";
 		public string jump = "Jump";
-		public string reachLeft = "Fire1";
-		public string reachRight = "Fire2";
+		public string punchLeft = "Fire1";
+		public string punchRight = "Fire2";
     
 		[Header("Player Input KeyCodes")]
 		//Player KeyCode controls
-		public string punchLeft = "q";
-		public string punchRight = "e";
-    
+		public string reachLeft = "q";
+		public string reachRight = "e";
+
 		[Header("The Layer Only This Player Is On")]
 		//Player layer name
 		public string thisPlayerLayer = "Player_1";
@@ -418,8 +417,9 @@ namespace ARP.APR.Scripts
 			//Move in camera direction
 			if(forwardIsCameraDirection)
 			{
-				Direction = APR_Parts[0].transform.rotation * new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward));
-				Direction.y = 0f;
+				//Direction = APR_Parts[0].transform.rotation * new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward)); CAMBIO
+				Direction = new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward));
+				//Direction.y = 0f;
 				APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * moveSpeed) + new Vector3(0, APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0), 0.8f);
 
 				if(Input.GetAxisRaw(leftRight) != 0 || Input.GetAxisRaw(forwardBackward) != 0 && balanced)
@@ -547,10 +547,14 @@ namespace ARP.APR.Scripts
 			{
 				//Camera Direction
 				//Turn with camera
-				var lookPos = cam.transform.forward;
-				lookPos.y = 0;
-				var rotation = Quaternion.LookRotation(lookPos);
-				APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, Quaternion.Inverse(rotation), Time.deltaTime * turnSpeed);
+				//var lookPos = cam.transform.forward; CAMBIO
+				if(Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0)
+                {
+					var lookPos = new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
+					lookPos.y = 0;
+					var rotation = Quaternion.LookRotation(lookPos);
+					APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
+				}
 			}
         
 			else
@@ -651,19 +655,19 @@ namespace ARP.APR.Scripts
 			//Body Bending
 			if(1==1)
 			{
-				if(MouseYAxisBody <= 0.9f && MouseYAxisBody >= -0.9f)
+				if(MouseYAxisBody <= 0f && MouseYAxisBody >= -0.1f)
 				{
 					MouseYAxisBody = MouseYAxisBody + (Input.GetAxis("Mouse Y") / reachSensitivity);
 				}
             
-				else if(MouseYAxisBody > 0.9f)
+				else if(MouseYAxisBody > 0f)
 				{
-					MouseYAxisBody = 0.9f;
+					MouseYAxisBody = 0f;
 				}
             
-				else if(MouseYAxisBody < -0.9f)
+				else if(MouseYAxisBody < -0.1f)
 				{
-					MouseYAxisBody = -0.9f;
+					MouseYAxisBody = -0.1f;
 				}
             
 				APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(MouseYAxisBody, 0, 0, 1);
@@ -671,7 +675,7 @@ namespace ARP.APR.Scripts
             
             
 			//Reach Left
-			if(Input.GetAxisRaw(reachLeft) != 0 && !punchingLeft)
+			if(Input.GetKey(reachLeft) && !punchingLeft)
 			{
             
 				if(!reachLeftAxisUsed)
@@ -708,7 +712,7 @@ namespace ARP.APR.Scripts
 				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.58f - (MouseYAxisArms), -0.88f - (MouseYAxisArms), -0.8f, 1);
 			}
         
-			if(Input.GetAxisRaw(reachLeft) == 0 && !punchingLeft)
+			if(!Input.GetKey(reachLeft) && !punchingLeft)
 			{
 				if(reachLeftAxisUsed)
 				{
@@ -740,7 +744,7 @@ namespace ARP.APR.Scripts
             
             
 			//Reach Right
-			if(Input.GetAxisRaw(reachRight) != 0 && !punchingRight)
+			if(Input.GetKey(reachRight)&& !punchingRight)
 			{
             
 				if(!reachRightAxisUsed)
@@ -777,7 +781,7 @@ namespace ARP.APR.Scripts
 				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.58f + (MouseYAxisArms), -0.88f - (MouseYAxisArms), 0.8f, 1);
 			}
         
-			if(Input.GetAxisRaw(reachRight) == 0 && !punchingRight)
+			if(!Input.GetKey(reachRight) && !punchingRight)
 			{
 				if(reachRightAxisUsed)
 				{
@@ -815,7 +819,7 @@ namespace ARP.APR.Scripts
 		{
         
 			//punch right
-			if(!punchingRight && Input.GetKey(punchRight))
+			if(!punchingRight && Input.GetButton(punchRight))
 			{
 				punchingRight= true;
             
@@ -825,7 +829,7 @@ namespace ARP.APR.Scripts
 				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 1.31f, 0.5f, -0.5f, 1);
 			}
         
-			if(punchingRight && !Input.GetKey(punchRight))
+			if(punchingRight && !Input.GetButton(punchRight))
 			{
 				punchingRight = false;
             
@@ -843,7 +847,7 @@ namespace ARP.APR.Scripts
 				IEnumerator DelayCoroutine()
 				{
 					yield return new WaitForSeconds(0.3f);
-					if(!Input.GetKey(punchRight))
+					if(!Input.GetButton(punchRight))
 					{
 						APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 						APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;
@@ -853,7 +857,7 @@ namespace ARP.APR.Scripts
         
         
 			//punch left
-			if(!punchingLeft && Input.GetKey(punchLeft))
+			if(!punchingLeft && Input.GetButton(punchLeft))
 			{
 				punchingLeft = true;
             
@@ -863,7 +867,7 @@ namespace ARP.APR.Scripts
 				APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -1.31f, 0.5f, 0.5f, 1);
 			}
         
-			if(punchingLeft && !Input.GetKey(punchLeft))
+			if(punchingLeft && !Input.GetButton(punchLeft))
 			{
 				punchingLeft = false;
             
@@ -881,7 +885,7 @@ namespace ARP.APR.Scripts
 				IEnumerator DelayCoroutine()
 				{
 					yield return new WaitForSeconds(0.3f);
-					if(!Input.GetKey(punchLeft))
+					if(!Input.GetButton(punchLeft))
 					{
 						APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
 						APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
