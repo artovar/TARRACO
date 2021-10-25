@@ -25,17 +25,17 @@ public class WeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("e"))
+        if (Input.GetButtonDown("Interact"))
         {
             print(weaponsStored);
             print(mainWeapon);
         }
-        if (Input.GetKeyDown("q")) 
+        if (Input.GetAxisRaw("Drop") > 0) 
         {
             Drop(mainWeapon);
             print(weaponsStored);
         }
-        else if(Input.GetKeyDown("f")) //Switch between Weapons
+        else if(Input.GetButtonDown("Change")) //Switch between Weapons
         {
             SendToBack(mainWeapon);
             BringFromBack(backWeapon);

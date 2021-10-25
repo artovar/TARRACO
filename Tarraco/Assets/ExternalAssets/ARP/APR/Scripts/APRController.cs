@@ -60,11 +60,8 @@ namespace ARP.APR.Scripts
 		public string jump = "Jump";
 		public string punchLeft = "Fire1";
 		public string punchRight = "Fire2";
-    
-		[Header("Player Input KeyCodes")]
-		//Player KeyCode controls
-		public string reachLeft = "q";
-		public string reachRight = "e";
+ 		public string reachLeft = "Drop";
+		public string reachRight = "Interact";
 
 		[Header("The Layer Only This Player Is On")]
 		//Player layer name
@@ -679,7 +676,7 @@ namespace ARP.APR.Scripts
             
             
 			//Reach Left
-			if(Input.GetKey(reachLeft) && !punchingLeft)
+			if(Input.GetButton(reachLeft) && !punchingLeft)
 			{
             
 				if(!reachLeftAxisUsed)
@@ -716,7 +713,7 @@ namespace ARP.APR.Scripts
 				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.58f - (MouseYAxisArms), -0.88f - (MouseYAxisArms), -0.8f, 1);
 			}
         
-			if(!Input.GetKey(reachLeft) && !punchingLeft)
+			if(!Input.GetButton(reachLeft) && !punchingLeft)
 			{
 				if(reachLeftAxisUsed)
 				{
@@ -748,7 +745,7 @@ namespace ARP.APR.Scripts
             
             
 			//Reach Right
-			if(Input.GetKey(reachRight)&& !punchingRight)
+			if(Input.GetButton(reachRight)&& !punchingRight)
 			{
             
 				if(!reachRightAxisUsed)
@@ -785,7 +782,7 @@ namespace ARP.APR.Scripts
 				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.58f + (MouseYAxisArms), -0.88f - (MouseYAxisArms), 0.8f, 1);
 			}
         
-			if(!Input.GetKey(reachRight) && !punchingRight)
+			if(!Input.GetButton(reachRight) && !punchingRight)
 			{
 				if(reachRightAxisUsed)
 				{
