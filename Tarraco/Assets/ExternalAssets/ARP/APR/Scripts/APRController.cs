@@ -24,6 +24,10 @@ namespace ARP.APR.Scripts
 		//--Variables
 		//-------------------------------------------------------------
 
+		//Weapon gameObject
+		public WeaponScript weapon;
+
+
 		//Active Ragdoll Player parts
 		public GameObject
 			//
@@ -822,21 +826,37 @@ namespace ARP.APR.Scripts
 			if(!punchingRight && Input.GetButton(punchRight))
 			{
 				punchingRight= true;
-            
-				//Right hand punch pull back pose
-				APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, -0.15f, 0, 1);
-				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.62f, -0.51f, 0.02f, 1);
-				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 1.31f, 0.5f, -0.5f, 1);
+				if(!Object.ReferenceEquals(weapon, null))
+                {
+					print("Not null");
+					weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+                }
+				else
+				{
+					print("Is null");
+					//Right hand punch pull back pose
+					APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
+					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
+					APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);
+				}
 			}
         
 			if(punchingRight && !Input.GetButton(punchRight))
 			{
 				punchingRight = false;
-            
-				//Right hand punch release pose
-				APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.74f, 0.04f, 0f, 1);
-				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.2f, 0, 0, 1);
+
+				if (!Object.ReferenceEquals(weapon, null))
+				{
+					print("Hitting");
+					weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				}
+				else
+				{
+					//Right hand punch release pose
+					APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
+					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
+					APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.2f, 0, 0, 1);
+				}
             
 				//Right hand punch force
 				RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
