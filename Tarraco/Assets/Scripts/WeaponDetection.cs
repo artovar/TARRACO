@@ -32,10 +32,11 @@ public class WeaponDetection : MonoBehaviour
         }
         if (Input.GetAxisRaw("Drop") > 0) 
         {
+            print(Input.GetAxisRaw("Drop") + " Oh no");
             Drop(mainWeapon);
             print(weaponsStored);
         }
-        else if(Input.GetButton("Change")) //Switch between Weapons
+        else if(Input.GetButtonDown("Change")) //Switch between Weapons
         {
             SendToBack(mainWeapon);
             BringFromBack(backWeapon);
@@ -47,7 +48,7 @@ public class WeaponDetection : MonoBehaviour
     }
     private void OnTriggerStay(Collider col)
     {
-        if(col.CompareTag("Weapon") && (Input.GetKey("e")))
+        if(col.CompareTag("Weapon") && (Input.GetButton("Interact")))
         {
             Pick(col.transform);
             print(weaponsStored);
