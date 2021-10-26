@@ -47,11 +47,7 @@ public class WeaponDetection : MonoBehaviour
         }
     }
     private void OnTriggerStay(Collider col)
-<<<<<<< HEAD
     {
-=======
-    {
->>>>>>> a9d9d23cbae18bd7302254a55cd26aabad2f00b6
         if(col.CompareTag("Weapon") && (Input.GetButton("Interact")))
         {
             Pick(col.transform);
