@@ -47,7 +47,7 @@ public class WeaponDetection : MonoBehaviour
     }
     private void OnTriggerStay(Collider col)
     {
-        if(col.CompareTag("Weapon") && (Input.GetButtonDown("Interact")))
+        if(col.CompareTag("Weapon") && (Input.GetButton("Interact")))
         {
             Pick(col.transform);
             print(weaponsStored);
