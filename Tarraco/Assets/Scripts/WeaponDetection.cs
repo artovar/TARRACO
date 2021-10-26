@@ -25,12 +25,12 @@ public class WeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Interact"))
+        if (Input.GetButtonDown("Interact"))
         {
             print(weaponsStored);
             print(mainWeapon);
         }
-        if (Input.GetAxisRaw("Drop") > 0) 
+        if (Input.GetButtonDown("Drop")) 
         {
             print(Input.GetAxisRaw("Drop") + " Oh no");
             Drop(mainWeapon);
@@ -47,7 +47,7 @@ public class WeaponDetection : MonoBehaviour
         }
     }
     private void OnTriggerStay(Collider col)
-    {
+    { 
         if(col.CompareTag("Weapon") && (Input.GetButton("Interact")))
         {
             Pick(col.transform);
