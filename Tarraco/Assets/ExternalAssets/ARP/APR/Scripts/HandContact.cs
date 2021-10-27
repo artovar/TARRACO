@@ -91,7 +91,7 @@ namespace ARP.APR.Scripts
                 {
                     if(col.gameObject.tag == "CanBeGrabbed" && col.gameObject.layer != LayerMask.NameToLayer(APR_Player.thisPlayerLayer) && !hasJoint)
                     {
-                        if(Input.GetKey(APR_Player.reachRight) && !hasJoint && !APR_Player.punchingRight)
+                        if(Input.GetKey(APR_Player.reachRight) && !hasJoint && !APR_Player.attacking)
                         {
                             hasJoint = true;
                             this.gameObject.AddComponent<FixedJoint>();

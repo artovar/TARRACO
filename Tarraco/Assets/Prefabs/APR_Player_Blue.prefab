@@ -2835,7 +2835,6 @@ GameObject:
   - component: {fileID: 5274389533497831264}
   - component: {fileID: 5274389533497831241}
   - component: {fileID: 5274389533497831266}
-  - component: {fileID: 5274389533497831289}
   m_Layer: 10
   m_Name: APR_RightHand
   m_TagString: CanBeGrabbed
@@ -2983,21 +2982,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &5274389533497831289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5274389533497831236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07c4df9e82ca43343af2ab82a1de4cf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  APR_Player: {fileID: 5274389533497831291}
-  Left: 0
-  hasJoint: 0
 --- !u!1 &5274389533497831237
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,7 +2994,6 @@ GameObject:
   - component: {fileID: 5274389533497831294}
   - component: {fileID: 5274389533497831242}
   - component: {fileID: 5274389533497831288}
-  - component: {fileID: 5274389533497831290}
   m_Layer: 10
   m_Name: APR_LeftHand
   m_TagString: CanBeGrabbed
@@ -3158,21 +3141,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &5274389533497831290
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5274389533497831237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07c4df9e82ca43343af2ab82a1de4cf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  APR_Player: {fileID: 5274389533497831291}
-  Left: 1
-  hasJoint: 0
 --- !u!1 &5274389533497831238
 GameObject:
   m_ObjectHideFlags: 0
@@ -3234,8 +3202,8 @@ MonoBehaviour:
   RightHand: {fileID: 5274389533497831241}
   LeftHand: {fileID: 5274389533497831242}
   COMP: {fileID: 2038910576751919183}
-  GrabRight: {fileID: 5274389533497831289}
-  GrabLeft: {fileID: 5274389533497831290}
+  GrabRight: {fileID: 0}
+  GrabLeft: {fileID: 0}
   useControls: 1
   forwardBackward: Vertical
   leftRight: Horizontal
@@ -5597,8 +5565,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6, y: 4, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 6, y: 6, z: 4}
+  m_Center: {x: 0, y: -1, z: 0}
 --- !u!114 &5501954674881431441
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,8 @@ public class WeaponDetection : MonoBehaviour
     private Transform handTransform;
     [SerializeField]
     private Transform backTransform;
-    private bool usingWeapon;
+    private bool picking;
+    private float pickingCoyoteTime;
     private int weaponsStored;
     private Transform mainWeapon;
     private Transform backWeapon;
@@ -27,8 +28,17 @@ public class WeaponDetection : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            print(weaponsStored);
-            print(mainWeapon);
+            picking = true;
+            print("I'm trying");
+        }
+        if (picking)
+        {
+            pickingCoyoteTime += Time.deltaTime;
+            if(pickingCoyoteTime > .1f)
+            {
+                picking = false;
+                pickingCoyoteTime = 0;
+            }
         }
         if (Input.GetButtonDown("Drop")) 
         {
@@ -48,8 +58,14 @@ public class WeaponDetection : MonoBehaviour
     }
     private void OnTriggerStay(Collider col)
     {
-        if(col.CompareTag("Weapon") && (Input.GetButton("Interact")))
+        if (col.CompareTag("Weapon"))
         {
+            if (!picking)
+            {
+                return;
+            }
+            picking = false;
+            pickingCoyoteTime = 0;
             Pick(col.transform);
             print(weaponsStored);
         }
@@ -125,7 +141,6 @@ public class WeaponDetection : MonoBehaviour
     void GetWeapon(Transform weapon)
     {
         weapon.tag = "GrabbedWeapon";
-        weapon.parent = handTransform;
         weapon.position = handTransform.position;
         weapon.rotation = handTransform.rotation;
         weapon.gameObject.AddComponent<FixedJoint>();
@@ -138,18 +153,20 @@ public class WeaponDetection : MonoBehaviour
     void DropWeapon(Transform weapon)
     {
         weapon.tag = "Weapon";
-        weapon.parent = null;
         weapon.position = handTransform.position;
         RaycastHit hitInfo;
-        Ray ray = new Ray(transform.position, Vector3.down);
-        if (Physics.Raycast(ray, out hitInfo, 1, LayerMask.NameToLayer("Ground")))
+        Ray ray = new Ray(weapon.position, Vector3.down);
+        if (Physics.Raycast(ray, out hitInfo, 1, 1 << LayerMask.NameToLayer("Ground")))
         {
             weapon.position = hitInfo.point + Vector3.up * .2f;
+            weapon.rotation = new Quaternion(0f, weapon.rotation.y, 0f, weapon.rotation.w);
         }
         else
         {
-            weapon.position -= Vector3.up * .4f;
+            weapon.position -= Vector3.up * .1f;
+            weapon.rotation = new Quaternion(0f, weapon.rotation.y, 0f, weapon.rotation.w);
         }
+        weapon.GetComponent<FixedJoint>().connectedBody = null;
         weapon.GetComponent<FixedJoint>().breakForce = 0f;
         weapon.GetComponent<Rigidbody>().useGravity = true;
         weapon.GetComponent<WeaponScript>().SetOnFloorColliders();
@@ -157,7 +174,6 @@ public class WeaponDetection : MonoBehaviour
 
     void SendToBack(Transform weapon)
     {
-        weapon.parent = backTransform;
         weapon.position = backTransform.position;
         weapon.rotation = backTransform.rotation;
         weapon.GetComponent<FixedJoint>().connectedBody = backTransform.GetComponent<Rigidbody>();
@@ -165,7 +181,6 @@ public class WeaponDetection : MonoBehaviour
 
     void BringFromBack(Transform weapon)
     {
-        weapon.parent = handTransform;
         weapon.position = handTransform.position;
         weapon.rotation = handTransform.rotation;
         weapon.GetComponent<FixedJoint>().connectedBody = handTransform.GetComponent<Rigidbody>();
