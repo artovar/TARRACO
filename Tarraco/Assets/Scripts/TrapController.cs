@@ -14,25 +14,29 @@ public class TrapController : MonoBehaviour
 
     private float originalSpeed = 0;
 
+    private int feet = 0;
+
     // Start is called before the first frame update
     void Start() {}
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Foot"))
         {
-            Transform jugador = other.transform.parent.transform.parent.transform.parent; //El jugador es el bisabuelo de las piernas
+            feet++;
+            Transform jugador = other.transform.parent.parent.parent; //El jugador es el bisabuelo de las piernas
 
             ARP.APR.Scripts.APRController playerController = jugador.GetComponent<ARP.APR.Scripts.APRController>(); //Obtenemos el controlador ARP
 
             if(originalSpeed == 0){
-                originalSpeed = playerController.moveSpeed;
+                originalSpeed = playerController.moveSpeed; //Guarda la velocidad original para devolversela al salir
             }
 
-            switch(type.ToString()){
-                case "MUD": 
+
+            switch(type){
+                case trapType.MUD: 
                     isMud(playerController);
                     break;
-                case "ICE":
+                case trapType.ICE:
                     isIce(playerController);
                     break;
             }
@@ -40,12 +44,18 @@ public class TrapController : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Foot"))
         {
+            feet--;
+
             Transform jugador = other.transform.parent.transform.parent.transform.parent; //El jugador es el bisabuelo de las piernas
             ARP.APR.Scripts.APRController playerController = jugador.GetComponent<ARP.APR.Scripts.APRController>(); //Obtenemos el controlador ARP
             
-            playerController.moveSpeed = originalSpeed; //Reestablecemos la velocidad al salir
+            if (feet == 0) {
+                playerController.moveSpeed = originalSpeed; //Reestablecemos la velocidad al salir
+            } else if (feet == 1) {
+                playerController.moveSpeed = originalSpeed - 3;
+            }
         }
     }
 
