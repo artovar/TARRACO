@@ -2,29 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AxeScript : MonoBehaviour, WeaponScript
+public class AxeScript : WeaponScript
 {
     [SerializeField]
     Collider[] onHandCol;
     [SerializeField]
     Collider[] onFloorCol;
 
-    public void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
+    public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
     {
-        print("preparing");
-        a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
+        /*a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
         b.targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
-        c.targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);
+        c.targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);*/
+        a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
+        b.targetRotation = new Quaternion(-0.360000014f, -0.939999998f, 0.560000002f, 1.38f);
+        c.targetRotation = new Quaternion(0.709999979f, -0.610000014f, 0.839999974f, 1f);
     }
-    public void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
+    public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
     {
-        print("Hitting");
-        a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
+        /*a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
         b.targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
-        c.targetRotation = new Quaternion(0.2f, 0, 0, 1);
+        c.targetRotation = new Quaternion(0.2f, 0, 0, 1);*/
+        a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
+        b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
+        c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);
     }
 
-    public void SetOnHandColliders()
+    public override void SetOnHandColliders()
     {
         foreach (Collider c in onHandCol)
         {
@@ -36,7 +40,7 @@ public class AxeScript : MonoBehaviour, WeaponScript
         }
     }
 
-    public void SetOnFloorColliders()
+    public override void SetOnFloorColliders()
     {
         foreach (Collider c in onHandCol)
         {

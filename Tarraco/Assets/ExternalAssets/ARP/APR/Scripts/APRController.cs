@@ -18,7 +18,6 @@ namespace ARP.APR.Scripts
 {
 	public class APRController : MonoBehaviour
 	{
-
 		//-------------------------------------------------------------
 		//--Variables
 		//-------------------------------------------------------------
@@ -163,7 +162,7 @@ namespace ARP.APR.Scripts
 		////////////////
 		void Update()
 		{
-			if(useControls && !inAir)
+			if (useControls && !inAir)
 			{
 				PlayerMovement();
             
@@ -316,7 +315,6 @@ namespace ARP.APR.Scripts
 					}
 				}
 			}
-		
 			//Fall over when ground is not detected
 			else if(!Physics.Raycast(ray, out hit, balanceHeight, 1 << LayerMask.NameToLayer("Ground")))
 			{
@@ -326,7 +324,6 @@ namespace ARP.APR.Scripts
 				}
 			}
 
-		
 			//Balance on/off
 			if(balanced && isRagdoll)
 			{
@@ -407,123 +404,26 @@ namespace ARP.APR.Scripts
 		////////////////////////
 		void PlayerMovement()
 		{
-			//Move in camera direction
-			if(true)
+			Direction = new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward));
+			APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * moveSpeed) + new Vector3(0, APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0), 0.8f);
+
+			if(Input.GetAxisRaw(leftRight) != 0 || Input.GetAxisRaw(forwardBackward) != 0 && balanced)
 			{
-				Direction = new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward));
-				APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * moveSpeed) + new Vector3(0, APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0), 0.8f);
-
-				if(Input.GetAxisRaw(leftRight) != 0 || Input.GetAxisRaw(forwardBackward) != 0 && balanced)
+				if(!WalkForward && !moveAxisUsed)
 				{
-					if(!WalkForward && !moveAxisUsed)
-					{
-						WalkForward = true;
-						moveAxisUsed = true;
-						isKeyDown = true;
-					}
-				}
-
-				else if(Input.GetAxisRaw(leftRight) == 0 && Input.GetAxisRaw(forwardBackward) == 0)
-				{
-					if(WalkForward && moveAxisUsed)
-					{
-						WalkForward = false;
-						moveAxisUsed = false;
-						isKeyDown = false;
-					}
+					WalkForward = true;
+					moveAxisUsed = true;
+					isKeyDown = true;
 				}
 			}
-        
-			//Move in own direction
-			else
+
+			else if(Input.GetAxisRaw(leftRight) == 0 && Input.GetAxisRaw(forwardBackward) == 0)
 			{
-				if (Input.GetAxisRaw(forwardBackward) != 0)
+				if(WalkForward && moveAxisUsed)
 				{
-					var v3 = APR_Parts[0].GetComponent<Rigidbody>().transform.forward * (Input.GetAxisRaw(forwardBackward) * moveSpeed);
-					v3.y = APR_Parts[0].GetComponent<Rigidbody>().velocity.y;
-					APR_Parts[0].GetComponent<Rigidbody>().velocity = v3;
-				}
-
-            
-				if(Input.GetAxisRaw(forwardBackward) > 0)
-				{
-					if(!WalkForward && !moveAxisUsed)
-					{
-						WalkBackward = false;
-						WalkForward = true;
-						moveAxisUsed = true;
-						isKeyDown = true;
-                    
-						if(isRagdoll)
-						{
-							APR_Parts[7].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[7].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[8].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[8].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[9].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[9].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[10].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[10].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[11].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[11].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[12].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[12].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-						}
-					}
-				}
-            
-				else if(Input.GetAxisRaw(forwardBackward) < 0)
-				{
-					if(!WalkBackward && !moveAxisUsed)
-					{
-						WalkForward = false;
-						WalkBackward = true;
-						moveAxisUsed = true;
-						isKeyDown = true;
-                    
-						if(isRagdoll)
-						{
-							APR_Parts[7].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[7].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[8].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[8].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[9].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[9].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[10].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[10].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[11].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[11].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-							APR_Parts[12].GetComponent<ConfigurableJoint>().angularXDrive = PoseOn;
-							APR_Parts[12].GetComponent<ConfigurableJoint>().angularYZDrive = PoseOn;
-						}
-					}
-				}
-
-				else if(Input.GetAxisRaw(forwardBackward) == 0)
-				{
-					if(WalkForward || WalkBackward && moveAxisUsed)
-					{
-						WalkForward = false;
-						WalkBackward = false;
-						moveAxisUsed = false;
-						isKeyDown = false;
-                    
-						if(isRagdoll)
-						{
-							APR_Parts[7].GetComponent<ConfigurableJoint>().angularXDrive = DriveOff;
-							APR_Parts[7].GetComponent<ConfigurableJoint>().angularYZDrive = DriveOff;
-							APR_Parts[8].GetComponent<ConfigurableJoint>().angularXDrive = DriveOff;
-							APR_Parts[8].GetComponent<ConfigurableJoint>().angularYZDrive = DriveOff;
-							APR_Parts[9].GetComponent<ConfigurableJoint>().angularXDrive = DriveOff;
-							APR_Parts[9].GetComponent<ConfigurableJoint>().angularYZDrive = DriveOff;
-							APR_Parts[10].GetComponent<ConfigurableJoint>().angularXDrive = DriveOff;
-							APR_Parts[10].GetComponent<ConfigurableJoint>().angularYZDrive = DriveOff;
-							APR_Parts[11].GetComponent<ConfigurableJoint>().angularXDrive = DriveOff;
-							APR_Parts[11].GetComponent<ConfigurableJoint>().angularYZDrive = DriveOff;
-							APR_Parts[12].GetComponent<ConfigurableJoint>().angularXDrive = DriveOff;
-							APR_Parts[12].GetComponent<ConfigurableJoint>().angularYZDrive = DriveOff;
-						}
-					}
+					WalkForward = false;
+					moveAxisUsed = false;
+					isKeyDown = false;
 				}
 			}
 		}
@@ -534,40 +434,16 @@ namespace ARP.APR.Scripts
 		////////////////////////
 		void PlayerRotation()
 		{
-			if(true)
-			{
-				//Camera Direction
-				//Turn with camera
-				//var lookPos = cam.transform.forward; CAMBIO
-				if(Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0)
-                {
-					var lookPos = new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
-					lookPos.y = 0;
-					var rotation = Quaternion.LookRotation(lookPos);
-					//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
-					APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * 20 * turnSpeed);
-				}
-			}
-        
-			else
-			{   
-				//Self Direction
-				//Turn with keys
-				if (Input.GetAxisRaw(leftRight) != 0)
-				{
-					APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Lerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, new Quaternion(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.x,APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.y - (Input.GetAxisRaw(leftRight) * turnSpeed), APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.z, APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.w), 6 * Time.fixedDeltaTime);
-				}
-            
-				//reset turn upon target rotation limit
-				if(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.y < -0.98f)
-				{
-					APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.x, 0.98f, APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.z, APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.w);
-				}
-
-				else if(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.y > 0.98f)
-				{
-					APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.x, -0.98f, APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.z, APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation.w);
-				}
+			//Camera Direction
+			//Turn with camera
+			//var lookPos = cam.transform.forward; CAMBIO
+			if((Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0) && (!attacking))
+            {
+				var lookPos = new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
+				lookPos.y = 0;
+				var rotation = Quaternion.LookRotation(lookPos);
+				//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
+				APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * 20 * turnSpeed);
 			}
 		}
     
@@ -862,17 +738,20 @@ namespace ARP.APR.Scripts
 					}
 				}
 			}
-        
-        
+
+			/*
 			//punch left
 			if(!punchingLeft && Input.GetButton(punchLeft))
 			{
 				punchingLeft = true;
             
 				//Left hand punch pull back pose
-				APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.62f, -0.51f, 0.02f, 1);
-				APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -1.31f, 0.5f, 0.5f, 1);
+				//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
+				//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
+				//APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.62f, -0.51f, 0.02f, 1);
+				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(.15f, -.18f, -.46f, 1f);
+				//APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.7f, -.06f, -.02f, -.7f);
+				APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.77f, -0.19f, -.06f, -.61f);
 			}
         
 			if(punchingLeft && !Input.GetButton(punchLeft))
@@ -899,11 +778,11 @@ namespace ARP.APR.Scripts
 						APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
 					}
 				}
-			}
+			}*/
 		}
-    
-    
-    
+
+
+
 		//---Player Walking---//
 		///////////////////////
 		void Walking()

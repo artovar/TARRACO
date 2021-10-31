@@ -8,7 +8,9 @@ public class WeaponDetection : MonoBehaviour
     [SerializeField]
     private APRController controller;
     [SerializeField]
-    private Transform handTransform;
+    private Transform lHandTransform;
+    [SerializeField]
+    private Transform rHandTransform;
     [SerializeField]
     private Transform backTransform;
     private bool picking;
@@ -48,6 +50,7 @@ public class WeaponDetection : MonoBehaviour
         }
         else if(Input.GetButtonDown("Change")) //Switch between Weapons
         {
+            if (weaponsStored < 2) return;
             SendToBack(mainWeapon);
             BringFromBack(backWeapon);
             Transform aux = mainWeapon;
@@ -140,49 +143,21 @@ public class WeaponDetection : MonoBehaviour
 
     void GetWeapon(Transform weapon)
     {
-        weapon.tag = "GrabbedWeapon";
-        weapon.position = handTransform.position;
-        weapon.rotation = handTransform.rotation;
-        weapon.gameObject.AddComponent<FixedJoint>();
-        weapon.GetComponent<FixedJoint>().connectedBody = handTransform.GetComponent<Rigidbody>();
-        weapon.GetComponent<FixedJoint>().breakForce = Mathf.Infinity;
-        weapon.GetComponent<Rigidbody>().useGravity = false;
-        weapon.GetComponent<WeaponScript>().SetOnHandColliders();
+        weapon.GetComponent<WeaponScript>().GetWeapon(rHandTransform, lHandTransform);
     }
 
     void DropWeapon(Transform weapon)
     {
-        weapon.tag = "Weapon";
-        weapon.position = handTransform.position;
-        RaycastHit hitInfo;
-        Ray ray = new Ray(weapon.position, Vector3.down);
-        if (Physics.Raycast(ray, out hitInfo, 1, 1 << LayerMask.NameToLayer("Ground")))
-        {
-            weapon.position = hitInfo.point + Vector3.up * .2f;
-            weapon.rotation = new Quaternion(0f, weapon.rotation.y, 0f, weapon.rotation.w);
-        }
-        else
-        {
-            weapon.position -= Vector3.up * .1f;
-            weapon.rotation = new Quaternion(0f, weapon.rotation.y, 0f, weapon.rotation.w);
-        }
-        weapon.GetComponent<FixedJoint>().connectedBody = null;
-        weapon.GetComponent<FixedJoint>().breakForce = 0f;
-        weapon.GetComponent<Rigidbody>().useGravity = true;
-        weapon.GetComponent<WeaponScript>().SetOnFloorColliders();
+        weapon.GetComponent<WeaponScript>().DropWeapon(rHandTransform);
     }
 
     void SendToBack(Transform weapon)
     {
-        weapon.position = backTransform.position;
-        weapon.rotation = backTransform.rotation;
-        weapon.GetComponent<FixedJoint>().connectedBody = backTransform.GetComponent<Rigidbody>();
+        weapon.GetComponent<WeaponScript>().SendToBack(backTransform);
     }
 
     void BringFromBack(Transform weapon)
     {
-        weapon.position = handTransform.position;
-        weapon.rotation = handTransform.rotation;
-        weapon.GetComponent<FixedJoint>().connectedBody = handTransform.GetComponent<Rigidbody>();
+        weapon.GetComponent<WeaponScript>().BringFromBack(rHandTransform, lHandTransform);
     }
 }

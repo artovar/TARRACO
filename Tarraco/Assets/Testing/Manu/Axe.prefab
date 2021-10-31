@@ -262,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c96a3caa6cb9e47a81837161b19a94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kind: 0
   onHandCol:
   - {fileID: 1532776114554976832}
   - {fileID: 4253577779469104060}

@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 3043767790717495648}
   - component: {fileID: 5891818451455836949}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: Sword
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,6 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e98a35c03b25a4eb7c8b6f7a83780f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kind: 12
   onHandCol:
   - {fileID: 566732696599142547}
   onFloorCol:
