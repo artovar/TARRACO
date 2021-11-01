@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - CanBeGrabbed
+  - Foot
+  - Traps
   - Ground
   - Weapon
   - GrabbedWeapon
