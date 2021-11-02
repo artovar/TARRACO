@@ -35,7 +35,7 @@ namespace ARP.APR.Scripts
                 //On input release destroy joint
                 if(Left)
                 {
-                    if(hasJoint && Input.GetAxisRaw(APR_Player.reachLeft) == 0)
+                    if(hasJoint && !Input.GetKey(APR_Player.reachLeft))
                     {
                         this.gameObject.GetComponent<FixedJoint>().breakForce = 0;
                         hasJoint = false;
@@ -51,7 +51,7 @@ namespace ARP.APR.Scripts
                 //On input release destroy joint
                 if(!Left)
                 {
-                    if(hasJoint && Input.GetAxisRaw(APR_Player.reachRight) == 0)
+                    if(hasJoint && !Input.GetKey(APR_Player.reachRight))
                     {
                         this.gameObject.GetComponent<FixedJoint>().breakForce = 0;
                         hasJoint = false;
@@ -75,7 +75,7 @@ namespace ARP.APR.Scripts
                 {
                     if(col.gameObject.tag == "CanBeGrabbed" && col.gameObject.layer != LayerMask.NameToLayer(APR_Player.thisPlayerLayer) && !hasJoint)
                     {
-                        if(Input.GetAxisRaw(APR_Player.reachLeft) != 0 && !hasJoint && !APR_Player.punchingLeft)
+                        if(Input.GetKey(APR_Player.reachLeft) && !hasJoint && !APR_Player.punchingLeft)
                         {
                             hasJoint = true;
                             this.gameObject.AddComponent<FixedJoint>();
@@ -91,7 +91,7 @@ namespace ARP.APR.Scripts
                 {
                     if(col.gameObject.tag == "CanBeGrabbed" && col.gameObject.layer != LayerMask.NameToLayer(APR_Player.thisPlayerLayer) && !hasJoint)
                     {
-                        if(Input.GetAxisRaw(APR_Player.reachRight) != 0 && !hasJoint && !APR_Player.punchingRight)
+                        if(Input.GetKey(APR_Player.reachRight) && !hasJoint && !APR_Player.attacking)
                         {
                             hasJoint = true;
                             this.gameObject.AddComponent<FixedJoint>();

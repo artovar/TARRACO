@@ -5,8 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - CanBeGrabbed
-  - Traps
   - Foot
+  - Traps
+  - Ground
+  - Weapon
+  - GrabbedWeapon
+  - Enemy
   layers:
   - Default
   - TransparentFX
