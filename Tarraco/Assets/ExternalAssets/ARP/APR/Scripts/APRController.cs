@@ -692,12 +692,10 @@ namespace ARP.APR.Scripts
 				attacking= true;
 				if(!Object.ReferenceEquals(weapon, null))
                 {
-					print("Not null");
 					weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
                 }
 				else
 				{
-					print("Is null");
 					//Right hand punch pull back pose
 					APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
 					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);

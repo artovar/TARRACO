@@ -24,10 +24,11 @@ public class TrapController : MonoBehaviour
         {
             feet++;
             Transform jugador = other.transform.parent.parent.parent; //El jugador es el bisabuelo de las piernas
+            
+            ARP.APR.Scripts.APRController playerController = other.GetComponentInParent<ARP.APR.Scripts.APRController>();
+            //jugador.GetComponent<ARP.APR.Scripts.APRController>(); //Obtenemos el controlador ARP
 
-            ARP.APR.Scripts.APRController playerController = jugador.GetComponent<ARP.APR.Scripts.APRController>(); //Obtenemos el controlador ARP
-
-            if(originalSpeed == 0){
+            if (originalSpeed == 0){
                 originalSpeed = playerController.moveSpeed; //Guarda la velocidad original para devolversela al salir
             }
 
@@ -49,8 +50,9 @@ public class TrapController : MonoBehaviour
             feet--;
 
             Transform jugador = other.transform.parent.transform.parent.transform.parent; //El jugador es el bisabuelo de las piernas
-            ARP.APR.Scripts.APRController playerController = jugador.GetComponent<ARP.APR.Scripts.APRController>(); //Obtenemos el controlador ARP
-            
+            ARP.APR.Scripts.APRController playerController = other.GetComponentInParent<ARP.APR.Scripts.APRController>();
+            //jugador.GetComponent<ARP.APR.Scripts.APRController>(); //Obtenemos el controlador ARP
+
             if (feet == 0) {
                 playerController.moveSpeed = originalSpeed; //Reestablecemos la velocidad al salir
             } else if (feet == 1) {

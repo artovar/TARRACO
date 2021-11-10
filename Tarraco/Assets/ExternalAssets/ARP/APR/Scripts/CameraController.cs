@@ -44,6 +44,7 @@ namespace ARP.APR.Scripts
         private Quaternion rotation;
         private Vector3 dir;
         private Vector3 offset;
+        private Vector3 originalOffset;
 
 
         //Lock and hide cursor
@@ -55,6 +56,7 @@ namespace ARP.APR.Scripts
             cam = Camera.main;
         
             offset = cam.transform.position;
+            originalOffset = offset;
         }
 
 
@@ -71,6 +73,16 @@ namespace ARP.APR.Scripts
         //Camera follow and rotation
         void FixedUpdate()
         {
+            if(Physics.Raycast(APRRoot.position, Vector3.back, 3, 1 << LayerMask.NameToLayer("Wall")))
+            {
+                print("Hello");
+                offset = originalOffset + new Vector3(0, originalOffset.y,(-originalOffset.z/2));
+                distance = offset.magnitude;
+            }
+            else if (!Physics.Raycast(APRRoot.position, Vector3.back, 5, 1 << LayerMask.NameToLayer("Wall")))
+            {
+                offset = originalOffset;
+            }
             if(rotateCamera)
             {
                 dir = new Vector3(0, 0, -distance);
