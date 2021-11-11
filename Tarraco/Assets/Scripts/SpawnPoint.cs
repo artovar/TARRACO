@@ -7,12 +7,13 @@ public class SpawnPoint : MonoBehaviour
     public GameObject thePlayer;
     public GameObject[] enemyPrefab;
     public GameObject[] points;
+    public int secondsSpawn = 5;
     private IEnumerator coroutine;
 
     // Start is called before the first frame update
     void Start()
     {
-        coroutine = spawnEnemy(5);
+        coroutine = spawnEnemy(secondsSpawn);
         StartCoroutine(coroutine);
     }
 
