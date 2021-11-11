@@ -50,8 +50,8 @@ namespace ARP.APR.Scripts
         //Lock and hide cursor
         void Start()
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = false;
         
             cam = Camera.main;
         
@@ -73,13 +73,12 @@ namespace ARP.APR.Scripts
         //Camera follow and rotation
         void FixedUpdate()
         {
-            if(Physics.Raycast(APRRoot.position, Vector3.back, 3, 1 << LayerMask.NameToLayer("Wall")))
+            if(Physics.Raycast(APRRoot.position, Vector3.back, 5, 1 << LayerMask.NameToLayer("Wall")))
             {
-                print("Hello");
-                offset = originalOffset + new Vector3(0, originalOffset.y,(-originalOffset.z/2));
+                offset = originalOffset + new Vector3(0, 0/*Mathf.Abs(originalOffset.z)*/,-(2*originalOffset.z/3));
                 distance = offset.magnitude;
             }
-            else if (!Physics.Raycast(APRRoot.position, Vector3.back, 5, 1 << LayerMask.NameToLayer("Wall")))
+            else if (!Physics.Raycast(APRRoot.position, Vector3.back, 6, 1 << LayerMask.NameToLayer("Wall")))
             {
                 offset = originalOffset;
             }
@@ -87,7 +86,7 @@ namespace ARP.APR.Scripts
             {
                 dir = new Vector3(0, 0, -distance);
                 rotation = Quaternion.Euler(-currentY, currentX, 0);
-                cam.transform.position = Vector3.Lerp (cam.transform.position, APRRoot.position + rotation * dir, smoothness);
+                cam.transform.position = Vector3.Slerp (cam.transform.position, APRRoot.position + rotation * dir, smoothness);
                 cam.transform.LookAt(APRRoot.position);
             }
         
