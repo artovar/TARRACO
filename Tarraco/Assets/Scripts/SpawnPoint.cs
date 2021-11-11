@@ -5,7 +5,7 @@ using System;
 public class SpawnPoint : MonoBehaviour
 {
     public GameObject thePlayer;
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefab;
     public GameObject[] points;
     private IEnumerator coroutine;
 
@@ -19,9 +19,10 @@ public class SpawnPoint : MonoBehaviour
     private IEnumerator spawnEnemy (float time)  {
         while(true) {
             Debug.Log("Nuevo enemigo");
+            GameObject enemy = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
             GameObject sp = betterSP();
             //Instanciamos el prefab del enemido en el punto
-            GameObject newEnemy = Instantiate(enemyPrefab, sp.transform.position, sp.transform.rotation);
+            GameObject newEnemy = Instantiate(enemy, sp.transform.position, sp.transform.rotation);
             yield return new WaitForSeconds(time);
         }
     }
