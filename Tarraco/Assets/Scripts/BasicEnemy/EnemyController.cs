@@ -12,8 +12,16 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        started = false;
         cd = 5;
+    }
+
+    public void Detect(GameObject jugador)
+    {
+        started = true;
+        player = jugador;
+        p = player.GetComponent<ARP.APR.Scripts.APRController>().Root.transform;
+        enemyScript.jump = 1;
     }
 
     // Update is called once per frame
@@ -21,10 +29,6 @@ public class EnemyController : MonoBehaviour
     {
         if(!started)
         {
-            print(player.name);
-            p = player.GetComponent<ARP.APR.Scripts.APRController>().Root.transform;
-            started = true;
-            enemyScript.jump = 1;
             return;
         }
         enemyScript.jump = 0;
