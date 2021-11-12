@@ -508,11 +508,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thePlayer: {fileID: 1182291375}
-  enemyPrefab: {fileID: 8253520567296156519, guid: d4a7f878fd5982e44a4f77518cd5788c, type: 3}
+  enemyPrefab:
+  - {fileID: 8253520567296156519, guid: d4a7f878fd5982e44a4f77518cd5788c, type: 3}
   points:
   - {fileID: 1728920361}
   - {fileID: 902155249}
   - {fileID: 708771564}
+  secondsSpawn: 5
 --- !u!4 &1445776216
 Transform:
   m_ObjectHideFlags: 0
