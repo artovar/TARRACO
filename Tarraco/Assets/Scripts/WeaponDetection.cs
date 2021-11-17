@@ -76,6 +76,7 @@ public class WeaponDetection : MonoBehaviour
 
     void Pick(Transform weapon)
     {
+        if (weapon == null) return;
         switch (weaponsStored)
         {
             case 0:
@@ -101,6 +102,7 @@ public class WeaponDetection : MonoBehaviour
 
     void Drop(Transform weapon)
     {
+        if (weapon == null) return;
         switch (weaponsStored)
         {
             case 0:
