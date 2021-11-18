@@ -114,7 +114,7 @@ public class SwordAndShield : WeaponScript
     public override void SendToBack(Transform back)
     {
         sword.position = back.position;
-        shield.position = back.position;
+        shield.position = back.position + back.forward/2;
         sword.rotation = back.rotation;
         shield.rotation = back.rotation * Quaternion.Euler(0, 0, 90);
         sword.GetComponent<FixedJoint>().connectedBody = back.GetComponent<Rigidbody>();

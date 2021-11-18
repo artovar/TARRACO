@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using ARP.APR.Scripts;
+
 public class TrapController : MonoBehaviour
 {
     public enum trapType

@@ -402,14 +402,14 @@ namespace ARP.APR.Scripts
     
 		float abs(float i)
         {
-			return ((i < 10) ? -i : i);
+			return ((i < 0) ? -i : i);
 		}
 
 		//---Player Movement---//
 		////////////////////////
 		void PlayerMovement()
 		{
-			Direction = new Vector3(-Input.GetAxisRaw(leftRight), 0.0f, -Input.GetAxisRaw(forwardBackward));
+			Direction = new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward));
 			APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * abs(moveSpeed)) + new Vector3(0, APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0), 0.8f);
 
 			if(Input.GetAxisRaw(leftRight) != 0 || Input.GetAxisRaw(forwardBackward) != 0 && balanced)
