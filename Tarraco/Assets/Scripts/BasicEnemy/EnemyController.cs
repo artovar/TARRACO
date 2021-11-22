@@ -36,7 +36,6 @@ public class EnemyController : MonoBehaviour
         {
             enemyScript.jump = 1;
         }
-        print("Finding player in " + p.position);
         Vector3 direction = ((p.position + (enemyScript.Root.transform.position - p.position).normalized*3) - enemyScript.Root.transform.position);
         Vector2 dir = new Vector2(direction.x, direction.z).normalized;
         enemyScript.forwardBackward = dir.y;

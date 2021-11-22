@@ -17,12 +17,8 @@ public class MenuButtonScript : MonoBehaviour
         gameController.Play();
     }
 
-    public void StoryMode()
+    public void Exit()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
-    }
-    public void ArenaMode()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        gameController.Exit();
     }
 }

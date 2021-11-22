@@ -400,12 +400,17 @@ namespace ARP.APR.Scripts
     
     
     
+		float abs(float i)
+        {
+			return ((i < 10) ? -i : i);
+		}
+
 		//---Player Movement---//
 		////////////////////////
 		void PlayerMovement()
 		{
-			Direction = new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward));
-			APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * moveSpeed) + new Vector3(0, APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0), 0.8f);
+			Direction = new Vector3(-Input.GetAxisRaw(leftRight), 0.0f, -Input.GetAxisRaw(forwardBackward));
+			APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * abs(moveSpeed)) + new Vector3(0, APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0), 0.8f);
 
 			if(Input.GetAxisRaw(leftRight) != 0 || Input.GetAxisRaw(forwardBackward) != 0 && balanced)
 			{
@@ -434,12 +439,19 @@ namespace ARP.APR.Scripts
 		////////////////////////
 		void PlayerRotation()
 		{
+			Vector3 pPos = cam.WorldToScreenPoint(Root.transform.position);
+			pPos -= Input.mousePosition;
+			pPos *= -1;
+
+
+
 			//Camera Direction
 			//Turn with camera
 			//var lookPos = cam.transform.forward; CAMBIO
-			if((Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0) && (!attacking))
+			if((Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0) && (!attacking)/**/)
             {
-				var lookPos = new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
+				var lookPos = new Vector3( -pPos.x, 0.0f, pPos.y)*5;
+				//new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
 				lookPos.y = 0;
 				var rotation = Quaternion.LookRotation(lookPos);
 				//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
@@ -692,12 +704,10 @@ namespace ARP.APR.Scripts
 				attacking= true;
 				if(!Object.ReferenceEquals(weapon, null))
                 {
-					print("Not null");
 					weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
                 }
 				else
 				{
-					print("Is null");
 					//Right hand punch pull back pose
 					APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
 					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
