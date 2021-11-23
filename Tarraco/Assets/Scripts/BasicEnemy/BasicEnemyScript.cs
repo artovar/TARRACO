@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BasicEnemyScript : MonoBehaviour
 { 
-		//-------------------------------------------------------------
-		//--Variables
-		//-------------------------------------------------------------
+	//-------------------------------------------------------------
+	//--Variables
+	//-------------------------------------------------------------
 
-		//Weapon gameObject
-		public WeaponScript weapon;
+	//Weapon gameObject
+	public WeaponScript weapon;
 
 
 	//Active Ragdoll Player parts

@@ -32,7 +32,7 @@ public class SpawnPoint : MonoBehaviour
         float x = (p1.transform.position.x - p2.transform.position.x);
         float y = (p1.transform.position.y - p2.transform.position.y);
         float z = (p1.transform.position.z - p2.transform.position.z);
-        return (float)Math.Sqrt(x*x + y*y + z*z);
+        return (float)Mathf.Sqrt(x*x + y*y + z*z);
     }
 
     private GameObject betterSP() {
