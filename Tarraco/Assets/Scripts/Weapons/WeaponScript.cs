@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public abstract class WeaponScript:MonoBehaviour
+public abstract class WeaponScript : MonoBehaviour
 {
     public Weapons kind;
     public abstract void SetOnHandColliders();
     public abstract void SetOnFloorColliders();
     public abstract void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
     public abstract void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
-    public virtual void GetWeapon(Transform rHand, Transform lHand) 
+    public virtual void GetWeapon(Transform rHand, Transform lHand)
     {
         tag = "GrabbedWeapon";
         transform.position = rHand.position;
@@ -21,7 +21,7 @@ public abstract class WeaponScript:MonoBehaviour
         transform.GetComponent<Rigidbody>().useGravity = false;
         SetOnHandColliders();
     }
-    public virtual void DropWeapon(Transform rHand) 
+    public virtual void DropWeapon(Transform rHand)
     {
         transform.tag = "Weapon";
         transform.position = rHand.position;

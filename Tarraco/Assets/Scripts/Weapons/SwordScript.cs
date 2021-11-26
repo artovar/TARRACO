@@ -30,7 +30,7 @@ public class SwordScript : WeaponScript
 
     public override void SetOnHandColliders()
     {
-        foreach(Collider c in onHandCol)
+        foreach (Collider c in onHandCol)
         {
             c.enabled = true;
         }

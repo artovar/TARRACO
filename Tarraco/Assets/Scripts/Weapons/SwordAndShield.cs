@@ -21,9 +21,9 @@ public class SwordAndShield : WeaponScript
 
     public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
     {
-       /* a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
-        b.targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
-        c.targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);*/
+        /* a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
+         b.targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
+         c.targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);*/
         a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
         b.targetRotation = new Quaternion(-0.360000014f, -0.939999998f, 0.560000002f, 1.38f);
         c.targetRotation = new Quaternion(0.709999979f, -0.610000014f, 0.839999974f, 1f);
@@ -67,7 +67,7 @@ public class SwordAndShield : WeaponScript
         sword.position = rHand.position;
         sword.rotation = rHand.rotation;
         shield.position = lHand.position;
-        shield.rotation = lHand.rotation*Quaternion.Euler(50,90,0);
+        shield.rotation = lHand.rotation * Quaternion.Euler(50, 90, 0);
         sword.gameObject.AddComponent<FixedJoint>();
         shield.gameObject.AddComponent<FixedJoint>();
         sword.GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
@@ -79,7 +79,7 @@ public class SwordAndShield : WeaponScript
         transform.GetComponent<Rigidbody>().useGravity = false;
         SetOnHandColliders();
     }
-    public override void DropWeapon(Transform rHand) 
+    public override void DropWeapon(Transform rHand)
     {
         tag = "Weapon";
         transform.position = rHand.position;
