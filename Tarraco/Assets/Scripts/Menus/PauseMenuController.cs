@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using ARP.APR.Scripts;
 public class PauseMenuController : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject background;
     GameObject Taco;
 
-    APRController script;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +31,7 @@ public class PauseMenuController : MonoBehaviour
             pauseMenu.SetActive(true);
             background.SetActive(true);
             Time.timeScale = 0f;
-            Taco.GetComponent<APRController>().enabled = false;
+            Taco.GetComponent<PlayerController>().enabled = false;
 
         }
         else
@@ -43,7 +39,7 @@ public class PauseMenuController : MonoBehaviour
             pauseMenu.SetActive(false);
             background.SetActive(false);
             Time.timeScale = 1f;
-            Taco.GetComponent<APRController>().enabled = true;
+            Taco.GetComponent<PlayerController>().enabled = true;
         }
     }
 
