@@ -35,7 +35,7 @@ public class PauseMenuController : MonoBehaviour
             pauseMenu.SetActive(true);
             background.SetActive(true);
             Time.timeScale = 0f;
-            Taco.GetComponent<APRController>().enabled = false;
+            Taco.GetComponent<PlayerController>().enabled = false;
 
         }
         else
@@ -43,7 +43,7 @@ public class PauseMenuController : MonoBehaviour
             pauseMenu.SetActive(false);
             background.SetActive(false);
             Time.timeScale = 1f;
-            Taco.GetComponent<APRController>().enabled = true;
+            Taco.GetComponent<PlayerController>().enabled = true;
         }
     }
 

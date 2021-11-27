@@ -25,9 +25,12 @@ public class WeaponDetection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        interact += controller.id;
-        drop += controller.id;
-        change += controller.id;
+        if(controller.id != 1)
+        {
+            interact += controller.id;
+            drop += controller.id;
+            change += controller.id;
+        }
     }
 
     // Update is called once per frame

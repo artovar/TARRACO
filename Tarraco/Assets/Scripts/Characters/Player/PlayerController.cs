@@ -55,6 +55,7 @@ public class PlayerController : CharacterClass
 	//Movement
 	public float turnSpeed = 6f;
 	public float jumpForce = 18f;
+	public float dashForce = 10f;
 
 	[Header("Balance Properties")]
 	//Balance
@@ -144,16 +145,19 @@ public class PlayerController : CharacterClass
 	//////////////
 	void Awake()
 	{
-		forwardBackward += id;
-		leftRight += id;
-		jump += id;
-		punchLeft += id;
-		attack += id;
-		reachLeft += id;
-		reachRight += id;
-		lookX += id;
-		lookY += id;
-		dash += id;
+		if(id != 1)
+		{
+			forwardBackward += id;
+			leftRight += id;
+			jump += id;
+			punchLeft += id;
+			attack += id;
+			reachLeft += id;
+			reachRight += id;
+			lookX += id;
+			lookY += id;
+			dash += id;
+		}
 		PlayerSetup();
 	}
 
@@ -166,6 +170,8 @@ public class PlayerController : CharacterClass
 		if (!inAir)
 		{
 			PlayerMovement();
+
+			PlayerDash();
 
 			if (canPunch)
 			{
@@ -427,6 +433,17 @@ public class PlayerController : CharacterClass
 			}
 		}
 	}
+
+
+	void PlayerDash()
+    {
+		if(Input.GetButtonDown(dash) && balanced)
+		{
+			ActivateRagdoll();
+			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * 10*dashForce, ForceMode.Impulse);
+			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 10*dashForce, ForceMode.Impulse);
+		}
+    }
 
 
 
