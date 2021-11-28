@@ -22,7 +22,6 @@ public class FieldDetection : MonoBehaviour
     {
         if (other.CompareTag("PlayerChest"))
         {
-            print("Entering");
             GameObject player = other.gameObject;
             enemy.Detect(player);
             GetComponent<MeshRenderer>().enabled = false;

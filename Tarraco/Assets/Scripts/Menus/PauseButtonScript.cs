@@ -21,6 +21,7 @@ public class PauseButtonScript : MonoBehaviour
 
     public void Exit()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 }
