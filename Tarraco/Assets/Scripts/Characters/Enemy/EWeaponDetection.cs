@@ -27,7 +27,7 @@ public class EWeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interact1"))
+        if (Input.GetButtonDown("Interact"))
         {
             picking = true;
             print("I'm trying");
@@ -41,13 +41,13 @@ public class EWeaponDetection : MonoBehaviour
                 pickingCoyoteTime = 0;
             }
         }
-        if (Input.GetButtonDown("Drop1"))
+        if (Input.GetButtonDown("Drop"))
         {
-            print(Input.GetAxisRaw("Drop1") + " Oh no");
+            print(Input.GetAxisRaw("Drop") + " Oh no");
             Drop(mainWeapon);
             print(weaponsStored);
         }
-        else if (Input.GetButtonDown("Change1")) //Switch between Weapons
+        else if (Input.GetButtonDown("Change")) //Switch between Weapons
         {
             if (weaponsStored < 2) return;
             SendToBack(mainWeapon);
