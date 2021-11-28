@@ -21,7 +21,11 @@ public class PauseButtonScript : MonoBehaviour
 
     public void Exit()
     {
+<<<<<<< Updated upstream
         Time.timeScale = 1f;
+=======
+        Time.timeScale = 1;
+>>>>>>> Stashed changes
         SceneManager.LoadScene(0);
     }
 }
