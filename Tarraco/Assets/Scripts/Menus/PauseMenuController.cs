@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using ARP.APR.Scripts;
 public class PauseMenuController : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject background;
     GameObject Taco;
 
-    APRController script;
     // Start is called before the first frame update
     void Start()
     {
