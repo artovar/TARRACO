@@ -3634,7 +3634,7 @@ MonoBehaviour:
   thisPlayerLayer: Player_2
   turnSpeed: 22
   jumpForce: 12
-  autoGetUpWhenPossible: 1
+  autoGetUpWhenPossible: 0
   useStepPrediction: 1
   balanceHeight: 2.1
   balanceStrength: 5000
@@ -5970,7 +5970,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7891314541962766675}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

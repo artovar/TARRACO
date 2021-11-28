@@ -378,7 +378,31 @@ public class PlayerController : CharacterClass
 			{
 				WalkForward = false;
 			}
+		}/*
+		float x = Input.GetAxis(leftRight);
+		float y = Input.GetAxis(forwardBackward);
+		float cX = Input.GetAxis(lookY);
+		float cY = Input.GetAxis(lookY);
+		if (x * cX > 0)
+        {
+			WalkForward = true;
+			WalkBackward = false;
+        }
+		else if (x * cX < 0)
+		{
+			WalkForward = false;
+			WalkBackward = true;
 		}
+		else if (y * cY > 0)
+		{
+			WalkForward = true;
+			WalkBackward = false;
+		}
+		else if (y * cY < 0)
+		{
+			WalkForward = false;
+			WalkBackward = true;
+		}*/
 	}
 
 
@@ -410,11 +434,33 @@ public class PlayerController : CharacterClass
 	////////////////////////
 	void PlayerMovement()
 	{
-		Direction = new Vector3(Input.GetAxisRaw(leftRight), 0.0f, Input.GetAxisRaw(forwardBackward));
-		APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * Abs(moveSpeed)) + Vector3.up * APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0.8f);
-
-		if (Input.GetAxisRaw(leftRight) != 0 || Input.GetAxisRaw(forwardBackward) != 0 && balanced)
+		float x = Input.GetAxis(leftRight);
+		float y = Input.GetAxis(forwardBackward);
+		float cX = Input.GetAxis(lookY);
+		float cY = -Input.GetAxis(lookX);
+		if(!isRagdoll)
 		{
+			Direction = new Vector3(x, 0.0f, y).normalized;
+			APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * Abs(moveSpeed)) + Vector3.up * APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0.8f);
+		}
+		if (x != 0 || y != 0 && balanced)
+		{
+
+			if (x * cX > 0 || y * cY > 0)
+			{
+				WalkForward = true;
+				WalkBackward = false;
+			}
+			else if (x * cX < 0 || y * cY < 0)
+			{
+				WalkForward = false;
+				WalkBackward = true;
+			}
+			else
+			{
+				WalkForward = true;
+				WalkBackward = true;
+			}
 			if (!WalkForward && !moveAxisUsed)
 			{
 				WalkForward = true;
@@ -423,21 +469,18 @@ public class PlayerController : CharacterClass
 			}
 		}
 
-		else if (Input.GetAxisRaw(leftRight) == 0 && Input.GetAxisRaw(forwardBackward) == 0)
+		else if (x == 0 && y == 0)
 		{
-			if (WalkForward && moveAxisUsed)
-			{
-				WalkForward = false;
-				moveAxisUsed = false;
-				isKeyDown = false;
-			}
+			WalkForward = false;
+			moveAxisUsed = false;
+			isKeyDown = false;
 		}
 	}
 
 
 	void PlayerDash()
     {
-		if(Input.GetButtonDown(dash) && balanced)
+		if(Input.GetButtonDown(dash) && !isRagdoll)
 		{
 			ActivateRagdoll();
 			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * 10*dashForce, ForceMode.Impulse);
@@ -451,14 +494,10 @@ public class PlayerController : CharacterClass
 	////////////////////////
 	void PlayerRotation()
 	{
-		//print("Walking back: " + WalkBackward);
-		//print("Walking forward: " + WalkForward);
 		if (usingController || Input.GetAxis(lookX) != 0 || Input.GetAxis(lookX) != 0)
         {
 			if(Input.GetAxis(lookX) != 0 || Input.GetAxis(lookX) != 0)
             {
-				print("X = " + Input.GetAxis(lookX));
-				print("Y = " + Input.GetAxis(lookX));
 				pPos = new Vector3(Input.GetAxis(lookY), -Input.GetAxis(lookX), 0f);
 			}
 			usingController = true;
@@ -475,7 +514,7 @@ public class PlayerController : CharacterClass
 		//Camera Direction
 		//Turn with camera
 		//var lookPos = cam.transform.forward; CAMBIO
-		if ((Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0) && (!attacking)/**/)
+		if (/*(Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0)*/!isRagdoll  && (!attacking)/**/)
 		{
 			var lookPos = new Vector3(-pPos.x, 0.0f, pPos.y) * 5;
 			//new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
@@ -833,7 +872,7 @@ public class PlayerController : CharacterClass
 			if (WalkForward)
 			{
 				//right leg
-				if (APR_Parts[11].transform.position.z < APR_Parts[12].transform.position.z && !StepLeft && !Alert_Leg_Right)
+				if (APR_Parts[11].transform.localPosition.z < APR_Parts[12].transform.localPosition.z && !StepLeft && !Alert_Leg_Right)
 				{
 					StepRight = true;
 					Alert_Leg_Right = true;
@@ -841,7 +880,7 @@ public class PlayerController : CharacterClass
 				}
 
 				//left leg
-				if (APR_Parts[11].transform.position.z > APR_Parts[12].transform.position.z && !StepRight && !Alert_Leg_Left)
+				if (APR_Parts[11].transform.localPosition.z > APR_Parts[12].transform.localPosition.z && !StepRight && !Alert_Leg_Left)
 				{
 					StepLeft = true;
 					Alert_Leg_Left = true;
@@ -854,6 +893,7 @@ public class PlayerController : CharacterClass
 				//right leg
 				if (APR_Parts[11].transform.position.z > APR_Parts[12].transform.position.z && !StepLeft && !Alert_Leg_Right)
 				{
+					print("Estoy entrando");
 					StepRight = true;
 					Alert_Leg_Right = true;
 					Alert_Leg_Left = true;
@@ -862,6 +902,7 @@ public class PlayerController : CharacterClass
 				//left leg
 				if (APR_Parts[11].transform.position.z < APR_Parts[12].transform.position.z && !StepRight && !Alert_Leg_Left)
 				{
+					print("Estoy entrando");
 					StepLeft = true;
 					Alert_Leg_Left = true;
 					Alert_Leg_Right = true;

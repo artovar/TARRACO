@@ -389,9 +389,11 @@ public class BasicEnemyController : CharacterClass
 	////////////////////////
 	void PlayerMovement()
 	{
-		Direction = new Vector3(leftRight, 0.0f, forwardBackward);
-		APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * abs(moveSpeed)) + Vector3.up * APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0.8f);
-
+		if (!isRagdoll)
+		{
+			Direction = new Vector3(leftRight, 0.0f, forwardBackward);
+			APR_Parts[0].transform.GetComponent<Rigidbody>().velocity = Vector3.Lerp(APR_Parts[0].transform.GetComponent<Rigidbody>().velocity, (Direction * abs(moveSpeed)) + Vector3.up * APR_Parts[0].transform.GetComponent<Rigidbody>().velocity.y, 0.8f);
+		}
 		if (leftRight != 0 || forwardBackward != 0 && balanced)
 		{
 			if (!WalkForward && !moveAxisUsed)
