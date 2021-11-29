@@ -25,10 +25,10 @@ public class ImpactContact : MonoBehaviour
             }
         }
 
-        //Sound on impact
+        //Sound on impact & normal impact
         if (col.relativeVelocity.magnitude > APR_Player.ImpactForce)
         {
-
+            //Sound
             if (APR_Player.SoundSource != null)
             {
                 if (!APR_Player.SoundSource.isPlaying && APR_Player.Impacts != null)
@@ -37,6 +37,13 @@ public class ImpactContact : MonoBehaviour
                     APR_Player.SoundSource.clip = APR_Player.Impacts[i];
                     APR_Player.SoundSource.Play();
                 }
+            }
+
+            //Damage
+            APR_Player.damage(1);
+            if (APR_Player.isDead()) {
+                Debug.Log("Estas muerto");
+                APR_Player.ActivateRagdoll();
             }
         }
     }

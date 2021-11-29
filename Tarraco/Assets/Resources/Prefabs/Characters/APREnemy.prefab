@@ -3606,6 +3606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 0
+  maxLife: 3
   moveSpeed: 3.4
   weapon: {fileID: 0}
   Root: {fileID: 6806997512440848740}
