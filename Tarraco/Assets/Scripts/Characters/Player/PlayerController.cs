@@ -99,8 +99,11 @@ public class PlayerController : CharacterClass
 		WalkForward, WalkBackward,
 		StepRight, StepLeft, Alert_Leg_Right,
 		Alert_Leg_Left, balanced = true, GettingUp,
-		ResetPose, usingController, isRagdoll, isKeyDown, moveAxisUsed,
+		ResetPose, isRagdoll, isKeyDown, moveAxisUsed,
 		jumpAxisUsed, reachLeftAxisUsed, reachRightAxisUsed;
+
+	[HideInInspector]
+	public bool usingController;
 
 	[HideInInspector]
 	public bool
@@ -161,6 +164,22 @@ public class PlayerController : CharacterClass
 		PlayerSetup();
 	}
 
+	public void SetUp()
+    {
+		if (id != 1)
+		{
+			forwardBackward += id;
+			leftRight += id;
+			jump += id;
+			punchLeft += id;
+			attack += id;
+			reachLeft += id;
+			reachRight += id;
+			lookX += id;
+			lookY += id;
+			dash += id;
+		}
+	}
 
 
 	//---Updates---//
@@ -355,6 +374,7 @@ public class PlayerController : CharacterClass
 
 		//Check direction to walk when off balance
 		//Backwards
+		/*
 		if (COMP.position.z < APR_Parts[11].transform.position.z && COMP.position.z < APR_Parts[12].transform.position.z)
 		{
 			WalkBackward = true;
@@ -378,7 +398,7 @@ public class PlayerController : CharacterClass
 			{
 				WalkForward = false;
 			}
-		}/*
+		}
 		float x = Input.GetAxis(leftRight);
 		float y = Input.GetAxis(forwardBackward);
 		float cX = Input.GetAxis(lookY);
@@ -460,18 +480,19 @@ public class PlayerController : CharacterClass
 			{
 				WalkForward = true;
 				WalkBackward = true;
-			}
+			}/*
 			if (!WalkForward && !moveAxisUsed)
 			{
 				WalkForward = true;
 				moveAxisUsed = true;
 				isKeyDown = true;
-			}
+			}*/
 		}
 
 		else if (x == 0 && y == 0)
 		{
 			WalkForward = false;
+			WalkBackward = false;
 			moveAxisUsed = false;
 			isKeyDown = false;
 		}
@@ -599,7 +620,7 @@ public class PlayerController : CharacterClass
 	void PlayerReach()
 	{
 		//Body Bending
-		if (1 == 1)
+		if (1 != 1)
 		{
 			if (MouseYAxisBody <= 0f && MouseYAxisBody >= -0.1f)
 			{
@@ -871,6 +892,8 @@ public class PlayerController : CharacterClass
 		{
 			if (WalkForward)
 			{
+				Alert_Leg_Left = false;
+				Alert_Leg_Right = false;
 				//right leg
 				if (APR_Parts[11].transform.localPosition.z < APR_Parts[12].transform.localPosition.z && !StepLeft && !Alert_Leg_Right)
 				{
@@ -893,7 +916,6 @@ public class PlayerController : CharacterClass
 				//right leg
 				if (APR_Parts[11].transform.position.z > APR_Parts[12].transform.position.z && !StepLeft && !Alert_Leg_Right)
 				{
-					print("Estoy entrando");
 					StepRight = true;
 					Alert_Leg_Right = true;
 					Alert_Leg_Left = true;
@@ -902,7 +924,6 @@ public class PlayerController : CharacterClass
 				//left leg
 				if (APR_Parts[11].transform.position.z < APR_Parts[12].transform.position.z && !StepRight && !Alert_Leg_Left)
 				{
-					print("Estoy entrando");
 					StepLeft = true;
 					Alert_Leg_Left = true;
 					Alert_Leg_Right = true;
