@@ -39,7 +39,6 @@ public class WeaponDetection : MonoBehaviour
         if (Input.GetButtonDown(interact))
         {
             picking = true;
-            print("I'm trying");
         }
         if (picking)
         {
