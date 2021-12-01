@@ -126,7 +126,7 @@ public class BasicEnemyController : CharacterClass
 	[Header("Player Editor Debug Mode")]
 	//Debug
 	public bool editorDebugMode;
-
+	private GameObject playerObj = null;
 
 
 	//-------------------------------------------------------------
@@ -140,6 +140,8 @@ public class BasicEnemyController : CharacterClass
 	void Awake()
 	{
 		PlayerSetup();
+		if (playerObj == null)
+			playerObj = GameObject.FindGameObjectWithTag("Player");
 	}
 
 
@@ -157,7 +159,6 @@ public class BasicEnemyController : CharacterClass
 				PlayerPunch();
 			}
 		}
-
 		PlayerReach();
 
 		if (balanced && useStepPrediction)
