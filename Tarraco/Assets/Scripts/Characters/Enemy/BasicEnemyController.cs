@@ -667,8 +667,27 @@ public class BasicEnemyController : CharacterClass
 
 	}
 
+	public void Jump()
+    {
+		jump = 1;
+	}
+	IEnumerator Jumping()
+	{
+		yield return new WaitForSeconds(.2f);
+		jump = 0;
+	}
 
+	public void Attack()
+    {
+		attack = true;
+		StartCoroutine(Attacking());
+    }
 
+	IEnumerator Attacking()
+    {
+		yield return new WaitForSeconds(.7f);
+		attack = false;
+	}
 	//---Player Punch---//
 	/////////////////////
 	void PlayerPunch()

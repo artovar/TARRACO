@@ -37,11 +37,13 @@ public class EnemyController : MonoBehaviour
         enemyScript.jump = 0;
         if (cd < 0)
         {
-            enemyScript.jump = 1;
+            print("Jump");
+            enemyScript.Jump();
         }
         if (Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 4)
         {
             //Atacar
+            if (estado != 1) enemyScript.Attack();
             estado = 1; //"Atacando"
         }
         else

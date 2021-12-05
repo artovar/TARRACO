@@ -112,7 +112,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278431764502231465}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3025,7 +3025,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 69c44b95f8ad50d49b74605508a94083, type: 2}
+  - {fileID: 2100000, guid: 27e39653e0a06214daa728d28e96681f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3050,7 +3050,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -2481583047109213370, guid: 2e13695066bdcfa479b2cc63a44dffd0, type: 3}
+  m_Mesh: {fileID: -4414102799340101435, guid: 2e13695066bdcfa479b2cc63a44dffd0, type: 3}
   m_Bones:
   - {fileID: 5196751972135935527}
   - {fileID: 2966407826652873544}
@@ -3254,7 +3254,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6806997512440848724}
   m_LocalRotation: {x: -0.92773473, y: 0.03351597, z: -0.37021345, w: -0.0335712}
-  m_LocalPosition: {x: 0.00011248879, y: 0.0046236715, z: -0.000049291466}
+  m_LocalPosition: {x: 0.00084, y: 0.0071, z: -0.00075}
   m_LocalScale: {x: 0.0035560767, y: 0.0028135437, z: 0.0035579246}
   m_Children:
   - {fileID: 5238187764523274959}
@@ -3302,7 +3302,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0131557, y: -0.52661437, z: -0.0507747}
+  m_ConnectedAnchor: {x: -0.019325772, y: -1.031089, z: 0.19006012}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3413,7 +3413,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6806997512440848725}
   m_LocalRotation: {x: 0.04405936, y: -0.70573294, z: 0.017581763, w: 0.706888}
-  m_LocalPosition: {x: 0.00047418487, y: 0.004810799, z: 0.000078908415}
+  m_LocalPosition: {x: -0.00137, y: 0.00726, z: -0.00007}
   m_LocalScale: {x: 0.0038606664, y: 0.0028132438, z: 0.003538613}
   m_Children:
   - {fileID: 5238187763953854010}
@@ -3461,7 +3461,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00987917, y: 0.5251502, z: -0.05249834}
+  m_ConnectedAnchor: {x: -0.06791555, y: 1.0432329, z: 0.4256876}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
