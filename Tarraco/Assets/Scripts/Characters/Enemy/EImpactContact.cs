@@ -12,7 +12,7 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
         {
-            APR_Player.ActivateRagdoll();
+            //APR_Player.ActivateRagdoll();
 
             if (APR_Player.SoundSource != null)
             {
@@ -22,6 +22,13 @@ public class EImpactContact : MonoBehaviour
                     APR_Player.SoundSource.clip = APR_Player.Hits[i];
                     APR_Player.SoundSource.Play();
                 }
+            }
+
+            //Damage
+            APR_Player.damage(APR_Player.life);
+            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:"+APR_Player.life);
+            if (APR_Player.isDead()) {
+                Debug.Log("Estas muerto");
             }
         }
 
@@ -44,7 +51,6 @@ public class EImpactContact : MonoBehaviour
             Debug.Log("AU!! ¡Qué daño! Me queda esta vida:"+APR_Player.life);
             if (APR_Player.isDead()) {
                 Debug.Log("Estas muerto");
-                APR_Player.ActivateRagdoll();
             }
         }
     }

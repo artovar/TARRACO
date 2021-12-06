@@ -140,6 +140,7 @@ public class BasicEnemyController : CharacterClass
 	void Awake()
 	{
 		PlayerSetup();
+		youreDead += onDead;
 	}
 
 
@@ -1096,6 +1097,12 @@ public class BasicEnemyController : CharacterClass
 					APR_Parts[12].GetComponent<Rigidbody>().mass + weapon.GetComponent<Rigidbody>().mass);
 		}
 		COMP.position = CenterOfMassPoint;
+	}
+
+	public void onDead(object s, System.EventArgs e) {
+		ActivateRagdoll();
+		Debug.Log("Me mueroooo");
+		Destroy(this.gameObject, 5);
 	}
 
 

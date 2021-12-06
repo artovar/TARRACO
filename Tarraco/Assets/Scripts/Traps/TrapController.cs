@@ -8,13 +8,13 @@ public class TrapController : MonoBehaviour
     {
         MUD,
         ICE,
-        FIRE
+        SPIKES
     }
     public trapType type;
 
     private float originalSpeed = 0;
 
-    private int feet = 0;
+    private IEnumerator coroutine;
 
     // Start is called before the first frame update
     void Start() { }
@@ -41,8 +41,12 @@ public class TrapController : MonoBehaviour
                 case trapType.ICE:
                     IsIce(playerController);
                     break;
+                case trapType.SPIKES:
+                    coroutine = IsSpikes(playerController, 4);
+                    StartCoroutine(coroutine);
+                    break;
             }
-            print("My new speed is " + playerController.moveSpeed);
+            //print("My new speed is " + playerController.moveSpeed);
         }
     }
 
@@ -52,17 +56,14 @@ public class TrapController : MonoBehaviour
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
-            print("I'm exiting bro");
-            /*feet--;
-            if (feet == 0)
-            {
-                playerController.moveSpeed = originalSpeed; //Reestablecemos la velocidad al salir
+            if (type == trapType.MUD || type == trapType.ICE) {
+                print("I'm exiting bro");
+                playerController.moveSpeed *= 2f;
+                print("My new speed is " + playerController.moveSpeed);
+            } else if (type == trapType.SPIKES) {
+                Debug.Log("Salgo de los pinchos");
+                StopAllCoroutines();
             }
-            else if (feet == 1)
-            {*/
-            playerController.moveSpeed *= 2f;
-            //}
-            print("My new speed is " + playerController.moveSpeed);
         }
     }
 
@@ -74,5 +75,14 @@ public class TrapController : MonoBehaviour
     private void IsIce(CharacterClass playerController)
     {
         playerController.moveSpeed += 7;
+    }
+
+    private IEnumerator IsSpikes(CharacterClass controller, float time) {
+        while (true) {
+            if (controller.gameObject == null) StopAllCoroutines();
+            controller.damage(1);
+            Debug.Log("Me estoy clavando los pinchos :( \n me queda esta vida: "+controller.life);
+            yield return new WaitForSeconds(time);
+        }
     }
 }

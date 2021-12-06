@@ -23,6 +23,13 @@ public class ImpactContact : MonoBehaviour
                     APR_Player.SoundSource.Play();
                 }
             }
+
+            //Damage
+            APR_Player.damage(APR_Player.life);
+            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:"+APR_Player.life);
+            if (APR_Player.isDead()) {
+                Debug.Log("Estas muerto");
+            }
         }
 
         //Sound on impact & normal impact
@@ -43,7 +50,6 @@ public class ImpactContact : MonoBehaviour
             APR_Player.damage(1);
             if (APR_Player.isDead()) {
                 Debug.Log("Estas muerto");
-                APR_Player.ActivateRagdoll();
             }
         }
     }
