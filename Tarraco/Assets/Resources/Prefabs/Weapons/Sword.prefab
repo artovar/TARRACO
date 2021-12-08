@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kind: 12
+  weaponCoolDown: 0.6
   onHandCol:
   - {fileID: 4994013598877241573}
   onFloorCol:

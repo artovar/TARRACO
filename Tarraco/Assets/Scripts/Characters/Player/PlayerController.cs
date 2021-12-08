@@ -114,6 +114,7 @@ public class PlayerController : CharacterClass
 	private Vector3 Direction;
 	private Vector3 CenterOfMassPoint;
 	private Vector3 pPos;
+	private float hitCoolDown;
 
 	//Active Ragdoll Player Parts Array
 	private GameObject[] APR_Parts;
@@ -186,6 +187,10 @@ public class PlayerController : CharacterClass
 	////////////////
 	void Update()
 	{
+		if(hitCoolDown > 0)
+        {
+			hitCoolDown -= Time.deltaTime;
+        }
 		if (!inAir)
 		{
 			PlayerMovement();
@@ -786,7 +791,7 @@ public class PlayerController : CharacterClass
 	{
 
 		//punch right
-		if (!attacking && Input.GetButton(attack))
+		if (!attacking && Input.GetButton(attack) && hitCoolDown <= 0)
 		{
 			attacking = true;
 			if (!Object.ReferenceEquals(weapon, null))
@@ -805,29 +810,40 @@ public class PlayerController : CharacterClass
 		if (attacking && !Input.GetButton(attack))
 		{
 			attacking = false;
-
 			if (!Object.ReferenceEquals(weapon, null))
 			{
+				hitCoolDown = weapon.weaponCoolDown;
 				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+
+				switch (weapon.kind)
+				{
+					case Weapons.Bow:
+						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y) * 5;
+						weapon.Shoot(lookPos.normalized);
+						break;
+					default:
+						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+						break;
+				}
 			}
 			else
 			{
+				hitCoolDown = .5f;
 				//Right hand punch release pose
 				APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
 				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
 				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.2f, 0, 0, 1);
 				//Right hand punch force
+				RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+				APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 			}
-			RightHand.velocity = Vector3.zero;
-			RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
-
-			APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 
 			StartCoroutine(DelayCoroutine());
 			IEnumerator DelayCoroutine()
 			{
 				yield return new WaitForSeconds(0.3f);
-				if (!Input.GetButton(attack))
+				if (true | !Input.GetButton(attack))
 				{
 					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 					APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;

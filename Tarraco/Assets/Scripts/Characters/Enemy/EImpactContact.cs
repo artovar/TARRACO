@@ -12,7 +12,15 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
+            if (col.gameObject.layer == LayerMask.NameToLayer("Arrow"))
+            {
+                (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
+                col.rigidbody.velocity = Vector3.zero;
+            }
             enemyController.ActivateRagdoll();
+            
+            //SUSTITUIR ESTO POR MUERTE
+
             Destroy(enemyController.gameObject, 2f);
 
             if (enemyController.SoundSource != null)
