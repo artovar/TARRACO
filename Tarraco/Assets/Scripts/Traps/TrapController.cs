@@ -68,7 +68,7 @@ public class TrapController : MonoBehaviour
 
     private void IsMud(CharacterClass playerController)
     {
-        playerController.moveSpeed /=2;
+        playerController.moveSpeed /= 2;
     }
 
     private void IsIce(CharacterClass playerController)
@@ -76,11 +76,13 @@ public class TrapController : MonoBehaviour
         playerController.moveSpeed += 7;
     }
 
-    private IEnumerator IsSpikes(CharacterClass controller, float time) {
-        while (true) {
+    private IEnumerator IsSpikes(CharacterClass controller, float time)
+    {
+        while (true)
+        {
             if (controller.gameObject == null) StopAllCoroutines();
             controller.damage(1);
-            Debug.Log("Me estoy clavando los pinchos :( \n me queda esta vida: "+controller.life);
+            Debug.Log("Me estoy clavando los pinchos :( \n me queda esta vida: " + controller.life);
             yield return new WaitForSeconds(time);
         }
     }

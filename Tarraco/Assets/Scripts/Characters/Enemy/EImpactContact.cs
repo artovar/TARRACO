@@ -18,7 +18,7 @@ public class EImpactContact : MonoBehaviour
                 col.rigidbody.velocity = Vector3.zero;
             }
             enemyController.ActivateRagdoll();
-            
+
             //SUSTITUIR ESTO POR MUERTE
 
             Destroy(enemyController.gameObject, 2f);
@@ -34,9 +34,10 @@ public class EImpactContact : MonoBehaviour
             }
 
             //Damage
-            APR_Player.damage(APR_Player.life);
-            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:"+APR_Player.life);
-            if (APR_Player.isDead()) {
+            enemyController.damage(enemyController.life);
+            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
+            if (enemyController.isDead())
+            {
                 Debug.Log("Estas muerto");
             }
         }
@@ -54,11 +55,12 @@ public class EImpactContact : MonoBehaviour
                     enemyController.SoundSource.Play();
                 }
             }
-            
+
             //Damage
-            APR_Player.damage(1);
-            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:"+APR_Player.life);
-            if (APR_Player.isDead()) {
+            enemyController.damage(1);
+            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
+            if (enemyController.isDead())
+            {
                 Debug.Log("Estas muerto");
             }
         }
