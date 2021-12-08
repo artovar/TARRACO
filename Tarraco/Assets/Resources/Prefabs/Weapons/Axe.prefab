@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4102701820064065692}
   - component: {fileID: 4322794904878895932}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,8 +72,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 4.6496735, y: 0.68529624, z: 1.5}
-  m_Center: {x: 1.575171, y: 0.6207712, z: 3.3421654e-13}
+  m_Size: {x: 5.3, y: 1, z: 1.5}
+  m_Center: {x: 0, y: 0.6, z: 0}
 --- !u!1 &2177757887894105767
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 8626133402653981839}
   - component: {fileID: 3838411303657907049}
   - component: {fileID: 6662037992095331947}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Axe
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ Transform:
   m_GameObject: {fileID: 2177757887894105767}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 0.75}
   m_Children:
   - {fileID: 6941714896959753094}
   - {fileID: 1419568023162766924}
@@ -180,8 +180,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.9, z: 0.6}
-  m_Center: {x: 0, y: -0.32, z: 2}
+  m_Size: {x: 0.15, y: 1.05, z: 0.85}
+  m_Center: {x: 0, y: 0, z: 2}
 --- !u!1 &2222068730339916901
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1419568023162766924}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6941714896959753094}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8623445206172476515}
   - component: {fileID: 4253577779469104060}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -517,6 +517,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2463ea4a204c20247871c773fa931554, type: 3}
       propertyPath: m_Name
       value: Hacha
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2463ea4a204c20247871c773fa931554, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2463ea4a204c20247871c773fa931554, type: 3}

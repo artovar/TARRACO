@@ -23,7 +23,6 @@ public class TrapController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Foot"))
         {
-            print("I'm entering bro");
             //feet++;
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
@@ -42,7 +41,6 @@ public class TrapController : MonoBehaviour
                     IsIce(playerController);
                     break;
             }
-            print("My new speed is " + playerController.moveSpeed);
         }
     }
 
@@ -52,7 +50,6 @@ public class TrapController : MonoBehaviour
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
-            print("I'm exiting bro");
             /*feet--;
             if (feet == 0)
             {
@@ -62,7 +59,6 @@ public class TrapController : MonoBehaviour
             {*/
             playerController.moveSpeed *= 2f;
             //}
-            print("My new speed is " + playerController.moveSpeed);
         }
     }
 

@@ -8,7 +8,7 @@ public class ImpactContact : MonoBehaviour
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
-
+        if (col.gameObject.Equals(APR_Player.weapon)) return;
         //Knockout by impact
         if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
         {

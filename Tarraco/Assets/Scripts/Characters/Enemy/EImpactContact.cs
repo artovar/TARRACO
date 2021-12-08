@@ -3,39 +3,40 @@ using UnityEngine;
 
 public class EImpactContact : MonoBehaviour
 {
-    public BasicEnemyController APR_Player;
+    public BasicEnemyController enemyController;
 
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
-
+        if (col.Equals(enemyController.weapon)) return;
         //Knockout by impact
-        if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
+        if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
-            APR_Player.ActivateRagdoll();
+            enemyController.ActivateRagdoll();
+            Destroy(enemyController.gameObject, 2f);
 
-            if (APR_Player.SoundSource != null)
+            if (enemyController.SoundSource != null)
             {
-                if (!APR_Player.SoundSource.isPlaying && APR_Player.Hits != null)
+                if (!enemyController.SoundSource.isPlaying && enemyController.Hits != null)
                 {
-                    int i = Random.Range(0, APR_Player.Hits.Length);
-                    APR_Player.SoundSource.clip = APR_Player.Hits[i];
-                    APR_Player.SoundSource.Play();
+                    int i = Random.Range(0, enemyController.Hits.Length);
+                    enemyController.SoundSource.clip = enemyController.Hits[i];
+                    enemyController.SoundSource.Play();
                 }
             }
         }
 
         //Sound on impact
-        if (col.relativeVelocity.magnitude > APR_Player.ImpactForce)
+        if (col.relativeVelocity.magnitude > enemyController.ImpactForce)
         {
 
-            if (APR_Player.SoundSource != null)
+            if (enemyController.SoundSource != null)
             {
-                if (!APR_Player.SoundSource.isPlaying && APR_Player.Impacts != null)
+                if (!enemyController.SoundSource.isPlaying && enemyController.Impacts != null)
                 {
-                    int i = Random.Range(0, APR_Player.Impacts.Length);
-                    APR_Player.SoundSource.clip = APR_Player.Impacts[i];
-                    APR_Player.SoundSource.Play();
+                    int i = Random.Range(0, enemyController.Impacts.Length);
+                    enemyController.SoundSource.clip = enemyController.Impacts[i];
+                    enemyController.SoundSource.Play();
                 }
             }
         }

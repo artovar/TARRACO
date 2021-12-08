@@ -27,10 +27,13 @@ public class EWeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interact"))
+        if (!controller.IsRagdoll() && weaponsStored < 1)
         {
             picking = true;
-            print("I'm trying");
+        }
+        else if (controller.IsRagdoll() && weaponsStored > 0)
+        {
+            Drop(mainWeapon);
         }
         if (picking)
         {
@@ -41,13 +44,7 @@ public class EWeaponDetection : MonoBehaviour
                 pickingCoyoteTime = 0;
             }
         }
-        if (Input.GetButtonDown("Drop"))
-        {
-            print(Input.GetAxisRaw("Drop") + " Oh no");
-            Drop(mainWeapon);
-            print(weaponsStored);
-        }
-        else if (Input.GetButtonDown("Change")) //Switch between Weapons
+        if (Input.GetButtonDown("Change")) //Switch between Weapons
         {
             if (weaponsStored < 2) return;
             SendToBack(mainWeapon);
@@ -69,7 +66,6 @@ public class EWeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
-            print(weaponsStored);
         }
     }
 

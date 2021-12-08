@@ -17,7 +17,7 @@ public class HandContact : MonoBehaviour
         //On input release destroy joint
         if (Left)
         {
-            if (hasJoint && !Input.GetButton(APR_Player.reachLeft))
+            if (hasJoint && !Input.GetButton(APR_Player.drop))
             {
                 this.gameObject.GetComponent<FixedJoint>().breakForce = 0;
                 hasJoint = false;
@@ -33,7 +33,7 @@ public class HandContact : MonoBehaviour
         //On input release destroy joint
         if (!Left)
         {
-            if (hasJoint && !Input.GetButton(APR_Player.reachRight))
+            if (hasJoint && !Input.GetButton(APR_Player.interact))
             {
                 this.gameObject.GetComponent<FixedJoint>().breakForce = 0;
                 hasJoint = false;
@@ -54,7 +54,7 @@ public class HandContact : MonoBehaviour
         {
             if (col.gameObject.tag == "CanBeGrabbed" && col.gameObject.layer != LayerMask.NameToLayer(APR_Player.thisPlayerLayer) && !hasJoint)
             {
-                if (Input.GetKey(APR_Player.reachLeft) && !hasJoint && !APR_Player.punchingLeft)
+                if (Input.GetKey(APR_Player.drop) && !hasJoint && !APR_Player.punchingLeft)
                 {
                     hasJoint = true;
                     this.gameObject.AddComponent<FixedJoint>();
@@ -70,7 +70,7 @@ public class HandContact : MonoBehaviour
         {
             if (col.gameObject.tag == "CanBeGrabbed" && col.gameObject.layer != LayerMask.NameToLayer(APR_Player.thisPlayerLayer) && !hasJoint)
             {
-                if (Input.GetKey(APR_Player.reachRight) && !hasJoint && !APR_Player.attacking)
+                if (Input.GetKey(APR_Player.interact) && !hasJoint && !APR_Player.attacking)
                 {
                     hasJoint = true;
                     this.gameObject.AddComponent<FixedJoint>();

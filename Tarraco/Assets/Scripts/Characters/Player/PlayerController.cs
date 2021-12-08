@@ -39,10 +39,10 @@ public class PlayerController : CharacterClass
 	public string forwardBackward = "Vertical";
 	public string leftRight = "Horizontal";
 	public string jump = "Jump";
-	public string punchLeft = "Left";
+	public string left = "Left";
 	public string attack = "Right";
-	public string reachLeft = "Drop";
-	public string reachRight = "Interact";
+	public string drop = "Drop";
+	public string interact = "Interact";
 	public string lookX = "Look X";
 	public string lookY = "Look Y";
 	public string dash = "Dash";
@@ -153,10 +153,10 @@ public class PlayerController : CharacterClass
 			forwardBackward += id;
 			leftRight += id;
 			jump += id;
-			punchLeft += id;
+			left += id;
 			attack += id;
-			reachLeft += id;
-			reachRight += id;
+			drop += id;
+			interact += id;
 			lookX += id;
 			lookY += id;
 			dash += id;
@@ -168,16 +168,16 @@ public class PlayerController : CharacterClass
     {
 		if (id != 1)
 		{
-			forwardBackward += id;
-			leftRight += id;
-			jump += id;
-			punchLeft += id;
-			attack += id;
-			reachLeft += id;
-			reachRight += id;
-			lookX += id;
-			lookY += id;
-			dash += id;
+			forwardBackward = "Vertical" + id;
+			leftRight = "Horizontal" + id;
+			jump = "Jump" + id;
+			left = "Left" + id;
+			attack = "Right" + id;
+			drop = "Drop" + id;
+			interact = "Interact" + id;
+			lookX = "Look X" + id;
+			lookY = "Look Y" + id;
+			dash = "Dash" + id;
 		}
 	}
 
@@ -325,7 +325,7 @@ public class PlayerController : CharacterClass
 		RaycastHit hit;
 
 		//Balance when ground is detected
-		if (Physics.Raycast(ray, out hit, balanceHeight, 1 << LayerMask.NameToLayer("Ground")) && !inAir && !isJumping && !reachRightAxisUsed && !reachLeftAxisUsed)
+		if (Physics.Raycast(ray, out hit, balanceHeight, (1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Enemies"))) && !inAir && !isJumping && !reachRightAxisUsed && !reachLeftAxisUsed)
 		{
 			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.magnitude < 1f)
 			{
@@ -336,7 +336,7 @@ public class PlayerController : CharacterClass
 			}
 		}
 		//Fall over when ground is not detected
-		else if (!Physics.Raycast(ray, out hit, balanceHeight, 1 << LayerMask.NameToLayer("Ground")))
+		else if (!Physics.Raycast(ray, out hit, balanceHeight, (1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Enemies"))))
 		{
 			if (balanced)
 			{
@@ -535,7 +535,7 @@ public class PlayerController : CharacterClass
 		//Camera Direction
 		//Turn with camera
 		//var lookPos = cam.transform.forward; CAMBIO
-		if (/*(Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0)*/!isRagdoll  && (!attacking)/**/)
+		if (/*(Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0)*/!isRagdoll/**/)
 		{
 			var lookPos = new Vector3(-pPos.x, 0.0f, pPos.y) * 5;
 			//new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
@@ -609,7 +609,7 @@ public class PlayerController : CharacterClass
 		if (inAir && !isJumping && !jumping)
 		{
 			inAir = false;
-			ResetPose = true;
+			if(!attacking) ResetPose = true;
 		}
 	}
 
@@ -642,7 +642,7 @@ public class PlayerController : CharacterClass
 
 
 		//Reach Left
-		if (Input.GetButton(reachLeft) && !punchingLeft)
+		if (Input.GetButton(drop) && !punchingLeft)
 		{
 
 			if (!reachLeftAxisUsed)
@@ -679,7 +679,7 @@ public class PlayerController : CharacterClass
 			APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.58f - (MouseYAxisArms), -0.88f - (MouseYAxisArms), -0.8f, 1);
 		}
 
-		if (!Input.GetButton(reachLeft) && !punchingLeft)
+		if (!Input.GetButton(drop) && !punchingLeft)
 		{
 			if (reachLeftAxisUsed)
 			{
@@ -818,7 +818,7 @@ public class PlayerController : CharacterClass
 				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.2f, 0, 0, 1);
 				//Right hand punch force
 			}
-
+			RightHand.velocity = Vector3.zero;
 			RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 
 			APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
@@ -837,7 +837,7 @@ public class PlayerController : CharacterClass
 
 		
 		//punch left
-		if(!punchingLeft && Input.GetButton(punchLeft))
+		if(!punchingLeft && Input.GetButton(left))
 		{
 			punchingLeft = true;
             
@@ -850,7 +850,7 @@ public class PlayerController : CharacterClass
 			APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.77f, -0.19f, -.06f, -.61f);
 		}
         
-		if(punchingLeft && !Input.GetButton(punchLeft))
+		if(punchingLeft && !Input.GetButton(left))
 		{
 			punchingLeft = false;
             if(!Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.SwordNShield))
@@ -873,7 +873,7 @@ public class PlayerController : CharacterClass
 			IEnumerator DelayCoroutine()
 			{
 				yield return new WaitForSeconds(0.3f);
-				if(!Input.GetButton(punchLeft))
+				if(!Input.GetButton(left))
 				{
 					APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
 					APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;

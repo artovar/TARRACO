@@ -3456,10 +3456,10 @@ MonoBehaviour:
   forwardBackward: Vertical
   leftRight: Horizontal
   jump: Jump
-  punchLeft: Left
+  left: Left
   attack: Right
-  reachLeft: Drop
-  reachRight: Interact
+  drop: Drop
+  interact: Interact
   lookX: Look X
   lookY: Look Y
   dash: Dash
@@ -4336,6 +4336,7 @@ GameObject:
   - component: {fileID: 5854201647924977964}
   - component: {fileID: 5854201647924977973}
   - component: {fileID: 5854201647924977967}
+  - component: {fileID: 7829202649020753954}
   m_Layer: 10
   m_Name: APR_Body
   m_TagString: PlayerChest
@@ -4483,6 +4484,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &7829202649020753954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854201647924977904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2869a26e3f05a143954fe358d36f48a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APR_Player: {fileID: 5970677242463461839}
 --- !u!1 &5854201647924977905
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,6 +30,12 @@ public class SwordScript : WeaponScript
 
     public override void SetOnHandColliders()
     {
+        this.gameObject.layer = LayerMask.NameToLayer("Weapons");
+
+        foreach (Transform g in GetComponentsInChildren<Transform>())
+        {
+            g.gameObject.layer = LayerMask.NameToLayer("Weapons");
+        }
         foreach (Collider c in onHandCol)
         {
             c.enabled = true;
@@ -42,6 +48,13 @@ public class SwordScript : WeaponScript
 
     public override void SetOnFloorColliders()
     {
+
+        this.gameObject.layer = LayerMask.NameToLayer("Default");
+
+        foreach (Transform g in GetComponentsInChildren<Transform>())
+        {
+            g.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
         foreach (Collider c in onHandCol)
         {
             c.enabled = false;

@@ -509,7 +509,7 @@ public class BasicEnemyController : CharacterClass
 	void PlayerReach()
 	{
 		//Body Bending
-		if (1 == 1)
+		if (1 == 0)
 		{
 			if (MouseYAxisBody <= 0f && MouseYAxisBody >= -0.1f)
 			{
@@ -670,6 +670,7 @@ public class BasicEnemyController : CharacterClass
 	public void Jump()
     {
 		jump = 1;
+		StartCoroutine(Jumping());
 	}
 	IEnumerator Jumping()
 	{
@@ -686,7 +687,7 @@ public class BasicEnemyController : CharacterClass
 	IEnumerator Attacking()
     {
 		yield return new WaitForSeconds(.7f);
-		attack = false;
+		if(!isRagdoll)attack = false;
 	}
 	//---Player Punch---//
 	/////////////////////
@@ -725,11 +726,12 @@ public class BasicEnemyController : CharacterClass
 				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
 				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.2f, 0, 0, 1);
 				//Right hand punch force
-				RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
-
-				APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 			}
 
+			RightHand.velocity = Vector3.zero;
+			RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+
+			APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 
 			StartCoroutine(DelayCoroutine());
 			IEnumerator DelayCoroutine()
@@ -1119,6 +1121,11 @@ public class BasicEnemyController : CharacterClass
 	}
 
 
+
+	public bool IsRagdoll()
+    {
+		return isRagdoll;
+    }
 
 	//-------------------------------------------------------------
 	//--Debug

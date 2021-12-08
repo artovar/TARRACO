@@ -9,6 +9,9 @@ public class SpawnPoint : MonoBehaviour
     public GameObject[] points;
     public int secondsSpawn = 5;
     private IEnumerator coroutine;
+    
+    public int maxEnemies;
+    private List<EnemyController> enemies = new List<EnemyController>();
 
     // Start is called before the first frame update
     void Start()
@@ -19,11 +22,29 @@ public class SpawnPoint : MonoBehaviour
 
     private IEnumerator spawnEnemy (float time)  {
         while(true) {
-            Debug.Log("Nuevo enemigo");
-            GameObject enemy = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
-            GameObject sp = BetterSP();
-            //Instanciamos el prefab del enemido en el punto
-            GameObject newEnemy = Instantiate(enemy, sp.transform.position, sp.transform.rotation);
+            int i = 0;
+            List<int> deadGuys = new List<int>();
+            foreach (EnemyController e in enemies)
+            {
+                if (e.IsRagdoll())
+                {
+                    deadGuys.Add(i);
+                }
+                i++;
+            }
+            i = 0;
+            foreach(int d in deadGuys)
+            {
+                enemies.RemoveAt(d - i);
+                i++;
+            }
+            if(enemies.Count < maxEnemies)
+            {
+                GameObject enemy = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
+                GameObject sp = BetterSP();
+                //Instanciamos el prefab del enemido en el punto
+                enemies.Add(Instantiate(enemy, sp.transform.position, sp.transform.rotation).GetComponent<EnemyController>());
+            }
             yield return new WaitForSeconds(time);
         }
     }
