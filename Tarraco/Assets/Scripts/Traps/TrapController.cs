@@ -23,7 +23,6 @@ public class TrapController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Foot"))
         {
-            print("I'm entering bro");
             //feet++;
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
@@ -46,7 +45,6 @@ public class TrapController : MonoBehaviour
                     StartCoroutine(coroutine);
                     break;
             }
-            //print("My new speed is " + playerController.moveSpeed);
         }
     }
 
@@ -56,14 +54,15 @@ public class TrapController : MonoBehaviour
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
-            if (type == trapType.MUD || type == trapType.ICE) {
-                print("I'm exiting bro");
-                playerController.moveSpeed *= 2f;
-                print("My new speed is " + playerController.moveSpeed);
-            } else if (type == trapType.SPIKES) {
-                Debug.Log("Salgo de los pinchos");
-                StopAllCoroutines();
+            /*feet--;
+            if (feet == 0)
+            {
+                playerController.moveSpeed = originalSpeed; //Reestablecemos la velocidad al salir
             }
+            else if (feet == 1)
+            {*/
+            playerController.moveSpeed *= 2f;
+            //}
         }
     }
 

@@ -8,12 +8,15 @@ public class EnemyController : MonoBehaviour
     public GameObject player;
     Transform p;
     private bool started;
-    private float cd;
+    private float attackCD;
+    [HideInInspector]
+    public int estado; //de momento no se usa, pero usa 1 si está atacando, 2 si acaba de atacar y 3 si está herido. 0 de lo contrario (buscando)
     // Start is called before the first frame update
     void Start()
     {
         started = false;
-        cd = 5;
+        attackCD = 1;
+        estado = -1; //"Haciendo el tonto"
     }
 
     public void Detect(GameObject jugador)
@@ -22,6 +25,11 @@ public class EnemyController : MonoBehaviour
         player = jugador;
         p = player.GetComponentInParent<PlayerController>().Root.transform;
         enemyScript.jump = 1;
+        estado = 0; //"Buscando"
+    }
+    public bool IsRagdoll()
+    {
+        return enemyScript.IsRagdoll();
     }
 
     // Update is called once per frame
@@ -31,14 +39,30 @@ public class EnemyController : MonoBehaviour
         {
             return;
         }
-        enemyScript.jump = 0;
-        if (cd < 0)
+        attackCD -= Time.deltaTime;
+        if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 3.4f)
         {
-            enemyScript.jump = 1;
+            //Atacar
+            if (attackCD < 0 && !enemyScript.IsRagdoll())
+            {
+                enemyScript.Attack();
+                attackCD = 3;
+            }
+            estado = 1; //"Atacando"
         }
-        Vector3 direction = ((p.position + (enemyScript.Root.transform.position - p.position).normalized*3) - enemyScript.Root.transform.position);
-        Vector2 dir = new Vector2(direction.x, direction.z).normalized;
-        enemyScript.forwardBackward = dir.y;
-        enemyScript.leftRight = dir.x;
+        else if (attackCD > 2.5f || attackCD < 1.3f)
+        {
+            Vector3 direction = ((p.position + (enemyScript.Root.transform.position - p.position).normalized * 2) - enemyScript.Root.transform.position);
+            Vector2 dir = new Vector2(direction.x, direction.z).normalized;
+            enemyScript.forwardBackward = dir.y;
+            enemyScript.leftRight = dir.x;
+        }
+        else
+        {
+            enemyScript.forwardBackward = 0;
+            enemyScript.leftRight = 0;
+        }
+
+        //Debug.Log(Vector3.Distance(player.transform.position, enemyScript.Root.transform.position));
     }
 }

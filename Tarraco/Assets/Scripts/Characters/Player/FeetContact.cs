@@ -9,7 +9,7 @@ public class FeetContact : MonoBehaviour
     {
         if (!APR_Player.isJumping && APR_Player.inAir)
         {
-            if (col.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            if (col.gameObject.layer == LayerMask.NameToLayer("Ground") || col.gameObject.layer == LayerMask.NameToLayer("Enemies"))
             {
                 APR_Player.PlayerLanded();
             }

@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class WeaponScript : MonoBehaviour
 {
     public Weapons kind;
+    public float weaponCoolDown;
     public abstract void SetOnHandColliders();
     public abstract void SetOnFloorColliders();
     public abstract void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
@@ -54,4 +55,5 @@ public abstract class WeaponScript : MonoBehaviour
         transform.rotation = rHand.rotation;
         GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
     }
+    public virtual void Shoot(Vector3 direction) {}
 }

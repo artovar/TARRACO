@@ -2816,7 +2816,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4999385841942602253}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.655057, z: 1.6319345}
+  m_LocalPosition: {x: 0, y: 1.63, z: 1.6319345}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 7654415794888212096}
@@ -2841,7 +2841,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5d652c5eca267024b91a8e435029d892, type: 2}
+  - {fileID: 2100000, guid: 486979958a29d2f47a3e442fc8e738e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2866,7 +2866,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4951167151955662497, guid: a3cb751acedeb4c4c9a8fbd633802764, type: 3}
+  m_Mesh: {fileID: 5880814759177201062, guid: 7d3210c5977ad814fa0b675549433494, type: 3}
   m_Bones:
   - {fileID: 5140734933788729266}
   - {fileID: 2766284937220276957}
@@ -3456,13 +3456,17 @@ MonoBehaviour:
   forwardBackward: Vertical
   leftRight: Horizontal
   jump: Jump
-  punchLeft: Left
+  left: Left
   attack: Right
-  reachLeft: Drop
-  reachRight: Interact
+  drop: Drop
+  interact: Interact
+  lookX: Look X
+  lookY: Look Y
+  dash: Dash
   thisPlayerLayer: Player_1
   turnSpeed: 22
   jumpForce: 12
+  dashForce: 10
   autoGetUpWhenPossible: 1
   useStepPrediction: 1
   balanceHeight: 2.5
@@ -3490,6 +3494,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3d5e87950aaad8048bc80bc35127bbbe, type: 3}
   - {fileID: 8300000, guid: 489a8d92a4b760b4f8b6c126c3793f10, type: 3}
   SoundSource: {fileID: 1130477657655846893}
+  usingController: 0
   jumping: 0
   isJumping: 0
   inAir: 0
@@ -4331,6 +4336,7 @@ GameObject:
   - component: {fileID: 5854201647924977964}
   - component: {fileID: 5854201647924977973}
   - component: {fileID: 5854201647924977967}
+  - component: {fileID: 7829202649020753954}
   m_Layer: 10
   m_Name: APR_Body
   m_TagString: PlayerChest
@@ -4346,7 +4352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5854201647924977904}
   m_LocalRotation: {x: -0.01040566, y: -0, z: -0, w: 0.9999459}
-  m_LocalPosition: {x: 0, y: 0.0139, z: -0.0014}
+  m_LocalPosition: {x: 0, y: 0.01, z: -0.0014}
   m_LocalScale: {x: 0.009093894, y: 0.008529009, z: 0.008033412}
   m_Children:
   - {fileID: 2766284937220276957}
@@ -4478,6 +4484,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &7829202649020753954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5854201647924977904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2869a26e3f05a143954fe358d36f48a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  APR_Player: {fileID: 5970677242463461839}
 --- !u!1 &5854201647924977905
 GameObject:
   m_ObjectHideFlags: 0

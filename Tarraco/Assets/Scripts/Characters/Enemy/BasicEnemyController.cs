@@ -126,7 +126,7 @@ public class BasicEnemyController : CharacterClass
 	[Header("Player Editor Debug Mode")]
 	//Debug
 	public bool editorDebugMode;
-
+	private GameObject playerObj = null;
 
 
 	//-------------------------------------------------------------
@@ -140,7 +140,8 @@ public class BasicEnemyController : CharacterClass
 	void Awake()
 	{
 		PlayerSetup();
-		youreDead += onDead;
+		if (playerObj == null)
+			playerObj = GameObject.FindGameObjectWithTag("Player");
 	}
 
 
@@ -158,7 +159,6 @@ public class BasicEnemyController : CharacterClass
 				PlayerPunch();
 			}
 		}
-
 		PlayerReach();
 
 		if (balanced && useStepPrediction)
@@ -509,7 +509,7 @@ public class BasicEnemyController : CharacterClass
 	void PlayerReach()
 	{
 		//Body Bending
-		if (1 == 1)
+		if (1 == 0)
 		{
 			if (MouseYAxisBody <= 0f && MouseYAxisBody >= -0.1f)
 			{
@@ -667,8 +667,28 @@ public class BasicEnemyController : CharacterClass
 
 	}
 
+	public void Jump()
+    {
+		jump = 1;
+		StartCoroutine(Jumping());
+	}
+	IEnumerator Jumping()
+	{
+		yield return new WaitForSeconds(.2f);
+		jump = 0;
+	}
 
+	public void Attack()
+    {
+		attack = true;
+		StartCoroutine(Attacking());
+    }
 
+	IEnumerator Attacking()
+    {
+		yield return new WaitForSeconds(.7f);
+		if(!isRagdoll)attack = false;
+	}
 	//---Player Punch---//
 	/////////////////////
 	void PlayerPunch()
@@ -706,11 +726,12 @@ public class BasicEnemyController : CharacterClass
 				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
 				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.2f, 0, 0, 1);
 				//Right hand punch force
-				RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
-
-				APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 			}
 
+			RightHand.velocity = Vector3.zero;
+			RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+
+			APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 
 			StartCoroutine(DelayCoroutine());
 			IEnumerator DelayCoroutine()
@@ -1106,6 +1127,10 @@ public class BasicEnemyController : CharacterClass
 	}
 
 
+	public bool IsRagdoll()
+    {
+		return isRagdoll;
+    }
 
 	//-------------------------------------------------------------
 	//--Debug
