@@ -8,13 +8,13 @@ public class TrapController : MonoBehaviour
     {
         MUD,
         ICE,
-        FIRE
+        SPIKES
     }
     public trapType type;
 
     private float originalSpeed = 0;
 
-    private int feet = 0;
+    private IEnumerator coroutine;
 
     // Start is called before the first frame update
     void Start() { }
@@ -23,7 +23,6 @@ public class TrapController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Foot"))
         {
-            print("I'm entering bro");
             //feet++;
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
@@ -41,8 +40,11 @@ public class TrapController : MonoBehaviour
                 case trapType.ICE:
                     IsIce(playerController);
                     break;
+                case trapType.SPIKES:
+                    coroutine = IsSpikes(playerController, 4);
+                    StartCoroutine(coroutine);
+                    break;
             }
-            print("My new speed is " + playerController.moveSpeed);
         }
     }
 
@@ -52,7 +54,6 @@ public class TrapController : MonoBehaviour
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
-            print("I'm exiting bro");
             /*feet--;
             if (feet == 0)
             {
@@ -62,17 +63,27 @@ public class TrapController : MonoBehaviour
             {*/
             playerController.moveSpeed *= 2f;
             //}
-            print("My new speed is " + playerController.moveSpeed);
         }
     }
 
     private void IsMud(CharacterClass playerController)
     {
-        playerController.moveSpeed /=2;
+        playerController.moveSpeed /= 2;
     }
 
     private void IsIce(CharacterClass playerController)
     {
         playerController.moveSpeed += 7;
+    }
+
+    private IEnumerator IsSpikes(CharacterClass controller, float time)
+    {
+        while (true)
+        {
+            if (controller.gameObject == null) StopAllCoroutines();
+            controller.damage(1);
+            Debug.Log("Me estoy clavando los pinchos :( \n me queda esta vida: " + controller.life);
+            yield return new WaitForSeconds(time);
+        }
     }
 }

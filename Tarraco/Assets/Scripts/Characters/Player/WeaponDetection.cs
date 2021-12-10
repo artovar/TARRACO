@@ -25,11 +25,15 @@ public class WeaponDetection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(controller.id != 1)
+    }
+
+    public void SetUp()
+    {
+        if (controller.id != 1)
         {
-            interact += controller.id;
-            drop += controller.id;
-            change += controller.id;
+            interact = "Interact" + controller.id;
+            drop = "Drop" + controller.id;
+            change = "Change" + controller.id;
         }
     }
 
@@ -51,9 +55,7 @@ public class WeaponDetection : MonoBehaviour
         }
         if (Input.GetButtonDown(drop))
         {
-            print(Input.GetAxisRaw(drop) + " Oh no");
             Drop(mainWeapon);
-            print(weaponsStored);
         }
         else if (Input.GetButtonDown(change)) //Switch between Weapons
         {
@@ -77,7 +79,6 @@ public class WeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
-            print(weaponsStored);
         }
     }
 

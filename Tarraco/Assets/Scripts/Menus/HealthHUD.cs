@@ -12,10 +12,14 @@ public class HealthHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach(Transform t in  gameObject.GetComponentsInChildren<Transform>()) {
-            t.gameObject.SetActive(true);
-            heartList.Add(t.gameObject);
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+            heartList.Add(child.gameObject);
+
         }
+
+        life = player.GetComponent<CharacterClass>().life;
 
     }
 
@@ -25,17 +29,31 @@ public class HealthHUD : MonoBehaviour
 
     }
 
-    public void healHUD(int life) {
-        heartList[life-1].SetActive(true);
+    public void healHUD(int bonus)
+    {
+        if (life == player.GetComponent<CharacterClass>().maxLife)
+        {
+            life += bonus;
+            heartList[life].SetActive(true);
+        }
     }
 
-    void hurtHUD(int life) {
-        heartList[life-1].SetActive(false);
-    }
-    
-    void gameOver() {
-        Time.timeScale = 0;
+    public void hurtHUD(int damage)
+    {
+        life -= damage;
+
+        print("te queda esta vida:" + life);
+        heartList[life].SetActive(false);
+        if (life == 0)
+        {
+            gameOver();
+        }
     }
 
-    
+    void gameOver()
+    {
+        Time.timeScale = 0.2f;
+    }
+
+
 }

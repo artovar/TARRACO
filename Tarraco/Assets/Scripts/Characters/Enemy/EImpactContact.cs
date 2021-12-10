@@ -3,40 +3,65 @@ using UnityEngine;
 
 public class EImpactContact : MonoBehaviour
 {
-    public BasicEnemyController APR_Player;
+    public BasicEnemyController enemyController;
 
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
-
+        if (col.Equals(enemyController.weapon)) return;
         //Knockout by impact
-        if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
+        if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
-            APR_Player.ActivateRagdoll();
-
-            if (APR_Player.SoundSource != null)
+            if (col.gameObject.layer == LayerMask.NameToLayer("Arrow"))
             {
-                if (!APR_Player.SoundSource.isPlaying && APR_Player.Hits != null)
+                (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
+                col.rigidbody.velocity = Vector3.zero;
+            }
+            enemyController.ActivateRagdoll();
+
+            //SUSTITUIR ESTO POR MUERTE
+
+            Destroy(enemyController.gameObject, 2f);
+
+            if (enemyController.SoundSource != null)
+            {
+                if (!enemyController.SoundSource.isPlaying && enemyController.Hits != null)
                 {
-                    int i = Random.Range(0, APR_Player.Hits.Length);
-                    APR_Player.SoundSource.clip = APR_Player.Hits[i];
-                    APR_Player.SoundSource.Play();
+                    int i = Random.Range(0, enemyController.Hits.Length);
+                    enemyController.SoundSource.clip = enemyController.Hits[i];
+                    enemyController.SoundSource.Play();
                 }
+            }
+
+            //Damage
+            enemyController.damage(enemyController.life);
+            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
+            if (enemyController.isDead())
+            {
+                Debug.Log("Estas muerto");
             }
         }
 
         //Sound on impact
-        if (col.relativeVelocity.magnitude > APR_Player.ImpactForce)
+        if (col.relativeVelocity.magnitude > enemyController.ImpactForce)
         {
 
-            if (APR_Player.SoundSource != null)
+            if (enemyController.SoundSource != null)
             {
-                if (!APR_Player.SoundSource.isPlaying && APR_Player.Impacts != null)
+                if (!enemyController.SoundSource.isPlaying && enemyController.Impacts != null)
                 {
-                    int i = Random.Range(0, APR_Player.Impacts.Length);
-                    APR_Player.SoundSource.clip = APR_Player.Impacts[i];
-                    APR_Player.SoundSource.Play();
+                    int i = Random.Range(0, enemyController.Impacts.Length);
+                    enemyController.SoundSource.clip = enemyController.Impacts[i];
+                    enemyController.SoundSource.Play();
                 }
+            }
+
+            //Damage
+            enemyController.damage(1);
+            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
+            if (enemyController.isDead())
+            {
+                Debug.Log("Estas muerto");
             }
         }
     }
