@@ -4,6 +4,7 @@ using UnityEngine;
 public class ImpactContact : MonoBehaviour
 {
     public PlayerController APR_Player;
+    public GameObject HealthHUD;
 
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
@@ -23,12 +24,21 @@ public class ImpactContact : MonoBehaviour
                     APR_Player.SoundSource.Play();
                 }
             }
+
+            //Damage
+            APR_Player.damage(1);
+            HealthHUD.GetComponent<HealthHUD>().hurtHUD(1);
+            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
+            if (APR_Player.isDead())
+            {
+                Debug.Log("Estas muerto");
+            }
         }
 
-        //Sound on impact
+        //Sound on impact & normal impact
         if (col.relativeVelocity.magnitude > APR_Player.ImpactForce)
         {
-
+            //Sound
             if (APR_Player.SoundSource != null)
             {
                 if (!APR_Player.SoundSource.isPlaying && APR_Player.Impacts != null)
@@ -37,6 +47,14 @@ public class ImpactContact : MonoBehaviour
                     APR_Player.SoundSource.clip = APR_Player.Impacts[i];
                     APR_Player.SoundSource.Play();
                 }
+            }
+
+            // //Damage
+            // APR_Player.damage(1);
+            // HealthHUD.GetComponent<HealthHUD>().hurtHUD(1);
+            if (APR_Player.isDead())
+            {
+                Debug.Log("Estas muerto");
             }
         }
     }

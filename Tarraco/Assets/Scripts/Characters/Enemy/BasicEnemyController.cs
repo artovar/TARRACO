@@ -1120,6 +1120,11 @@ public class BasicEnemyController : CharacterClass
 		COMP.position = CenterOfMassPoint;
 	}
 
+	public void onDead(object s, System.EventArgs e) {
+		ActivateRagdoll();
+		Debug.Log("Me mueroooo");
+		Destroy(this.gameObject, 5);
+	}
 
 
 	public bool IsRagdoll()

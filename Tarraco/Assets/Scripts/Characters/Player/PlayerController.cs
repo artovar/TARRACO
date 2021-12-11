@@ -168,6 +168,7 @@ public class PlayerController : CharacterClass
 			dash += id;
 		}
 		PlayerSetup();
+		youreDead += onDead;
 	}
 
 	public void SetUp()
@@ -1235,6 +1236,10 @@ public class PlayerController : CharacterClass
 		COMP.position = CenterOfMassPoint;
 	}
 
+	public void onDead(object s, System.EventArgs e) {
+		ActivateRagdoll();
+		Debug.Log("Me mueroooo");
+	}
 
 
 	//-------------------------------------------------------------
