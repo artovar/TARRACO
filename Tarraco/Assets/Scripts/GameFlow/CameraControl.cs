@@ -5,10 +5,12 @@ public class CameraControl : MonoBehaviour
     [Header("Player To Follow")]
     //Player root
     public Transform APRRoot;
+    public Transform PacaRoot;
 
     [Header("Follow Properties")]
     //Follow values
     public float distance = 10.0f; //The distance is only used when "rotateCamera" is enabled, when disabled the camera offset is used
+    private float originalDistance;
     public float smoothness = 0.15f;
 
     [Header("Rotation Properties")]
@@ -38,9 +40,14 @@ public class CameraControl : MonoBehaviour
         //Cursor.visible = false;
 
         cam = Camera.main;
-
+        originalDistance = distance;
         offset = cam.transform.position;
         originalOffset = offset;
+    }
+
+    public void AddPlayer2(Transform p2)
+    {
+        PacaRoot = p2;
     }
 
 
@@ -76,9 +83,20 @@ public class CameraControl : MonoBehaviour
 
         if (!rotateCamera)
         {
-            var targetRotation = Quaternion.LookRotation(APRRoot.position - cam.transform.position);
-            cam.transform.position = Vector3.Lerp(cam.transform.position, APRRoot.position + offset, smoothness);
-            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
+            if(PacaRoot == null)
+            {
+                var targetRotation = Quaternion.LookRotation(APRRoot.position - cam.transform.position);
+                cam.transform.position = Vector3.Lerp(cam.transform.position, APRRoot.position + offset, smoothness);
+                cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
+            }
+            else
+            {
+                distance = originalDistance + (PacaRoot.position - APRRoot.position).magnitude;
+                Vector3 point = (APRRoot.position + (PacaRoot.position - APRRoot.position) / 2);
+                var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
+                cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset*(((distance)/originalDistance)/1.2f), smoothness);
+                cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
+            }
         }
     }
 }

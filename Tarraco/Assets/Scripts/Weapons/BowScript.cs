@@ -73,4 +73,10 @@ public class BowScript : WeaponScript
         arrow.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         Destroy(arrowClone, 3);
     }
+    public override void SendToBack(Transform back)
+    {
+        transform.position = back.position + back.forward/2;
+        transform.rotation = back.rotation * Quaternion.Euler(0,0,180);
+        GetComponent<FixedJoint>().connectedBody = back.GetComponent<Rigidbody>();
+    }
 }

@@ -101,7 +101,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2177757887894105767}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.75}
   m_Children:
@@ -118,7 +118,7 @@ Transform:
   - {fileID: 2935855309544436853}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!136 &5649506151767117806
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kind: 0
-  weaponCoolDown: 2
+  weaponCoolDown: 1
   onHandCol:
   - {fileID: 1532776114554976832}
   - {fileID: 4253577779469104060}
@@ -485,7 +485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2463ea4a204c20247871c773fa931554, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.7
+      value: 0.449
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2463ea4a204c20247871c773fa931554, type: 3}
       propertyPath: m_LocalRotation.w
