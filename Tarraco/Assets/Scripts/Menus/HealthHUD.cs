@@ -16,7 +16,7 @@ public class HealthHUD : MonoBehaviour
         {
             child.gameObject.SetActive(true);
             heartList.Add(child.gameObject);
-
+            print(heartList.Count);
         }
 
         life = player.GetComponent<CharacterClass>().life;
