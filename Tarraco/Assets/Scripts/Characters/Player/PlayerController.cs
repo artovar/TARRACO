@@ -13,6 +13,7 @@ public class PlayerController : CharacterClass
 
 	//Weapon gameObject
 	public WeaponScript weapon;
+	public WeaponDetection detector;
 
 
 	//Active Ragdoll Player parts
@@ -99,7 +100,7 @@ public class PlayerController : CharacterClass
 		WalkForward, WalkBackward,
 		StepRight, StepLeft, Alert_Leg_Right,
 		Alert_Leg_Left, balanced = true, GettingUp,
-		ResetPose, isRagdoll, isKeyDown, moveAxisUsed,
+		ResetPose, isRagdoll,
 		jumpAxisUsed, reachLeftAxisUsed, reachRightAxisUsed;
 
 	[HideInInspector]
@@ -136,6 +137,10 @@ public class PlayerController : CharacterClass
 	[Header("Player Editor Debug Mode")]
 	//Debug
 	public bool editorDebugMode;
+
+
+
+	private bool metralletaCheat = false;
 
 
 
@@ -180,6 +185,7 @@ public class PlayerController : CharacterClass
 			lookX = "Look X" + id;
 			lookY = "Look Y" + id;
 			dash = "Dash" + id;
+			detector.SetUp();
 		}
 	}
 
@@ -188,6 +194,7 @@ public class PlayerController : CharacterClass
 	////////////////
 	void Update()
 	{
+		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
 			hitCoolDown -= Time.deltaTime;
@@ -499,8 +506,8 @@ public class PlayerController : CharacterClass
 		{
 			WalkForward = false;
 			WalkBackward = false;
-			moveAxisUsed = false;
-			isKeyDown = false;
+			//moveAxisUsed = false;
+			//isKeyDown = false;
 		}
 	}
 
@@ -714,7 +721,6 @@ public class PlayerController : CharacterClass
 		}
 
 
-
 		/*
 		//Reach Right
 		if (Input.GetButton(reachRight) && !attacking)
@@ -753,7 +759,6 @@ public class PlayerController : CharacterClass
 			//upper right arm pose
 			APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.58f + (MouseYAxisArms), -0.88f - (MouseYAxisArms), 0.8f, 1);
 		}
-
 		if (!Input.GetButton(reachRight) && !attacking)
 		{
 			if (reachRightAxisUsed)
@@ -780,7 +785,8 @@ public class PlayerController : CharacterClass
 				ResetPose = true;
 				reachRightAxisUsed = false;
 			}
-		}*/
+		}
+		*/
 
 	}
 
@@ -792,7 +798,7 @@ public class PlayerController : CharacterClass
 	{
 
 		//punch right
-		if (!attacking && Input.GetButton(attack) && hitCoolDown <= 0)
+		if (!attacking && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
 		{
 			attacking = true;
 			if (!Object.ReferenceEquals(weapon, null))
@@ -808,23 +814,24 @@ public class PlayerController : CharacterClass
 			}
 		}
 
-		if (attacking && !Input.GetButton(attack))
+		if (attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0))))
 		{
 			attacking = false;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
 				hitCoolDown = weapon.weaponCoolDown;
-				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				if(!metralletaCheat)weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
 
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
 						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y) * 5;
 						weapon.Shoot(lookPos.normalized);
+						if (metralletaCheat) hitCoolDown = .05f;
 						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
-						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+						//APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						break;
 				}
 			}
@@ -838,13 +845,13 @@ public class PlayerController : CharacterClass
 				//Right hand punch force
 				RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 				APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+				APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 			}
-
 			StartCoroutine(DelayCoroutine());
 			IEnumerator DelayCoroutine()
 			{
 				yield return new WaitForSeconds(0.3f);
-				if (true | !Input.GetButton(attack))
+				if (!metralletaCheat || (!Input.GetButton(attack) && Input.GetAxis(attack) == 0))
 				{
 					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 					APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;

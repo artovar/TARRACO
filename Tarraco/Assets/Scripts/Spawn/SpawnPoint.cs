@@ -43,7 +43,8 @@ public class SpawnPoint : MonoBehaviour
                 GameObject enemy = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
                 GameObject sp = BetterSP();
                 //Instanciamos el prefab del enemido en el punto
-                enemies.Add(Instantiate(enemy, sp.transform.position, sp.transform.rotation).GetComponent<EnemyController>());
+                enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
+                enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
             }
             yield return new WaitForSeconds(time);
         }

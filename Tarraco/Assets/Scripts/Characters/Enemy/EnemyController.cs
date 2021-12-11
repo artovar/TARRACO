@@ -31,7 +31,11 @@ public class EnemyController : MonoBehaviour
     {
         return enemyScript.IsRagdoll();
     }
-
+    public void MoveTowardsInSpawn(Vector3 dir)
+    {
+        enemyScript.forwardBackward = dir.x;
+        enemyScript.leftRight = dir.z;
+    }
     // Update is called once per frame
     void Update()
     {

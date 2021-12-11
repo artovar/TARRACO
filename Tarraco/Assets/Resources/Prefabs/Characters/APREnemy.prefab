@@ -3635,13 +3635,13 @@ MonoBehaviour:
   interact: 0
   thisPlayerLayer: Player_2
   turnSpeed: 22
-  jumpForce: 12
+  jumpForce: 14
   autoGetUpWhenPossible: 0
   useStepPrediction: 1
-  balanceHeight: 2.1
+  balanceHeight: 2.6
   balanceStrength: 5000
-  coreStrength: 2000
-  limbStrength: 500
+  coreStrength: 3000
+  limbStrength: 1500
   StepDuration: 0.2
   StepHeight: 1.7
   FeetMountForce: 25
@@ -3650,7 +3650,7 @@ MonoBehaviour:
   canBeKnockoutByImpact: 1
   requiredForceToBeKO: 20
   canPunch: 1
-  punchForce: 80
+  punchForce: 50
   ImpactForce: 10
   Impacts:
   - {fileID: 8300000, guid: 6c4cb0d9b484065469606431acecaf73, type: 3}
@@ -4663,6 +4663,7 @@ GameObject:
   - component: {fileID: 6806997512440848551}
   - component: {fileID: 6806997512440848542}
   - component: {fileID: 6806997512440848545}
+  - component: {fileID: 882476814881415483}
   m_Layer: 7
   m_Name: APR_UpperLeftArm
   m_TagString: CanBeGrabbed
@@ -4810,6 +4811,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &882476814881415483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6806997512440848737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d3007bc5a3035e40aec590c0bd9c23b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyController: {fileID: 3529005617139637030}
 --- !u!1 &6806997512440848738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5745,6 +5759,7 @@ GameObject:
   - component: {fileID: 6806997512440848556}
   - component: {fileID: 6806997512440848554}
   - component: {fileID: 6806997512440848557}
+  - component: {fileID: 5979984666350813533}
   m_Layer: 7
   m_Name: APR_UpperRightArm
   m_TagString: CanBeGrabbed
@@ -5892,6 +5907,19 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &5979984666350813533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6806997512440848743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d3007bc5a3035e40aec590c0bd9c23b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyController: {fileID: 3529005617139637030}
 --- !u!1 &7392975998137013507
 GameObject:
   m_ObjectHideFlags: 0
@@ -6017,7 +6045,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3291449233603474244
 MonoBehaviour:
