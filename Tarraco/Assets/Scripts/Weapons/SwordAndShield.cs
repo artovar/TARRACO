@@ -78,7 +78,7 @@ public class SwordAndShield : WeaponScript
     {
         tag = "GrabbedWeapon";
         sword.position = rHand.position;
-        sword.rotation = rHand.rotation * Quaternion.Euler(0, 0, 90);
+        sword.rotation = rHand.rotation;
         shield.position = lHand.position;
         shield.rotation = lHand.rotation * Quaternion.Euler(50, 90, 0);
         sword.gameObject.AddComponent<FixedJoint>();
@@ -94,7 +94,6 @@ public class SwordAndShield : WeaponScript
     }
     public override void DropWeapon(Transform rHand)
     {
-        tag = "Weapon";
         transform.position = rHand.position;
 
         sword.GetComponent<FixedJoint>().connectedBody = null;
@@ -122,21 +121,22 @@ public class SwordAndShield : WeaponScript
 
         transform.GetComponent<Rigidbody>().useGravity = true;
         SetOnFloorColliders();
+        tag = "Weapon";
     }
 
     public override void SendToBack(Transform back)
     {
         sword.position = back.position; 
-        shield.position = back.position + back.forward / 2;
         sword.rotation = back.rotation;
-        shield.rotation = back.rotation;
+        shield.position = back.position + back.forward /2f;
+        shield.rotation = back.rotation * Quaternion.Euler(0, 0, 90);
         sword.GetComponent<FixedJoint>().connectedBody = back.GetComponent<Rigidbody>();
         shield.GetComponent<FixedJoint>().connectedBody = back.GetComponent<Rigidbody>();
     }
     public override void BringFromBack(Transform rHand, Transform lHand)
     {
         sword.position = rHand.position;
-        sword.rotation = rHand.rotation * Quaternion.Euler(0,0,90);
+        sword.rotation = rHand.rotation;
         shield.position = lHand.position;
         shield.rotation = lHand.rotation * Quaternion.Euler(50, 90, 0);
         sword.GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();

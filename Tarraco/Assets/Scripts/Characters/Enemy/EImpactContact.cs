@@ -8,7 +8,7 @@ public class EImpactContact : MonoBehaviour
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
-        if (col.Equals(enemyController.weapon)) return;
+        if (!Object.ReferenceEquals(enemyController.weapon, null) && (col.transform.IsChildOf(enemyController.transform) || col.transform.IsChildOf(enemyController.weapon.transform))) return;
         //Knockout by impact
         if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
@@ -16,12 +16,11 @@ public class EImpactContact : MonoBehaviour
             {
                 (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
                 col.rigidbody.velocity = Vector3.zero;
+                col.collider.enabled = false;
             }
             enemyController.ActivateRagdoll();
 
             //SUSTITUIR ESTO POR MUERTE
-
-            Destroy(enemyController.gameObject, 2f);
 
             if (enemyController.SoundSource != null)
             {
@@ -34,9 +33,10 @@ public class EImpactContact : MonoBehaviour
             }
 
             //Damage
-            enemyController.damage(enemyController.life);
+            enemyController.Damage(1);
             Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
-            if (enemyController.isDead())
+
+            if (enemyController.IsDead())
             {
                 Debug.Log("Estas muerto");
             }
@@ -54,14 +54,6 @@ public class EImpactContact : MonoBehaviour
                     enemyController.SoundSource.clip = enemyController.Impacts[i];
                     enemyController.SoundSource.Play();
                 }
-            }
-
-            //Damage
-            enemyController.damage(1);
-            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
-            if (enemyController.isDead())
-            {
-                Debug.Log("Estas muerto");
             }
         }
     }

@@ -12,6 +12,7 @@ public class PlayerController : CharacterClass
 	//-------------------------------------------------------------
 
 	//Weapon gameObject
+	[HideInInspector]
 	public WeaponScript weapon;
 	public WeaponDetection detector;
 
@@ -88,7 +89,9 @@ public class PlayerController : CharacterClass
 	public float ImpactForce = 10f;
 	public AudioClip[] Impacts;
 	public AudioClip[] Hits;
+	public AudioClip[] Steps;
 	public AudioSource SoundSource;
+	public AudioSource StepSource;
 
 
 	//Hidden variables
@@ -168,7 +171,8 @@ public class PlayerController : CharacterClass
 			dash += id;
 		}
 		PlayerSetup();
-		youreDead += onDead;
+		YoureDead += OnDead;
+		life = maxLife;
 	}
 
 	public void SetUp()
@@ -194,6 +198,7 @@ public class PlayerController : CharacterClass
 	////////////////
 	void Update()
 	{
+		invTime -= Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
@@ -825,13 +830,13 @@ public class PlayerController : CharacterClass
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
-						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y) * 5;
-						weapon.Shoot(lookPos.normalized);
+						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);
+						weapon.Shoot(lookPos.normalized, Characters.Player1);
 						if (metralletaCheat) hitCoolDown = .05f;
 						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
-						//APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						break;
 				}
 			}
@@ -1236,7 +1241,7 @@ public class PlayerController : CharacterClass
 		COMP.position = CenterOfMassPoint;
 	}
 
-	public void onDead(object s, System.EventArgs e) {
+	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
 		Debug.Log("Me mueroooo");
 	}

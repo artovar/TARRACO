@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BowScript : WeaponScript
 {
+    [SerializeField]
+    float arrowForce;
     [SerializeField]
     Collider[] onHandCol;
     [SerializeField]
     Collider[] onFloorCol;
     [SerializeField]
     GameObject arrow;
+    [SerializeField]
+    GameObject arrowE;
 
     public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
     {
@@ -66,10 +71,19 @@ public class BowScript : WeaponScript
         }
     }
 
-    public override void Shoot(Vector3 direction)
+    public override void Shoot(Vector3 direction, Characters cType)
     {
-        GameObject arrowClone = Instantiate(arrow, transform.position, Quaternion.LookRotation(direction, Vector3.up));
-        arrowClone.GetComponent<Rigidbody>().velocity = direction * 45;
+        GameObject arrowClone;
+        switch (cType)
+        {
+            case Characters.Enemy:
+                arrowClone = Instantiate(arrowE, transform.position, Quaternion.LookRotation(direction, Vector3.up));
+                break;
+            default:
+                arrowClone = Instantiate(arrow, transform.position, Quaternion.LookRotation(direction, Vector3.up));
+                break;
+        };
+        arrowClone.GetComponent<Rigidbody>().velocity = direction * arrowForce;
         arrow.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         Destroy(arrowClone, 3);
     }

@@ -26,7 +26,7 @@ public class SpawnPoint : MonoBehaviour
             List<int> deadGuys = new List<int>();
             foreach (EnemyController e in enemies)
             {
-                if (e.IsRagdoll())
+                if (e.IsDead())
                 {
                     deadGuys.Add(i);
                 }

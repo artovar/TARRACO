@@ -24,7 +24,6 @@ public abstract class WeaponScript : MonoBehaviour
     }
     public virtual void DropWeapon(Transform rHand)
     {
-        transform.tag = "Weapon";
         transform.position = rHand.position;
         RaycastHit hitInfo;
         Ray ray = new Ray(transform.position, Vector3.down);
@@ -42,6 +41,7 @@ public abstract class WeaponScript : MonoBehaviour
         transform.GetComponent<FixedJoint>().breakForce = 0f;
         transform.GetComponent<Rigidbody>().useGravity = true;
         SetOnFloorColliders();
+        transform.tag = "Weapon";
     }
     public virtual void SendToBack(Transform back)
     {
@@ -55,5 +55,5 @@ public abstract class WeaponScript : MonoBehaviour
         transform.rotation = rHand.rotation;
         GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
     }
-    public virtual void Shoot(Vector3 direction) {}
+    public virtual void Shoot(Vector3 direction, Characters cType) {}
 }
