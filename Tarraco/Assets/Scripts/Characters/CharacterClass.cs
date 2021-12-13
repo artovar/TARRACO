@@ -6,7 +6,6 @@ using System;
 public abstract class CharacterClass : MonoBehaviour
 {
     public Characters character;
-    [HideInInspector]
     public int life;
     public int maxLife;
     public float moveSpeed;

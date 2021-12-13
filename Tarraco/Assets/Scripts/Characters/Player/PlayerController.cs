@@ -103,7 +103,7 @@ public class PlayerController : CharacterClass
 		WalkForward, WalkBackward,
 		StepRight, StepLeft, Alert_Leg_Right,
 		Alert_Leg_Left, balanced = true, GettingUp,
-		ResetPose, isRagdoll,
+		ResetPose, isRagdoll, usingLeft,
 		jumpAxisUsed, reachLeftAxisUsed, reachRightAxisUsed;
 
 	[HideInInspector]
@@ -529,8 +529,8 @@ public class PlayerController : CharacterClass
 		{
 			ActivateRagdoll();
 			invTime = invTimeDef;
-			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * 10*dashForce, ForceMode.Impulse);
-			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 10*dashForce, ForceMode.Impulse);
+			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * dashForce, ForceMode.Impulse);
+			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 1.5f * dashForce, ForceMode.Impulse);
 		}
     }
 
@@ -880,10 +880,10 @@ public class PlayerController : CharacterClass
 			}
 		}
 
-		
 		//punch left
-		if(!punchingLeft && Input.GetButton(left))
+		if(!punchingLeft && (Input.GetButton(left) || (!usingLeft && Input.GetAxis(left) > 0)))
 		{
+			usingLeft = true;
 			punchingLeft = true;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
@@ -896,20 +896,11 @@ public class PlayerController : CharacterClass
 						break;
 				};
 			}
-			else
-			{
-				//Left hand punch pull back pose
-				//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-				//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-				//APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.62f, -0.51f, 0.02f, 1);
-				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(.15f, -.18f, -.46f, 1f);
-				//APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.7f, -.06f, -.02f, -.7f);
-				APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.77f, -0.19f, -.06f, -.61f);
-			}
 		}
         
-		if(punchingLeft && !Input.GetButton(left))
+		if(punchingLeft && (!Input.GetButton(left) && Input.GetAxis(left) == 0))
 		{
+			usingLeft = false;
 			punchingLeft = false;
             if(!Object.ReferenceEquals(weapon, null))
             {

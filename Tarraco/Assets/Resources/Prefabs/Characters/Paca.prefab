@@ -3679,7 +3679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8833726004650090045}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6267178, y: 0, z: 3.8503175}
+  m_LocalPosition: {x: 0, y: 0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4724290311674445950}
@@ -3736,7 +3736,7 @@ MonoBehaviour:
   thisPlayerLayer: Player_1
   turnSpeed: 22
   jumpForce: 14
-  dashForce: 8
+  dashForce: 80
   autoGetUpWhenPossible: 1
   useStepPrediction: 1
   balanceHeight: 2.6

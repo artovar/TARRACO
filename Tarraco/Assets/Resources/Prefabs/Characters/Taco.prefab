@@ -1375,7 +1375,7 @@ MonoBehaviour:
   thisPlayerLayer: Player_1
   turnSpeed: 22
   jumpForce: 14
-  dashForce: 8
+  dashForce: 80
   autoGetUpWhenPossible: 1
   useStepPrediction: 1
   balanceHeight: 2.6

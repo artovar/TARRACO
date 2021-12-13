@@ -691,7 +691,7 @@ public class BasicEnemyController : CharacterClass
 	IEnumerator Attacking()
     {
 		yield return new WaitForSeconds(.7f);
-		if(!isRagdoll)attack = false;
+		attack = false;
 	}
 	//---Player Punch---//
 	/////////////////////
@@ -715,10 +715,9 @@ public class BasicEnemyController : CharacterClass
 			}
 		}
 
-		if (attacking && !attack)
+		if (attacking && !attack && !isRagdoll)
 		{
 			attacking = false;
-
 			if (!Object.ReferenceEquals(weapon, null))
 			{
 				switch (weapon.kind)
@@ -1137,6 +1136,7 @@ public class BasicEnemyController : CharacterClass
 
 	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
+		print("I'm dead");
 		StartCoroutine(Kill());
 		IEnumerator Kill()
 		{

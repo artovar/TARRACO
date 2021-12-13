@@ -43,10 +43,10 @@ public class EImpactContact : MonoBehaviour
             }
             //Damage
             enemyController.Damage(damage, from);
-            //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
 
             if (enemyController.IsDead())
             {
+                Debug.Log("Damage = " + damage + " Life = " + enemyController.life);
                 //Debug.Log("Enemigo asesinado");
             }
         }

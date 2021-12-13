@@ -53,7 +53,6 @@ public class SpawnPoint : MonoBehaviour
                 Instantiate(weaponPrefab[UnityEngine.Random.Range(0, weaponPrefab.Length)], sp.transform.position, Quaternion.identity);
             }
             maxEnemies = (int) (maxDef * Mathf.Log(1 + deathCount));
-            print(maxEnemies);
             yield return new WaitForSeconds(time);
         }
     }
