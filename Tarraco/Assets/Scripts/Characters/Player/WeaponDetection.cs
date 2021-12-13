@@ -68,6 +68,10 @@ public class WeaponDetection : MonoBehaviour
             mainWeapon = backWeapon;
             backWeapon = aux;
             controller.weapon = mainWeapon.GetComponent<WeaponScript>();
+            if (controller.attacking) 
+            {
+                controller.PrepareHit(); 
+            }
         }
     }
     private void OnTriggerStay(Collider col)
@@ -81,6 +85,10 @@ public class WeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
+            if (controller.attacking)
+            {
+                controller.PrepareHit();
+            }
         }
         else if (col.CompareTag("Heal") && controller.life < controller.maxLife)
         {

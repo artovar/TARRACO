@@ -42,7 +42,7 @@ public class SwordAndShield : WeaponScript
         {
             g.gameObject.layer = LayerMask.NameToLayer("Weapons");
         }
-
+        shield.GetComponentInChildren<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer");
         foreach (Collider c in onHandCol)
         {
             c.enabled = true;
@@ -147,5 +147,11 @@ public class SwordAndShield : WeaponScript
         shield.rotation = lHand.rotation * Quaternion.Euler(50, 90, 0);
         sword.GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
         shield.GetComponent<FixedJoint>().connectedBody = lHand.GetComponent<Rigidbody>();
+    }
+
+    public void ShieldDefense(ConfigurableJoint a, ConfigurableJoint b)
+    {
+        a.targetRotation = new Quaternion(-.64f, -.21f, -.28f, 1f);
+        b.targetRotation = new Quaternion(-0.73f, -0.37f, -0.43f, 1f);
     }
 }

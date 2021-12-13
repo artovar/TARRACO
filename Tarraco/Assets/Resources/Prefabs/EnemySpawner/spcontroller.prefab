@@ -53,5 +53,5 @@ MonoBehaviour:
   - {fileID: 2177757887894105767, guid: e81e8647d68e6014bb214b58e1d35279, type: 3}
   - {fileID: 5204333461666080442, guid: ec3977f4fe6c9284f8e12c9945288559, type: 3}
   points: []
-  secondsSpawn: 4
+  secondsSpawn: 3
   maxEnemies: 0

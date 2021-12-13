@@ -13,7 +13,7 @@ public class ImpactContact : MonoBehaviour
         //Knockout by impact
         if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
         {
-            if (col.gameObject.layer == LayerMask.NameToLayer("ArrowE"))
+            if (col.gameObject.layer == LayerMask.NameToLayer("ArrowE") && col.collider.enabled)
             {
                 (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
                 col.rigidbody.velocity = Vector3.zero;

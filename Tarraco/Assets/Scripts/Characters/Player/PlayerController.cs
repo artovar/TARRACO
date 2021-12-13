@@ -213,10 +213,9 @@ public class PlayerController : CharacterClass
 		if (!inAir)
 		{
 			PlayerMovement();
-
-			PlayerDash();
-
 		}
+
+		PlayerDash();
 
 		if (canPunch)
 		{
@@ -526,9 +525,10 @@ public class PlayerController : CharacterClass
 
 	void PlayerDash()
     {
-		if(Input.GetButtonDown(dash) && !isRagdoll)
+		if(Input.GetButtonDown(dash) && !isRagdoll && invTime <= -invTimeDef)
 		{
 			ActivateRagdoll();
+			invTime = invTimeDef;
 			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * 10*dashForce, ForceMode.Impulse);
 			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 10*dashForce, ForceMode.Impulse);
 		}
@@ -803,7 +803,10 @@ public class PlayerController : CharacterClass
 	}
 
 
-
+	public void PrepareHit()
+	{
+		weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+	}
 	//---Player Punch---//
 	/////////////////////
 	void PlayerPunch()
@@ -815,7 +818,7 @@ public class PlayerController : CharacterClass
 			attacking = true;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
-				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				PrepareHit();
 			}
 			else
 			{
@@ -882,14 +885,27 @@ public class PlayerController : CharacterClass
 		if(!punchingLeft && Input.GetButton(left))
 		{
 			punchingLeft = true;
-            
-			//Left hand punch pull back pose
-			//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-			//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-			//APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.62f, -0.51f, 0.02f, 1);
-			APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(.15f, -.18f, -.46f, 1f);
-			//APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.7f, -.06f, -.02f, -.7f);
-			APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.77f, -0.19f, -.06f, -.61f);
+			if (!Object.ReferenceEquals(weapon, null))
+			{
+				switch (weapon.kind)
+				{
+					case Weapons.SwordNShield:
+						weapon.GetComponent<SwordAndShield>().ShieldDefense(APR_Parts[5].GetComponent<ConfigurableJoint>(), APR_Parts[6].GetComponent<ConfigurableJoint>());
+						break;
+					case Weapons.Bow:
+						break;
+				};
+			}
+			else
+			{
+				//Left hand punch pull back pose
+				//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
+				//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
+				//APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.62f, -0.51f, 0.02f, 1);
+				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(.15f, -.18f, -.46f, 1f);
+				//APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.7f, -.06f, -.02f, -.7f);
+				APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.77f, -0.19f, -.06f, -.61f);
+			}
 		}
         
 		if(punchingLeft && !Input.GetButton(left))
@@ -904,7 +920,7 @@ public class PlayerController : CharacterClass
 					case Weapons.Bow:
 						break;
 				};
-		}
+			}
 			else
             {
 				//Left hand punch release pose
@@ -920,7 +936,7 @@ public class PlayerController : CharacterClass
 			StartCoroutine(DelayCoroutine());
 			IEnumerator DelayCoroutine()
 			{
-				yield return new WaitForSeconds(0.3f);
+				yield return new WaitForSeconds(0.05f);
 				if(!Input.GetButton(left))
 				{
 					APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;

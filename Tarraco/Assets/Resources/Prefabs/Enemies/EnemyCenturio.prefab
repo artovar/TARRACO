@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 535573018164912070}
   - component: {fileID: 535573018164912127}
   - component: {fileID: 535573018164912064}
-  - component: {fileID: 6135805957684829786}
+  - component: {fileID: 8889897124922507070}
   m_Layer: 7
   m_Name: APR_UpperLeftArm
   m_TagString: CanBeGrabbed
@@ -286,7 +286,7 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &6135805957684829786
+--- !u!114 &8889897124922507070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyController: {fileID: 7629211121223115847}
-  damageTaken: 1
+  damageTaken: 0
 --- !u!1 &535573018164911617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,7 +1126,7 @@ GameObject:
   - component: {fileID: 535573018164912077}
   - component: {fileID: 535573018164912075}
   - component: {fileID: 535573018164912076}
-  - component: {fileID: 857021623861935676}
+  - component: {fileID: 8322727373721292758}
   m_Layer: 7
   m_Name: APR_UpperRightArm
   m_TagString: CanBeGrabbed
@@ -1275,7 +1275,7 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &857021623861935676
+--- !u!114 &8322727373721292758
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1288,7 +1288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyController: {fileID: 7629211121223115847}
-  damageTaken: 1
+  damageTaken: 0
 --- !u!1 &535573018164911623
 GameObject:
   m_ObjectHideFlags: 0
