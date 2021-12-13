@@ -474,6 +474,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1648312074224736683, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
   m_PrefabInstance: {fileID: 127426328}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &127426331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8581044425732207925, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
+  m_PrefabInstance: {fileID: 127426328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127426329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 582925c70bc261040a0621c46e3e4df3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &342156475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2072661113574340836, guid: 9708d527a38489940af4c48142fda57e, type: 3}
@@ -720,6 +731,7 @@ GameObject:
   m_Component:
   - component: {fileID: 640258769}
   - component: {fileID: 640258768}
+  - component: {fileID: 640258770}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -740,6 +752,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3563603182146603896, guid: f9b5bdc6f88cda64dbe1f0a48c74d4f7, type: 3}
+  healthUI:
+  - {fileID: 1495942993}
+  - {fileID: 1255662290}
 --- !u!4 &640258769
 Transform:
   m_ObjectHideFlags: 0
@@ -754,6 +769,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &640258770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640258767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a698b6b64bb8b499af3fd8eb350cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &650087149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -892,6 +919,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9708d527a38489940af4c48142fda57e, type: 3}
+--- !u!1 &1255662290 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 155007745391624913, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
+  m_PrefabInstance: {fileID: 127426328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1495942993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719300349432567069, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
+  m_PrefabInstance: {fileID: 127426328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1588968255
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -899,6 +936,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1811510105900677850, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: healthUI
+      value: 
+      objectReference: {fileID: 127426331}
+    - target: {fileID: 2230684412023486521, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: 0.34717703
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230684412023486521, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: -0.43220398
+      objectReference: {fileID: 0}
+    - target: {fileID: 2230684412023486521, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: -0.46523368
+      objectReference: {fileID: 0}
     - target: {fileID: 5643267184850747976, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
       propertyPath: HealthHUD
       value: 
@@ -978,6 +1031,18 @@ PrefabInstance:
     - target: {fileID: 5854201647924977949, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: -1.0769446
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854201647924977957, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: -1.2208448e-14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854201647924977957, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0.48753902
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854201647924977957, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: -0.008356492
       objectReference: {fileID: 0}
     - target: {fileID: 5854201647924977972, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
       propertyPath: m_ConnectedAnchor.x

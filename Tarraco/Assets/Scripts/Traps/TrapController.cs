@@ -81,7 +81,7 @@ public class TrapController : MonoBehaviour
         while (true)
         {
             if (controller.gameObject == null) StopAllCoroutines();
-            controller.Damage(1);
+            controller.Damage(1, Characters.Enemy);
             Debug.Log("Me estoy clavando los pinchos :( \n me queda esta vida: " + controller.life);
             yield return new WaitForSeconds(time);
         }

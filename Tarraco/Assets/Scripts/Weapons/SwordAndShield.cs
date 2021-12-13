@@ -74,8 +74,9 @@ public class SwordAndShield : WeaponScript
             c.enabled = true;
         }
     }
-    public override void GetWeapon(Transform rHand, Transform lHand)
+    public override void GetWeapon(Transform rHand, Transform lHand, Characters character)
     {
+        owner = character;
         tag = "GrabbedWeapon";
         sword.position = rHand.position;
         sword.rotation = rHand.rotation;

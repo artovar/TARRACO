@@ -1338,9 +1338,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34bf2e365faa1ea4c87e01484faf9728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: 1
   life: 0
   maxLife: 3
   moveSpeed: 10
+  invTimeDef: 0.7
   id: 1
   weapon: {fileID: 0}
   detector: {fileID: 0}
@@ -1388,7 +1390,7 @@ MonoBehaviour:
   canBeKnockoutByImpact: 1
   requiredForceToBeKO: 18
   canPunch: 1
-  punchForce: 40
+  punchForce: 50
   ImpactForce: 10
   Impacts:
   - {fileID: 8300000, guid: 6c4cb0d9b484065469606431acecaf73, type: 3}

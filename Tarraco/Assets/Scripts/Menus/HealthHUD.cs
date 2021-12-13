@@ -30,10 +30,15 @@ public class HealthHUD : MonoBehaviour
 
     public void HealHUD(int bonus)
     {
-        if (life == player.GetComponent<CharacterClass>().maxLife)
+        print("Healing");
+        life += bonus;
+        if (life <= player.GetComponent<CharacterClass>().maxLife)
         {
-            life += bonus;
-            heartList[life].SetActive(true);
+            heartList[life - 1].SetActive(true);
+        }
+        else
+        {
+            life = player.GetComponent<CharacterClass>().maxLife;
         }
     }
 
@@ -53,6 +58,4 @@ public class HealthHUD : MonoBehaviour
     {
         Time.timeScale = 0.5f;
     }
-
-
 }

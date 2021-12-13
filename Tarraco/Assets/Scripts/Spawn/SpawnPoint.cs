@@ -6,6 +6,7 @@ public class SpawnPoint : MonoBehaviour
 {
     public GameObject thePlayer;
     public GameObject[] enemyPrefab;
+    public GameObject[] weaponPrefab;
     public GameObject[] points;
     public int secondsSpawn = 5;
     private IEnumerator coroutine;
@@ -28,7 +29,7 @@ public class SpawnPoint : MonoBehaviour
             {
                 if (e.IsDead())
                 {
-                    deadGuys.Add(i);
+                    deadGuys.Add(i); // ESTO PUEDE DAR PROBLEMAS SI EL TIEMPO DE MUERTE ES MENOR QUE EL INTERVALO DE SPAWN
                 }
                 i++;
             }
@@ -45,6 +46,7 @@ public class SpawnPoint : MonoBehaviour
                 //Instanciamos el prefab del enemido en el punto
                 enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
                 enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
+                Instantiate(weaponPrefab[UnityEngine.Random.Range(0, weaponPrefab.Length)], sp.transform.position, Quaternion.identity);
             }
             yield return new WaitForSeconds(time);
         }

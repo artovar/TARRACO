@@ -12,6 +12,8 @@ public class BasicEnemyController : CharacterClass
 
 	//Weapon gameObject
 	public WeaponScript weapon;
+	[SerializeField]
+	private GameObject healingOrb;
 
 
 	//Active Ragdoll Player parts
@@ -151,6 +153,7 @@ public class BasicEnemyController : CharacterClass
 	////////////////
 	void Update()
 	{
+		invTime -= Time.deltaTime;
 		if (!inAir)
 		{
 			PlayerMovement();
@@ -1134,7 +1137,6 @@ public class BasicEnemyController : CharacterClass
 
 	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
-		Debug.Log("Me mueroooo");
 		StartCoroutine(Kill());
 		IEnumerator Kill()
 		{
@@ -1148,6 +1150,12 @@ public class BasicEnemyController : CharacterClass
 				r.velocity = Vector3.zero;
 				r.useGravity = false;
 				r.velocity = Vector3.down;
+			}
+			if (character.Equals(Characters.Enemy))
+			{
+				int o = UnityEngine.Random.Range(0, 100);
+				print(o);
+				if (o < 25) Instantiate(healingOrb, Root.transform.position, Quaternion.identity);
 			}
 			yield return new WaitForSeconds(2f);
 			Destroy(this.gameObject);

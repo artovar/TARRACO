@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     private int controllers;
     private int prevLen;
     private Camera cam;
-
+    public GameObject[] healthUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +33,10 @@ public class GameController : MonoBehaviour
                 secPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
                 cam.GetComponent<CameraControl>().AddPlayer2(secPlayer.GetComponent<PlayerController>().Root.transform);
                 p2 = true;
+                healthUI[1].SetActive(true);
+                HealthHUD hUI = healthUI[1].GetComponentInChildren<HealthHUD>();
+                hUI.player = secPlayer;
+                secPlayer.GetComponent<PlayerController>().SetUp(hUI.gameObject);
             }
         }
     }

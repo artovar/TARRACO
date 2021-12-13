@@ -32,11 +32,11 @@ public class ImpactContact : MonoBehaviour
             }
 
             //Damage
-            if(APR_Player.Damage(1)) HealthHUD.GetComponent<HealthHUD>().HurtHUD(1);
-            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
+            if(APR_Player.Damage(1, Characters.Enemy)) HealthHUD.GetComponent<HealthHUD>().HurtHUD(1);
+            //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
             if (APR_Player.IsDead())
             {
-                Debug.Log("Estas muerto");
+                //Debug.Log("Estas muerto");
             }
         }
 
@@ -56,7 +56,6 @@ public class ImpactContact : MonoBehaviour
 
             if (APR_Player.IsDead())
             {
-                Debug.Log("Estas muerto");
             }
         }
     }

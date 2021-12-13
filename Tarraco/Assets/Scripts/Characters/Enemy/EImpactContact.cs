@@ -4,6 +4,8 @@ using UnityEngine;
 public class EImpactContact : MonoBehaviour
 {
     public BasicEnemyController enemyController;
+    [SerializeField]
+    private int damageTaken;
 
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
@@ -31,14 +33,21 @@ public class EImpactContact : MonoBehaviour
                     enemyController.SoundSource.Play();
                 }
             }
-
+            Characters from = Characters.Player1;
+            int damage = 1;
+            WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
+            if (wp != null)
+            {
+                from = wp.owner;
+                damage = wp.damageDealed * damageTaken;
+            }
             //Damage
-            enemyController.Damage(1);
-            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
+            enemyController.Damage(damage, from);
+            //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + enemyController.life);
 
             if (enemyController.IsDead())
             {
-                Debug.Log("Estas muerto");
+                //Debug.Log("Enemigo asesinado");
             }
         }
 
