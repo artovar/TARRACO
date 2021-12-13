@@ -55,6 +55,6 @@ public class HealthHUD : MonoBehaviour
 
     void GameOver()
     {
-        Time.timeScale = 0.5f;
+        Time.timeScale = 0.99f;
     }
 }

@@ -1511,9 +1511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda77247621a2a4428a111181a186ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: 0
+  character: 5
   life: 0
-  maxLife: 2
+  maxLife: 1
   moveSpeed: 3.4
   invTimeDef: 0.2
   weapon: {fileID: 0}
