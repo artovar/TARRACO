@@ -27,11 +27,11 @@ public class EWeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!controller.IsRagdoll() && weaponsStored < 1)
+        if (!controller.IsDead() && weaponsStored < 1)
         {
             picking = true;
         }
-        else if (controller.IsRagdoll() && weaponsStored > 0)
+        else if (controller.IsDead() && weaponsStored > 0)
         {
             Drop(mainWeapon);
         }
@@ -140,7 +140,7 @@ public class EWeaponDetection : MonoBehaviour
 
     void GetWeapon(Transform weapon)
     {
-        weapon.GetComponent<WeaponScript>().GetWeapon(rHandTransform, lHandTransform);
+        weapon.GetComponent<WeaponScript>().GetWeapon(rHandTransform, lHandTransform, controller.character);
     }
 
     void DropWeapon(Transform weapon)

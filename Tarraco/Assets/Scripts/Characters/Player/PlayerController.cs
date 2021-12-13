@@ -12,6 +12,7 @@ public class PlayerController : CharacterClass
 	//-------------------------------------------------------------
 
 	//Weapon gameObject
+	[HideInInspector]
 	public WeaponScript weapon;
 	public WeaponDetection detector;
 
@@ -88,7 +89,9 @@ public class PlayerController : CharacterClass
 	public float ImpactForce = 10f;
 	public AudioClip[] Impacts;
 	public AudioClip[] Hits;
+	public AudioClip[] Steps;
 	public AudioSource SoundSource;
+	public AudioSource StepSource;
 
 
 	//Hidden variables
@@ -166,16 +169,23 @@ public class PlayerController : CharacterClass
 			lookX += id;
 			lookY += id;
 			dash += id;
+			detector.SetUp();
 		}
 		PlayerSetup();
-		youreDead += onDead;
+		YoureDead += OnDead;
+		life = maxLife;
 	}
 
-	public void SetUp()
+	public void SetUp(GameObject hUI)
     {
 		if (id != 1)
 		{
-			forwardBackward = "Vertical" + id;
+			Head.GetComponent<ImpactContact>().HealthHUD = hUI;
+			UpperRightArm.GetComponent<ImpactContact>().HealthHUD = hUI;
+			UpperLeftArm.GetComponent<ImpactContact>().HealthHUD = hUI;
+			Body.GetComponent<ImpactContact>().HealthHUD = hUI;
+			detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
+			/*forwardBackward = "Vertical" + id;
 			leftRight = "Horizontal" + id;
 			jump = "Jump" + id;
 			left = "Left" + id;
@@ -185,7 +195,7 @@ public class PlayerController : CharacterClass
 			lookX = "Look X" + id;
 			lookY = "Look Y" + id;
 			dash = "Dash" + id;
-			detector.SetUp();
+			detector.SetUp();*/
 		}
 	}
 
@@ -194,6 +204,7 @@ public class PlayerController : CharacterClass
 	////////////////
 	void Update()
 	{
+		invTime -= Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
@@ -205,13 +216,13 @@ public class PlayerController : CharacterClass
 
 			PlayerDash();
 
-			if (canPunch)
-			{
-				PlayerPunch();
-			}
 		}
 
-		PlayerReach();
+		if (canPunch)
+		{
+			PlayerPunch();
+		}
+		//PlayerReach();
 
 		if (balanced && useStepPrediction)
 		{
@@ -338,7 +349,8 @@ public class PlayerController : CharacterClass
 		RaycastHit hit;
 
 		//Balance when ground is detected
-		if (Physics.Raycast(ray, out hit, balanceHeight, (1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Enemies"))) && !inAir && !isJumping && !reachRightAxisUsed && !reachLeftAxisUsed)
+		if (Physics.Raycast(ray, out hit, balanceHeight, (1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Enemies"))) 
+			&& !inAir && !isJumping && !reachRightAxisUsed && !reachLeftAxisUsed)
 		{
 			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.magnitude < 1f)
 			{
@@ -621,8 +633,8 @@ public class PlayerController : CharacterClass
 	{
 		if (inAir && !isJumping && !jumping)
 		{
+			ResetPose = true;
 			inAir = false;
-			if(!attacking) ResetPose = true;
 		}
 	}
 
@@ -667,8 +679,8 @@ public class PlayerController : CharacterClass
 				APR_Parts[6].GetComponent<ConfigurableJoint>().angularYZDrive = ReachStiffness;
 
 				//Adjust body joint strength
-				APR_Parts[1].GetComponent<ConfigurableJoint>().angularXDrive = CoreStiffness;
-				APR_Parts[1].GetComponent<ConfigurableJoint>().angularYZDrive = CoreStiffness;
+				//APR_Parts[1].GetComponent<ConfigurableJoint>().angularXDrive = CoreStiffness;
+				//APR_Parts[1].GetComponent<ConfigurableJoint>().angularYZDrive = CoreStiffness;
 
 				reachLeftAxisUsed = true;
 			}
@@ -691,7 +703,7 @@ public class PlayerController : CharacterClass
 			//upper  left arm pose
 			APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.58f - (MouseYAxisArms), -0.88f - (MouseYAxisArms), -0.8f, 1);
 		}
-
+		/*
 		if (!Input.GetButton(drop) && !punchingLeft)
 		{
 			if (reachLeftAxisUsed)
@@ -798,7 +810,7 @@ public class PlayerController : CharacterClass
 	{
 
 		//punch right
-		if (!attacking && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
+		if (!attacking && !inAir && !isRagdoll && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
 		{
 			attacking = true;
 			if (!Object.ReferenceEquals(weapon, null))
@@ -814,24 +826,30 @@ public class PlayerController : CharacterClass
 			}
 		}
 
-		if (attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0))))
+		if (attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || (metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0)))))
 		{
 			attacking = false;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
 				hitCoolDown = weapon.weaponCoolDown;
-				if(!metralletaCheat)weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
-
+				if (!metralletaCheat)
+				{
+					weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
+				}
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
-						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y) * 5;
-						weapon.Shoot(lookPos.normalized);
+						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);
+						weapon.Shoot(lookPos.normalized, Characters.Player1);
 						if (metralletaCheat) hitCoolDown = .05f;
+						break;
+					case Weapons.Axe:
+						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
+						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
 						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
-						//APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						break;
 				}
 			}
@@ -877,10 +895,16 @@ public class PlayerController : CharacterClass
 		if(punchingLeft && !Input.GetButton(left))
 		{
 			punchingLeft = false;
-            if(!Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.SwordNShield))
+            if(!Object.ReferenceEquals(weapon, null))
             {
-
-            }
+                switch (weapon.kind)
+				{
+					case Weapons.SwordNShield:
+						break;
+					case Weapons.Bow:
+						break;
+				};
+		}
 			else
             {
 				//Left hand punch release pose
@@ -1156,7 +1180,7 @@ public class PlayerController : CharacterClass
 	//////////////////////////
 	void ResetPlayerPose()
 	{
-		if (ResetPose && !jumping)
+		if (ResetPose && !jumping && !attacking && !(hitCoolDown > 0))
 		{
 			APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = BodyTarget;
 			APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
@@ -1176,69 +1200,35 @@ public class PlayerController : CharacterClass
 	/////////////////////////////////////////
 	void CenterOfMass()
 	{
-		if (true || Object.ReferenceEquals(weapon, null))
-		{
-			CenterOfMassPoint =
+		CenterOfMassPoint =
 
-				(APR_Parts[0].GetComponent<Rigidbody>().mass * APR_Parts[0].transform.position +
-					APR_Parts[1].GetComponent<Rigidbody>().mass * APR_Parts[1].transform.position +
-					APR_Parts[2].GetComponent<Rigidbody>().mass * APR_Parts[2].transform.position +
-					APR_Parts[3].GetComponent<Rigidbody>().mass * APR_Parts[3].transform.position +
-					APR_Parts[4].GetComponent<Rigidbody>().mass * APR_Parts[4].transform.position +
-					APR_Parts[5].GetComponent<Rigidbody>().mass * APR_Parts[5].transform.position +
-					APR_Parts[6].GetComponent<Rigidbody>().mass * APR_Parts[6].transform.position +
-					APR_Parts[7].GetComponent<Rigidbody>().mass * APR_Parts[7].transform.position +
-					APR_Parts[8].GetComponent<Rigidbody>().mass * APR_Parts[8].transform.position +
-					APR_Parts[9].GetComponent<Rigidbody>().mass * APR_Parts[9].transform.position +
-					APR_Parts[10].GetComponent<Rigidbody>().mass * APR_Parts[10].transform.position +
-					APR_Parts[11].GetComponent<Rigidbody>().mass * APR_Parts[11].transform.position +
-					APR_Parts[12].GetComponent<Rigidbody>().mass * APR_Parts[12].transform.position)
+			(APR_Parts[0].GetComponent<Rigidbody>().mass * APR_Parts[0].transform.position +
+				APR_Parts[1].GetComponent<Rigidbody>().mass * APR_Parts[1].transform.position +
+				APR_Parts[2].GetComponent<Rigidbody>().mass * APR_Parts[2].transform.position +
+				APR_Parts[3].GetComponent<Rigidbody>().mass * APR_Parts[3].transform.position +
+				APR_Parts[4].GetComponent<Rigidbody>().mass * APR_Parts[4].transform.position +
+				APR_Parts[5].GetComponent<Rigidbody>().mass * APR_Parts[5].transform.position +
+				APR_Parts[6].GetComponent<Rigidbody>().mass * APR_Parts[6].transform.position +
+				APR_Parts[7].GetComponent<Rigidbody>().mass * APR_Parts[7].transform.position +
+				APR_Parts[8].GetComponent<Rigidbody>().mass * APR_Parts[8].transform.position +
+				APR_Parts[9].GetComponent<Rigidbody>().mass * APR_Parts[9].transform.position +
+				APR_Parts[10].GetComponent<Rigidbody>().mass * APR_Parts[10].transform.position +
+				APR_Parts[11].GetComponent<Rigidbody>().mass * APR_Parts[11].transform.position +
+				APR_Parts[12].GetComponent<Rigidbody>().mass * APR_Parts[12].transform.position)
 
-				/
+			/
 
-				(APR_Parts[0].GetComponent<Rigidbody>().mass + APR_Parts[1].GetComponent<Rigidbody>().mass +
-					APR_Parts[2].GetComponent<Rigidbody>().mass + APR_Parts[3].GetComponent<Rigidbody>().mass +
-					APR_Parts[4].GetComponent<Rigidbody>().mass + APR_Parts[5].GetComponent<Rigidbody>().mass +
-					APR_Parts[6].GetComponent<Rigidbody>().mass + APR_Parts[7].GetComponent<Rigidbody>().mass +
-					APR_Parts[8].GetComponent<Rigidbody>().mass + APR_Parts[9].GetComponent<Rigidbody>().mass +
-					APR_Parts[10].GetComponent<Rigidbody>().mass + APR_Parts[11].GetComponent<Rigidbody>().mass +
-					APR_Parts[12].GetComponent<Rigidbody>().mass);
-		}
-		else
-		{
-			CenterOfMassPoint =
-
-				(APR_Parts[0].GetComponent<Rigidbody>().mass * APR_Parts[0].transform.position +
-					APR_Parts[1].GetComponent<Rigidbody>().mass * APR_Parts[1].transform.position +
-					APR_Parts[2].GetComponent<Rigidbody>().mass * APR_Parts[2].transform.position +
-					APR_Parts[3].GetComponent<Rigidbody>().mass * APR_Parts[3].transform.position +
-					APR_Parts[4].GetComponent<Rigidbody>().mass * APR_Parts[4].transform.position +
-					APR_Parts[5].GetComponent<Rigidbody>().mass * APR_Parts[5].transform.position +
-					APR_Parts[6].GetComponent<Rigidbody>().mass * APR_Parts[6].transform.position +
-					APR_Parts[7].GetComponent<Rigidbody>().mass * APR_Parts[7].transform.position +
-					APR_Parts[8].GetComponent<Rigidbody>().mass * APR_Parts[8].transform.position +
-					APR_Parts[9].GetComponent<Rigidbody>().mass * APR_Parts[9].transform.position +
-					APR_Parts[10].GetComponent<Rigidbody>().mass * APR_Parts[10].transform.position +
-					APR_Parts[11].GetComponent<Rigidbody>().mass * APR_Parts[11].transform.position +
-					APR_Parts[12].GetComponent<Rigidbody>().mass * APR_Parts[12].transform.position +
-					weapon.GetComponent<Rigidbody>().mass * weapon.transform.position)
-
-				/
-
-				(APR_Parts[0].GetComponent<Rigidbody>().mass + APR_Parts[1].GetComponent<Rigidbody>().mass +
-					APR_Parts[2].GetComponent<Rigidbody>().mass + APR_Parts[3].GetComponent<Rigidbody>().mass +
-					APR_Parts[4].GetComponent<Rigidbody>().mass + APR_Parts[5].GetComponent<Rigidbody>().mass +
-					APR_Parts[6].GetComponent<Rigidbody>().mass + APR_Parts[7].GetComponent<Rigidbody>().mass +
-					APR_Parts[8].GetComponent<Rigidbody>().mass + APR_Parts[9].GetComponent<Rigidbody>().mass +
-					APR_Parts[10].GetComponent<Rigidbody>().mass + APR_Parts[11].GetComponent<Rigidbody>().mass +
-					APR_Parts[12].GetComponent<Rigidbody>().mass + weapon.GetComponent<Rigidbody>().mass);
-		}
-		COMP.position = CenterOfMassPoint;
+			(APR_Parts[0].GetComponent<Rigidbody>().mass + APR_Parts[1].GetComponent<Rigidbody>().mass +
+				APR_Parts[2].GetComponent<Rigidbody>().mass + APR_Parts[3].GetComponent<Rigidbody>().mass +
+				APR_Parts[4].GetComponent<Rigidbody>().mass + APR_Parts[5].GetComponent<Rigidbody>().mass +
+				APR_Parts[6].GetComponent<Rigidbody>().mass + APR_Parts[7].GetComponent<Rigidbody>().mass +
+				APR_Parts[8].GetComponent<Rigidbody>().mass + APR_Parts[9].GetComponent<Rigidbody>().mass +
+				APR_Parts[10].GetComponent<Rigidbody>().mass + APR_Parts[11].GetComponent<Rigidbody>().mass +
+				APR_Parts[12].GetComponent<Rigidbody>().mass);
 	}
 
-	public void onDead(object s, System.EventArgs e) {
+	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
-		Debug.Log("Me mueroooo");
 	}
 
 

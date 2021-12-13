@@ -6,13 +6,18 @@ using UnityEngine;
 public abstract class WeaponScript : MonoBehaviour
 {
     public Weapons kind;
+    public Characters owner;
+    public int damageDealed;
     public float weaponCoolDown;
+    public Transform forcePoint;
+
     public abstract void SetOnHandColliders();
     public abstract void SetOnFloorColliders();
     public abstract void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
-    public abstract void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
-    public virtual void GetWeapon(Transform rHand, Transform lHand)
+    public abstract void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force);
+    public virtual void GetWeapon(Transform rHand, Transform lHand, Characters character)
     {
+        owner = character;
         tag = "GrabbedWeapon";
         transform.position = rHand.position;
         transform.rotation = rHand.rotation;
@@ -24,7 +29,6 @@ public abstract class WeaponScript : MonoBehaviour
     }
     public virtual void DropWeapon(Transform rHand)
     {
-        transform.tag = "Weapon";
         transform.position = rHand.position;
         RaycastHit hitInfo;
         Ray ray = new Ray(transform.position, Vector3.down);
@@ -42,6 +46,7 @@ public abstract class WeaponScript : MonoBehaviour
         transform.GetComponent<FixedJoint>().breakForce = 0f;
         transform.GetComponent<Rigidbody>().useGravity = true;
         SetOnFloorColliders();
+        transform.tag = "Weapon";
     }
     public virtual void SendToBack(Transform back)
     {
@@ -55,5 +60,5 @@ public abstract class WeaponScript : MonoBehaviour
         transform.rotation = rHand.rotation;
         GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
     }
-    public virtual void Shoot(Vector3 direction) {}
+    public virtual void Shoot(Vector3 direction, Characters cType) {}
 }

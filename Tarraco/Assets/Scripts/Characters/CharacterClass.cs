@@ -5,31 +5,40 @@ using System;
 
 public abstract class CharacterClass : MonoBehaviour
 {
+    public Characters character;
+    [HideInInspector]
     public int life;
     public int maxLife;
     public float moveSpeed;
+    [SerializeField]
+    protected float invTimeDef = .7f;
+    protected float invTime = 0;
+    public event EventHandler YoureDead;
+    private bool alreadyDead;
 
-    public event EventHandler youreDead;
-
-    private void Start() {
-        life = maxLife;
-    }
-
-    public void damage(int amount) {
-        life -= amount;
-
-        if(isDead()) youreDead(this, EventArgs.Empty);
-    }
-
-    public void heal(int amount) {
-        if (amount+life >= maxLife) {
-            life = maxLife;
-        } else {
-            life += amount;
+    public bool Damage(int amount, Characters from) {
+        if (invTime > 0)
+        {
+            return false;
         }
+        invTime = invTimeDef;
+        life -= amount;
+        if (life < 0) life = 0;
+        if (IsDead())
+        {
+            if(!alreadyDead) OvationSingleton.Instance.IncreaseMeter(25f, from);
+            alreadyDead = true;
+            YoureDead(this, EventArgs.Empty);
+        }
+        return true;
     }
 
-    public bool isDead() {
+    public void Heal(int amount) {
+        life += amount;
+        if (life > maxLife) life = maxLife;
+    }
+
+    public bool IsDead() {
         return life <= 0;
     }
 }

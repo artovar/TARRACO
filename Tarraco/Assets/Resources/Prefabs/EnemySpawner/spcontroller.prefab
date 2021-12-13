@@ -46,5 +46,11 @@ MonoBehaviour:
   thePlayer: {fileID: 0}
   enemyPrefab:
   - {fileID: 6806997512440848726, guid: d6081449ffb38d94ea521d25058169ca, type: 3}
+  weaponPrefab:
+  - {fileID: 494297869467144825, guid: b5dd3bea09d878c4dba11c2245bda458, type: 3}
+  - {fileID: 2409546422908356482, guid: 7691ce9f6dfbe7f42a0c96268b859d34, type: 3}
+  - {fileID: 2177757887894105767, guid: e81e8647d68e6014bb214b58e1d35279, type: 3}
+  - {fileID: 5204333461666080442, guid: ec3977f4fe6c9284f8e12c9945288559, type: 3}
   points: []
   secondsSpawn: 4
+  maxEnemies: 0

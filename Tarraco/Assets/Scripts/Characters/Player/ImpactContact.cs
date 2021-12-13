@@ -9,10 +9,16 @@ public class ImpactContact : MonoBehaviour
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.Equals(APR_Player.weapon)) return;
+        if (!Object.ReferenceEquals(APR_Player.weapon, null) && (col.transform.IsChildOf(APR_Player.transform) || col.transform.IsChildOf(APR_Player.weapon.transform))) return;
         //Knockout by impact
         if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
         {
+            if (col.gameObject.layer == LayerMask.NameToLayer("ArrowE"))
+            {
+                (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
+                col.rigidbody.velocity = Vector3.zero;
+                col.collider.enabled = false;
+            }
             APR_Player.ActivateRagdoll();
 
             if (APR_Player.SoundSource != null)
@@ -26,12 +32,11 @@ public class ImpactContact : MonoBehaviour
             }
 
             //Damage
-            APR_Player.damage(1);
-            HealthHUD.GetComponent<HealthHUD>().hurtHUD(1);
-            Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
-            if (APR_Player.isDead())
+            if(APR_Player.Damage(1, Characters.Enemy)) HealthHUD.GetComponent<HealthHUD>().HurtHUD(1);
+            //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
+            if (APR_Player.IsDead())
             {
-                Debug.Log("Estas muerto");
+                //Debug.Log("Estas muerto");
             }
         }
 
@@ -49,12 +54,8 @@ public class ImpactContact : MonoBehaviour
                 }
             }
 
-            // //Damage
-            // APR_Player.damage(1);
-            // HealthHUD.GetComponent<HealthHUD>().hurtHUD(1);
-            if (APR_Player.isDead())
+            if (APR_Player.IsDead())
             {
-                Debug.Log("Estas muerto");
             }
         }
     }

@@ -94,13 +94,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kind: 4
+  owner: 0
+  damageDealed: 0
   weaponCoolDown: 0.5
+  forcePoint: {fileID: 6286584307737056277}
+  arrowForce: 50
   onHandCol:
   - {fileID: 237032398781394596}
   - {fileID: 3821448982003539069}
   onFloorCol:
   - {fileID: 5874155213928409199}
   arrow: {fileID: 4193195055902441450, guid: b04818ac398a35f41893d7482e871e37, type: 3}
+  arrowE: {fileID: 7662821864336681935, guid: da50ef5bdb37bf444a402c3d77abb3ef, type: 3}
 --- !u!65 &5874155213928409199
 BoxCollider:
   m_ObjectHideFlags: 0

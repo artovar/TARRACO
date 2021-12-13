@@ -31,6 +31,10 @@ public class EnemyController : MonoBehaviour
     {
         return enemyScript.IsRagdoll();
     }
+    public bool IsDead()
+    {
+        return enemyScript.IsDead();
+    }
     public void MoveTowardsInSpawn(Vector3 dir)
     {
         enemyScript.forwardBackward = dir.x;
@@ -39,12 +43,37 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!enemyScript.IsDead() && IsRagdoll())
+        {
+            attackCD -= Time.deltaTime;
+            if(attackCD <= 0)
+            {
+                attackCD = 1;
+                enemyScript.Jump();
+            }
+        }
         if(!started)
         {
             return;
         }
         attackCD -= Time.deltaTime;
-        if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 3.4f)
+        if(!Object.ReferenceEquals(enemyScript.weapon, null) 
+            && enemyScript.weapon.kind.Equals(Weapons.Bow)
+            && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 12f)
+        {
+            Vector3 direction = ((p.position + (enemyScript.Root.transform.position - p.position).normalized * 2) - enemyScript.Root.transform.position);
+            Vector2 dir = new Vector2(direction.x, direction.z).normalized;
+            enemyScript.forwardBackward = dir.y;
+            enemyScript.leftRight = dir.x;
+            //Atacar
+            if (attackCD < 0 && !enemyScript.IsRagdoll())
+            {
+                enemyScript.Attack();
+                attackCD = 3;
+            }
+            estado = 1; //"Atacando"
+        }
+        else if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 3.4f)
         {
             //Atacar
             if (attackCD < 0 && !enemyScript.IsRagdoll())
@@ -66,7 +95,5 @@ public class EnemyController : MonoBehaviour
             enemyScript.forwardBackward = 0;
             enemyScript.leftRight = 0;
         }
-
-        //Debug.Log(Vector3.Distance(player.transform.position, enemyScript.Root.transform.position));
     }
 }

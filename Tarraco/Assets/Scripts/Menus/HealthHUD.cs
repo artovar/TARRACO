@@ -16,7 +16,6 @@ public class HealthHUD : MonoBehaviour
         {
             child.gameObject.SetActive(true);
             heartList.Add(child.gameObject);
-
         }
 
         life = player.GetComponent<CharacterClass>().life;
@@ -29,31 +28,33 @@ public class HealthHUD : MonoBehaviour
 
     }
 
-    public void healHUD(int bonus)
+    public void HealHUD(int bonus)
     {
-        if (life == player.GetComponent<CharacterClass>().maxLife)
+        life += bonus;
+        if (life <= player.GetComponent<CharacterClass>().maxLife)
         {
-            life += bonus;
-            heartList[life].SetActive(true);
+            heartList[life - 1].SetActive(true);
+        }
+        else
+        {
+            life = player.GetComponent<CharacterClass>().maxLife;
         }
     }
 
-    public void hurtHUD(int damage)
+    public void HurtHUD(int damage)
     {
+        if (life <= 0) return;
         life -= damage;
 
-        print("te queda esta vida:" + life);
         heartList[life].SetActive(false);
         if (life == 0)
         {
-            gameOver();
+            GameOver();
         }
     }
 
-    void gameOver()
+    void GameOver()
     {
-        Time.timeScale = 0.2f;
+        Time.timeScale = 0.5f;
     }
-
-
 }

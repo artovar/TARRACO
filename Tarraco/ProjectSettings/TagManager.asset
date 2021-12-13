@@ -12,6 +12,7 @@ TagManager:
   - GrabbedWeapon
   - Enemy
   - PlayerChest
+  - Heal
   layers:
   - Default
   - TransparentFX
@@ -30,7 +31,7 @@ TagManager:
   - Ground
   - Wall
   - Arrow
-  - 
+  - ArrowE
   - 
   - 
   - 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponDetection : MonoBehaviour
 {
+    public HealthHUD healthUI;
     [SerializeField]
     private PlayerController controller;
     [SerializeField]
@@ -29,6 +30,7 @@ public class WeaponDetection : MonoBehaviour
 
     public void SetUp()
     {
+        print("Setting up");
         if (controller.id != 1)
         {
             interact = "Interact" + controller.id;
@@ -79,6 +81,18 @@ public class WeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
+        }
+        else if (col.CompareTag("Heal") && controller.life < controller.maxLife)
+        {
+            if (!picking)
+            {
+                return;
+            }
+            picking = false;
+            col.enabled = false;
+            Destroy(col.gameObject);
+            controller.Heal(1);
+            healthUI.HealHUD(1);
         }
     }
 
@@ -153,7 +167,7 @@ public class WeaponDetection : MonoBehaviour
 
     void GetWeapon(Transform weapon)
     {
-        weapon.GetComponent<WeaponScript>().GetWeapon(rHandTransform, lHandTransform);
+        weapon.GetComponent<WeaponScript>().GetWeapon(rHandTransform, lHandTransform, controller.character);
     }
 
     void DropWeapon(Transform weapon)

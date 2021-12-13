@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BowScript : WeaponScript
 {
+    [SerializeField]
+    float arrowForce;
     [SerializeField]
     Collider[] onHandCol;
     [SerializeField]
     Collider[] onFloorCol;
     [SerializeField]
     GameObject arrow;
+    [SerializeField]
+    GameObject arrowE;
 
     public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
     {
@@ -20,7 +25,7 @@ public class BowScript : WeaponScript
         b.targetRotation = new Quaternion(-0.360000014f, -0.939999998f, 0.560000002f, 1.38f);
         c.targetRotation = new Quaternion(0.709999979f, -0.610000014f, 0.839999974f, 1f);
     }
-    public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
+    public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force)
     {
         /*a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
         b.targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
@@ -28,6 +33,7 @@ public class BowScript : WeaponScript
         a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
         b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
         c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);
+        GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.forward * force, forcePoint.position);
     }
 
     public override void SetOnHandColliders()
@@ -66,10 +72,19 @@ public class BowScript : WeaponScript
         }
     }
 
-    public override void Shoot(Vector3 direction)
+    public override void Shoot(Vector3 direction, Characters cType)
     {
-        GameObject arrowClone = Instantiate(arrow, transform.position, Quaternion.LookRotation(direction, Vector3.up));
-        arrowClone.GetComponent<Rigidbody>().velocity = direction * 45;
+        GameObject arrowClone;
+        switch (cType)
+        {
+            case Characters.Enemy:
+                arrowClone = Instantiate(arrowE, transform.position, Quaternion.LookRotation(direction, Vector3.up));
+                break;
+            default:
+                arrowClone = Instantiate(arrow, transform.position, Quaternion.LookRotation(direction, Vector3.up));
+                break;
+        };
+        arrowClone.GetComponent<Rigidbody>().velocity = direction * arrowForce;
         arrow.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         Destroy(arrowClone, 3);
     }

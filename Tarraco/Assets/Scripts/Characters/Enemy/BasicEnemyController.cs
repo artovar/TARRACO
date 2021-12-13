@@ -12,6 +12,8 @@ public class BasicEnemyController : CharacterClass
 
 	//Weapon gameObject
 	public WeaponScript weapon;
+	[SerializeField]
+	private GameObject healingOrb;
 
 
 	//Active Ragdoll Player parts
@@ -82,7 +84,9 @@ public class BasicEnemyController : CharacterClass
 	public float ImpactForce = 10f;
 	public AudioClip[] Impacts;
 	public AudioClip[] Hits;
+	public AudioClip[] Steps;
 	public AudioSource SoundSource;
+	public AudioSource StepSource;
 
 
 	//Hidden variables
@@ -126,7 +130,6 @@ public class BasicEnemyController : CharacterClass
 	[Header("Player Editor Debug Mode")]
 	//Debug
 	public bool editorDebugMode;
-	private GameObject playerObj = null;
 
 
 	//-------------------------------------------------------------
@@ -140,8 +143,8 @@ public class BasicEnemyController : CharacterClass
 	void Awake()
 	{
 		PlayerSetup();
-		if (playerObj == null)
-			playerObj = GameObject.FindGameObjectWithTag("Player");
+		YoureDead += OnDead;
+		life = maxLife;
 	}
 
 
@@ -150,6 +153,7 @@ public class BasicEnemyController : CharacterClass
 	////////////////
 	void Update()
 	{
+		invTime -= Time.deltaTime;
 		if (!inAir)
 		{
 			PlayerMovement();
@@ -717,7 +721,18 @@ public class BasicEnemyController : CharacterClass
 
 			if (!Object.ReferenceEquals(weapon, null))
 			{
-				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				switch (weapon.kind)
+				{
+					case Weapons.Bow:
+						var lookPos = new Vector3(Root.transform.forward.x, 0.0f, Root.transform.forward.z);
+						weapon.Shoot(lookPos.normalized, Characters.Enemy);
+						break;
+					default:
+						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
+						break;
+				}
+				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 			}
 			else
 			{
@@ -1120,10 +1135,29 @@ public class BasicEnemyController : CharacterClass
 		COMP.position = CenterOfMassPoint;
 	}
 
-	public void onDead(object s, System.EventArgs e) {
+	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
-		Debug.Log("Me mueroooo");
-		Destroy(this.gameObject, 5);
+		StartCoroutine(Kill());
+		IEnumerator Kill()
+		{
+			yield return new WaitForSeconds(4f);
+			foreach (Collider c in GetComponentsInChildren<Collider>())
+            {
+				c.enabled = false;
+			}
+			foreach (Rigidbody r in GetComponentsInChildren<Rigidbody>())
+			{
+				r.velocity = Vector3.zero;
+				r.useGravity = false;
+				r.velocity = Vector3.down;
+			}
+			if (character.Equals(Characters.Enemy))
+			{
+				if (UnityEngine.Random.Range(0, 100) < 25) Instantiate(healingOrb, Root.transform.position, Quaternion.identity);
+			}
+			yield return new WaitForSeconds(2f);
+			Destroy(this.gameObject);
+		}
 	}
 
 

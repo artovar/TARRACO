@@ -22,6 +22,7 @@ public class PauseButtonScript : MonoBehaviour
     public void Exit()
     {
         Time.timeScale = 1f;
+        DestroyImmediate(GameObject.FindGameObjectWithTag("GameController"));
         SceneManager.LoadScene(0);
     }
 }
