@@ -8,10 +8,6 @@ public class BowScript : WeaponScript
     [SerializeField]
     float arrowForce;
     [SerializeField]
-    Collider[] onHandCol;
-    [SerializeField]
-    Collider[] onFloorCol;
-    [SerializeField]
     GameObject arrow;
     [SerializeField]
     GameObject arrowE;

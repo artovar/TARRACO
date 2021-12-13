@@ -5,11 +5,16 @@ using UnityEngine;
 
 public abstract class WeaponScript : MonoBehaviour
 {
+    [SerializeField]
+    protected Collider[] onHandCol;
+    [SerializeField]
+    protected Collider[] onFloorCol;
     public Weapons kind;
     public Characters owner;
     public int damageDealed;
     public float weaponCoolDown;
     public Transform forcePoint;
+    protected List<bool> dropQueue = new List<bool>();
 
     public abstract void SetOnHandColliders();
     public abstract void SetOnFloorColliders();
@@ -17,6 +22,14 @@ public abstract class WeaponScript : MonoBehaviour
     public abstract void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force);
     public virtual void GetWeapon(Transform rHand, Transform lHand, Characters character)
     {
+        for (int i = 0; i < dropQueue.Count; i++)
+        {
+            if (dropQueue[i])
+            {
+                dropQueue[i] = false;
+                break;
+            }
+        }
         owner = character;
         tag = "GrabbedWeapon";
         transform.position = rHand.position;
@@ -47,6 +60,26 @@ public abstract class WeaponScript : MonoBehaviour
         transform.GetComponent<Rigidbody>().useGravity = true;
         SetOnFloorColliders();
         transform.tag = "Weapon";
+        StartCoroutine(DestroyWeapon());
+    }
+    protected IEnumerator DestroyWeapon()
+    {
+        print("I want to destroy this");
+        dropQueue.Add(true);
+        yield return new WaitForSeconds(7f);
+        if(tag.Equals("Weapon") && dropQueue[0])
+        {
+            foreach(Collider col in onFloorCol)
+            {
+                col.enabled = false;
+            }
+            foreach(Collider col in onHandCol)
+            {
+                col.enabled = false;
+            }
+            Destroy(this.gameObject);
+        }
+        dropQueue.RemoveAt(0);
     }
     public virtual void SendToBack(Transform back)
     {
