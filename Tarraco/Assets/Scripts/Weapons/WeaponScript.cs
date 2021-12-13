@@ -64,7 +64,6 @@ public abstract class WeaponScript : MonoBehaviour
     }
     protected IEnumerator DestroyWeapon()
     {
-        print("I want to destroy this");
         dropQueue.Add(true);
         yield return new WaitForSeconds(7f);
         if(tag.Equals("Weapon") && dropQueue[0])

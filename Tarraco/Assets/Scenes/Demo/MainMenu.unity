@@ -2084,15 +2084,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e98a35c03b25a4eb7c8b6f7a83780f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHandCol:
+  - {fileID: 9335871183248586}
+  onFloorCol:
+  - {fileID: 1435698183850753823}
   kind: 12
   owner: 0
   damageDealed: 0
   weaponCoolDown: 0
   forcePoint: {fileID: 0}
-  onHandCol:
-  - {fileID: 9335871183248586}
-  onFloorCol:
-  - {fileID: 1435698183850753823}
 --- !u!1 &7050211734096921476
 GameObject:
   m_ObjectHideFlags: 0

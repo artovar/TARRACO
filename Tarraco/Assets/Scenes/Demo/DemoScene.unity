@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.38522753, g: 0.47261494, b: 0.61848855, a: 1}
+  m_IndirectSpecularColor: {r: 0.3861179, g: 0.47332495, b: 0.6188446, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -366,7 +366,7 @@ Transform:
   m_LocalScale: {x: 10, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &127426328
 PrefabInstance:
@@ -389,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 102841181029215775, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 102841181029215775, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
       propertyPath: m_AnchorMax.x
@@ -499,7 +499,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7931930370393491032, guid: b74f60e384921a34a9ceb9507077fff7, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7931930370393491032, guid: b74f60e384921a34a9ceb9507077fff7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -626,6 +626,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: spcontroller
       objectReference: {fileID: 0}
+    - target: {fileID: 4592431702456635501, guid: 6d325f881c011b94580eb9cee493e835, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d325f881c011b94580eb9cee493e835, type: 3}
 --- !u!1 &436797743
@@ -751,7 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24719dd1dff76c4f85a0b91afe160b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3563603182146603896, guid: f9b5bdc6f88cda64dbe1f0a48c74d4f7, type: 3}
+  playerPrefab: {fileID: 8833726004650090045, guid: db96c2030272f204cada77900a5ab96a, type: 3}
   healthUI:
   - {fileID: 1495942993}
   - {fileID: 1255662290}
@@ -960,6 +964,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Taco
       objectReference: {fileID: 0}
+    - target: {fileID: 5854201647924977859, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5854201647924977889, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: 0.022910994
@@ -1058,7 +1066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5854201647924978004, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5854201647924978004, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1152,7 +1160,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1644577411 stripped
 GameObject:
