@@ -834,7 +834,7 @@ public class PlayerController : CharacterClass
 				hitCoolDown = weapon.weaponCoolDown;
 				if (!metralletaCheat)
 				{
-					weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+					weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 				}
 				switch (weapon.kind)
 				{

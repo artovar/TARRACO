@@ -78,6 +78,7 @@ Transform:
   - {fileID: 8623445206172476515}
   - {fileID: 4102701820064065692}
   - {fileID: 2935855309544436853}
+  - {fileID: 6046163114138738175}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
@@ -127,6 +128,7 @@ MonoBehaviour:
   owner: 0
   damageDealed: 2
   weaponCoolDown: 1
+  forcePoint: {fileID: 6046163114138738175}
   onHandCol:
   - {fileID: 4253577779469104060}
   - {fileID: 4322794904878895932}
@@ -146,6 +148,36 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15, y: 1.05, z: 0.85}
   m_Center: {x: 0, y: 0, z: 1.75}
+--- !u!1 &2763099511000949154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6046163114138738175}
+  m_Layer: 0
+  m_Name: ForcePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6046163114138738175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763099511000949154}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 1.918}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1422559203979742226}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &8084717805264081841
 GameObject:
   m_ObjectHideFlags: 0

@@ -94,7 +94,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kind: 4
+  owner: 0
+  damageDealed: 0
   weaponCoolDown: 0.5
+  forcePoint: {fileID: 6286584307737056277}
   arrowForce: 50
   onHandCol:
   - {fileID: 237032398781394596}

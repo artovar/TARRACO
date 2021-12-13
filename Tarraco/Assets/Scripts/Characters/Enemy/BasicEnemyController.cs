@@ -732,7 +732,7 @@ public class BasicEnemyController : CharacterClass
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						break;
 				}
-				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 			}
 			else
 			{
@@ -1153,9 +1153,7 @@ public class BasicEnemyController : CharacterClass
 			}
 			if (character.Equals(Characters.Enemy))
 			{
-				int o = UnityEngine.Random.Range(0, 100);
-				print(o);
-				if (o < 25) Instantiate(healingOrb, Root.transform.position, Quaternion.identity);
+				if (UnityEngine.Random.Range(0, 100) < 25) Instantiate(healingOrb, Root.transform.position, Quaternion.identity);
 			}
 			yield return new WaitForSeconds(2f);
 			Destroy(this.gameObject);

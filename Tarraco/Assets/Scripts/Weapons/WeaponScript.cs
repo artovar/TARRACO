@@ -9,10 +9,12 @@ public abstract class WeaponScript : MonoBehaviour
     public Characters owner;
     public int damageDealed;
     public float weaponCoolDown;
+    public Transform forcePoint;
+
     public abstract void SetOnHandColliders();
     public abstract void SetOnFloorColliders();
     public abstract void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
-    public abstract void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
+    public abstract void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force);
     public virtual void GetWeapon(Transform rHand, Transform lHand, Characters character)
     {
         owner = character;

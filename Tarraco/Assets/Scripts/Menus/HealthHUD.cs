@@ -30,7 +30,6 @@ public class HealthHUD : MonoBehaviour
 
     public void HealHUD(int bonus)
     {
-        print("Healing");
         life += bonus;
         if (life <= player.GetComponent<CharacterClass>().maxLife)
         {
