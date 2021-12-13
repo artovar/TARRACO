@@ -5,11 +5,6 @@ using UnityEngine;
 public class SwordAndShield : WeaponScript
 {
     [SerializeField]
-    Collider[] onHandCol;
-    [SerializeField]
-    Collider[] onFloorCol;
-
-    [SerializeField]
     Transform sword;
     [SerializeField]
     Transform shield;
@@ -77,6 +72,14 @@ public class SwordAndShield : WeaponScript
     }
     public override void GetWeapon(Transform rHand, Transform lHand, Characters character)
     {
+        for (int i = 0; i < dropQueue.Count; i++)
+        {
+            if (dropQueue[i])
+            {
+                dropQueue[i] = false;
+                break;
+            }
+        }
         owner = character;
         tag = "GrabbedWeapon";
         sword.position = rHand.position;
@@ -124,6 +127,7 @@ public class SwordAndShield : WeaponScript
         transform.GetComponent<Rigidbody>().useGravity = true;
         SetOnFloorColliders();
         tag = "Weapon";
+        StartCoroutine(DestroyWeapon());
     }
 
     public override void SendToBack(Transform back)

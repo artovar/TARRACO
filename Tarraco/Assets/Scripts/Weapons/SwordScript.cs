@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class SwordScript : WeaponScript
 {
-    [SerializeField]
-    Collider[] onHandCol;
-    [SerializeField]
-    Collider[] onFloorCol;
-
     public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
     {
         /*a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);

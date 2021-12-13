@@ -1559,7 +1559,7 @@ MonoBehaviour:
   requiredForceToBeKO: 18
   canPunch: 1
   punchForce: 50
-  ImpactForce: 10
+  ImpactForce: 6
   Impacts:
   - {fileID: 8300000, guid: 6c4cb0d9b484065469606431acecaf73, type: 3}
   - {fileID: 8300000, guid: 4cfd3bf123be1e74d84fd84739aef04e, type: 3}

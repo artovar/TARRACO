@@ -1391,7 +1391,7 @@ MonoBehaviour:
   requiredForceToBeKO: 18
   canPunch: 1
   punchForce: 50
-  ImpactForce: 10
+  ImpactForce: 6
   Impacts:
   - {fileID: 8300000, guid: 6c4cb0d9b484065469606431acecaf73, type: 3}
   - {fileID: 8300000, guid: 4cfd3bf123be1e74d84fd84739aef04e, type: 3}
@@ -3958,6 +3958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6dc739647de0fe43a08b7ba3adcb2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthUI: {fileID: 0}
   controller: {fileID: 5970677242463461839}
   lHandTransform: {fileID: 5854201647924977894}
   rHandTransform: {fileID: 5854201647924977888}
