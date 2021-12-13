@@ -26,8 +26,8 @@ public class AxeScript : WeaponScript
         a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
         b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
         c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);
-        GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.right * force * 4, forcePoint.position, ForceMode.Impulse);
-        print("Adding force in " + forcePoint.position + ", Towards " + forcePoint.forward + ", With force " + force);
+        GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.right * force * 1.5f, forcePoint.position, ForceMode.Impulse);
+        //print("Adding force in " + forcePoint.position + ", Towards " + forcePoint.forward + ", With force " + force);
     }
 
     public override void SetOnHandColliders()
