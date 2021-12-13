@@ -36,7 +36,7 @@ public class SwordAndShield : WeaponScript
         a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
         b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
         c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);
-        sword.GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.forward * force, forcePoint.position);
+        sword.GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.right * force, forcePoint.position, ForceMode.Impulse);
     }
 
     public override void SetOnHandColliders()
