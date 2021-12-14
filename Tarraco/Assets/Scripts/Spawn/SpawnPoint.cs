@@ -6,6 +6,7 @@ public class SpawnPoint : MonoBehaviour
 {
     public GameObject thePlayer;
     public GameObject[] enemyPrefab;
+    public Material[] materialsForSpartan;
     public GameObject[] weaponPrefab;
     public GameObject[] points;
     public int secondsSpawn = 5;
@@ -45,7 +46,9 @@ public class SpawnPoint : MonoBehaviour
             }
             if(enemies.Count < maxEnemies)
             {
-                GameObject enemy = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
+                int e = UnityEngine.Random.Range(0, enemyPrefab.Length);
+                GameObject enemy = enemyPrefab[e];
+                if(e == 0) enemy.GetComponentInChildren<SkinnedMeshRenderer>().material = materialsForSpartan[UnityEngine.Random.Range(0, materialsForSpartan.Length)];
                 GameObject sp = BetterSP();
                 //Instanciamos el prefab del enemido en el punto
                 enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
