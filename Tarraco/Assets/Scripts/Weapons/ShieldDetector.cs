@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class ShieldDetector : MonoBehaviour
 {
-    [SerializeField]
-    private LayerMask mask;
-
     private void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.layer == LayerMask.NameToLayer("ArrowE"))
+        LayerMask layer = col.gameObject.layer;
+        if (layer >= LayerMask.NameToLayer("Arrow_1") && layer <= LayerMask.NameToLayer("Arrow_E"))
         {
-            print("Trying");
             col.collider.enabled = false;
             (col.gameObject.AddComponent<FixedJoint>()).connectedBody = GetComponent<Rigidbody>();
             col.rigidbody.velocity = Vector3.zero;

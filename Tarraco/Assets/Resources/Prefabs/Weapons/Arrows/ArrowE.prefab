@@ -24,7 +24,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4827586424154294394}
   - component: {fileID: 1586295529966726418}
-  m_Layer: 17
+  m_Layer: 20
   m_Name: ArrowE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dd0d21e87aab3a244b9aba69d3dc5dc7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.379
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: dd0d21e87aab3a244b9aba69d3dc5dc7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -135,7 +135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: dd0d21e87aab3a244b9aba69d3dc5dc7, type: 3}
       propertyPath: m_Layer
-      value: 17
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd0d21e87aab3a244b9aba69d3dc5dc7, type: 3}

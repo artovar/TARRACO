@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerController : CharacterClass
 {
+	 /*
+	public Vector3 rota1;
+	public Vector3 rota3;
+	public Vector3 rota4;
+	 */
 	public int id;
 	//Calcular Center of Mass con el arma
 
@@ -58,6 +63,8 @@ public class PlayerController : CharacterClass
 	public float turnSpeed = 6f;
 	public float jumpForce = 18f;
 	public float dashForce = 10f;
+	public const float dashCDDef = .7f; 
+	private float dashCD;
 
 	[Header("Balance Properties")]
 	//Balance
@@ -151,7 +158,14 @@ public class PlayerController : CharacterClass
 	//--Calling Functions
 	//-------------------------------------------------------------
 
-
+	 /*
+	void TestQuaternion(ConfigurableJoint j1, ConfigurableJoint j3, ConfigurableJoint j4, Vector3 rot1, Vector3 rot3, Vector3 rot4)
+    {
+		//j1.targetRotation = Quaternion.Euler(rot1);
+		j3.targetRotation = Quaternion.Euler(rot3);
+		j4.targetRotation = Quaternion.Euler(rot4);
+    }
+	 */
 
 	//---Setup---//
 	//////////////
@@ -205,6 +219,7 @@ public class PlayerController : CharacterClass
 	void Update()
 	{
 		invTime -= Time.deltaTime;
+		dashCD -= Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
@@ -235,7 +250,8 @@ public class PlayerController : CharacterClass
 		}
 
 		GroundCheck();
-		CenterOfMass();
+		CenterOfMass(); 
+		//TestQuaternion(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), rota1, rota3, rota4);
 	}
 
 
@@ -525,10 +541,11 @@ public class PlayerController : CharacterClass
 
 	void PlayerDash()
     {
-		if(Input.GetButtonDown(dash) && !isRagdoll && invTime <= -invTimeDef)
+		if(Input.GetButtonDown(dash) && !isRagdoll && dashCD <= -dashCDDef)
 		{
 			ActivateRagdoll();
 			invTime = invTimeDef;
+			dashCD = dashCDDef;
 			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * dashForce, ForceMode.Impulse);
 			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 1.5f * dashForce, ForceMode.Impulse);
 		}
@@ -567,7 +584,7 @@ public class PlayerController : CharacterClass
 			lookPos.y = 0;
 			var rotation = Quaternion.LookRotation(lookPos);
 			//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
-			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * 20 * turnSpeed);
+			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 		}
 	}
 
@@ -805,7 +822,16 @@ public class PlayerController : CharacterClass
 
 	public void PrepareHit()
 	{
-		weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+		switch(weapon.kind)
+        {
+			case Weapons.Bow:
+				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				weapon.GetComponent<BowScript>().PrepareLeftHand(APR_Parts[5].GetComponent<ConfigurableJoint>(), APR_Parts[6].GetComponent<ConfigurableJoint>());
+				break;
+			default:
+				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				break;
+        }
 	}
 	//---Player Punch---//
 	/////////////////////
@@ -845,6 +871,10 @@ public class PlayerController : CharacterClass
 						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);
 						weapon.Shoot(lookPos.normalized, Characters.Player1);
 						if (metralletaCheat) hitCoolDown = .05f;
+                        else
+						{
+							ResetLeftArm();
+						}
 						break;
 					case Weapons.Axe:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
@@ -1236,6 +1266,12 @@ public class PlayerController : CharacterClass
 
 	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
+	}
+
+	public void ResetLeftArm()
+	{
+		APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
+		APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
 	}
 
 

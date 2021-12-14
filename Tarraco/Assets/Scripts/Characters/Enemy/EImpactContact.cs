@@ -14,7 +14,8 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
-            if (col.gameObject.layer == LayerMask.NameToLayer("Arrow"))
+            LayerMask layer = col.gameObject.layer;
+            if (layer >= LayerMask.NameToLayer("Arrow_1") && layer <= LayerMask.NameToLayer("Arrow_E"))
             {
                 (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
                 col.rigidbody.velocity = Vector3.zero;
@@ -34,7 +35,7 @@ public class EImpactContact : MonoBehaviour
                 }
             }
             Characters from = Characters.Player1;
-            int damage = 1;
+            int damage = 1 * damageTaken;
             WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
             if (wp != null)
             {
@@ -46,7 +47,6 @@ public class EImpactContact : MonoBehaviour
 
             if (enemyController.IsDead())
             {
-                Debug.Log("Damage = " + damage + " Life = " + enemyController.life);
                 //Debug.Log("Enemigo asesinado");
             }
         }

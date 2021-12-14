@@ -720,6 +720,7 @@ public class BasicEnemyController : CharacterClass
 			attacking = false;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
+				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
@@ -731,7 +732,6 @@ public class BasicEnemyController : CharacterClass
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						break;
 				}
-				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 			}
 			else
 			{
@@ -1136,7 +1136,6 @@ public class BasicEnemyController : CharacterClass
 
 	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
-		print("I'm dead");
 		StartCoroutine(Kill());
 		IEnumerator Kill()
 		{
