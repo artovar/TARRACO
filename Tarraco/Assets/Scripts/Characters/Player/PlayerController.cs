@@ -195,8 +195,8 @@ public class PlayerController : CharacterClass
 		if (id != 1)
 		{
 			Head.GetComponent<ImpactContact>().HealthHUD = hUI;
-			UpperRightArm.GetComponent<ImpactContact>().HealthHUD = hUI;
-			UpperLeftArm.GetComponent<ImpactContact>().HealthHUD = hUI;
+			//UpperRightArm.GetComponent<ImpactContact>().HealthHUD = hUI;
+			//UpperLeftArm.GetComponent<ImpactContact>().HealthHUD = hUI;
 			Body.GetComponent<ImpactContact>().HealthHUD = hUI;
 			detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
 			/*forwardBackward = "Vertical" + id;

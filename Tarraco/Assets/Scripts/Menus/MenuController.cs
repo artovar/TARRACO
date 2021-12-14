@@ -19,7 +19,13 @@ public class MenuController : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(1);
+        mainMenu.SetActive(false);
+    }
+
+    public void Arena()
+    {
+        SceneManager.LoadScene(2);
         mainMenu.SetActive(false);
     }
 

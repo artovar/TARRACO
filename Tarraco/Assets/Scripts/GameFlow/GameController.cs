@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public Texture2D cursor;
     [SerializeField]
     private GameObject playerPrefab;
     private GameObject mainPlayer;
@@ -26,6 +27,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         if (!p2)
         {
             if (Input.GetButtonDown("Jump2"))

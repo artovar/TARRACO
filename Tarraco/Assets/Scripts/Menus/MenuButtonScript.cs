@@ -16,6 +16,11 @@ public class MenuButtonScript : MonoBehaviour
     {
         gameController.Play();
     }
+    
+    public void Arena()
+    {
+        gameController.Arena();
+    }
 
     public void Exit()
     {

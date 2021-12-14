@@ -145,10 +145,7 @@ MonoBehaviour:
   life: 0
   maxLife: 3
   moveSpeed: 10
-  rota1: {x: 0, y: 0, z: 0}
-  rota3: {x: 0, y: 0, z: 0}
-  rota4: {x: 0, y: 0, z: 0}
-  id: 1
+  id: 2
   weapon: {fileID: 0}
   detector: {fileID: 4853642154414667597}
   Root: {fileID: 812357007076044134}

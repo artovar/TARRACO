@@ -930,7 +930,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 27e39653e0a06214daa728d28e96681f, type: 2}
+  - {fileID: 2100000, guid: e7d7d901fbc8e75458957082a78a841b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -955,7 +955,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -4414102799340101435, guid: 2e13695066bdcfa479b2cc63a44dffd0, type: 3}
+  m_Mesh: {fileID: -4414102799340101435, guid: 1a5608a95cd014e4598e2ce5929e03c2, type: 3}
   m_Bones:
   - {fileID: 5196751972135935527}
   - {fileID: 2966407826652873544}
@@ -1515,7 +1515,6 @@ MonoBehaviour:
   life: 0
   maxLife: 1
   moveSpeed: 3.4
-  invTimeDef: 0.2
   weapon: {fileID: 0}
   healingOrb: {fileID: 3769096260543673073, guid: a30bc10baee8f334a976138cc6ecefd8, type: 3}
   Root: {fileID: 6806997512440848740}
