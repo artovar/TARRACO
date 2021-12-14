@@ -66,7 +66,7 @@ public abstract class WeaponScript : MonoBehaviour
     protected IEnumerator DestroyWeapon()
     {
         dropQueue.Add(true);
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(12f);
         if(tag.Equals("Weapon") && dropQueue[0])
         {
             foreach(Collider col in onFloorCol)
