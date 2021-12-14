@@ -691,7 +691,7 @@ public class BasicEnemyController : CharacterClass
 	IEnumerator Attacking()
     {
 		yield return new WaitForSeconds(.7f);
-		if(!isRagdoll)attack = false;
+		attack = false;
 	}
 	//---Player Punch---//
 	/////////////////////
@@ -715,12 +715,12 @@ public class BasicEnemyController : CharacterClass
 			}
 		}
 
-		if (attacking && !attack)
+		if (attacking && !attack && !isRagdoll)
 		{
 			attacking = false;
-
 			if (!Object.ReferenceEquals(weapon, null))
 			{
+				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
@@ -732,7 +732,6 @@ public class BasicEnemyController : CharacterClass
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						break;
 				}
-				weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 			}
 			else
 			{

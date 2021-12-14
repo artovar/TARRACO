@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerController : CharacterClass
 {
+	 /*
+	public Vector3 rota1;
+	public Vector3 rota3;
+	public Vector3 rota4;
+	 */
 	public int id;
 	//Calcular Center of Mass con el arma
 
@@ -58,6 +63,8 @@ public class PlayerController : CharacterClass
 	public float turnSpeed = 6f;
 	public float jumpForce = 18f;
 	public float dashForce = 10f;
+	public const float dashCDDef = .7f; 
+	private float dashCD;
 
 	[Header("Balance Properties")]
 	//Balance
@@ -103,7 +110,7 @@ public class PlayerController : CharacterClass
 		WalkForward, WalkBackward,
 		StepRight, StepLeft, Alert_Leg_Right,
 		Alert_Leg_Left, balanced = true, GettingUp,
-		ResetPose, isRagdoll,
+		ResetPose, isRagdoll, usingLeft,
 		jumpAxisUsed, reachLeftAxisUsed, reachRightAxisUsed;
 
 	[HideInInspector]
@@ -151,7 +158,14 @@ public class PlayerController : CharacterClass
 	//--Calling Functions
 	//-------------------------------------------------------------
 
-
+	 /*
+	void TestQuaternion(ConfigurableJoint j1, ConfigurableJoint j3, ConfigurableJoint j4, Vector3 rot1, Vector3 rot3, Vector3 rot4)
+    {
+		//j1.targetRotation = Quaternion.Euler(rot1);
+		j3.targetRotation = Quaternion.Euler(rot3);
+		j4.targetRotation = Quaternion.Euler(rot4);
+    }
+	 */
 
 	//---Setup---//
 	//////////////
@@ -205,6 +219,7 @@ public class PlayerController : CharacterClass
 	void Update()
 	{
 		invTime -= Time.deltaTime;
+		dashCD -= Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
@@ -213,10 +228,9 @@ public class PlayerController : CharacterClass
 		if (!inAir)
 		{
 			PlayerMovement();
-
-			PlayerDash();
-
 		}
+
+		PlayerDash();
 
 		if (canPunch)
 		{
@@ -236,7 +250,8 @@ public class PlayerController : CharacterClass
 		}
 
 		GroundCheck();
-		CenterOfMass();
+		CenterOfMass(); 
+		//TestQuaternion(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), rota1, rota3, rota4);
 	}
 
 
@@ -526,11 +541,13 @@ public class PlayerController : CharacterClass
 
 	void PlayerDash()
     {
-		if(Input.GetButtonDown(dash) && !isRagdoll)
+		if(Input.GetButtonDown(dash) && !isRagdoll && dashCD <= -dashCDDef)
 		{
 			ActivateRagdoll();
-			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * 10*dashForce, ForceMode.Impulse);
-			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 10*dashForce, ForceMode.Impulse);
+			invTime = invTimeDef;
+			dashCD = dashCDDef;
+			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * dashForce, ForceMode.Impulse);
+			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 1.5f * dashForce, ForceMode.Impulse);
 		}
     }
 
@@ -567,7 +584,7 @@ public class PlayerController : CharacterClass
 			lookPos.y = 0;
 			var rotation = Quaternion.LookRotation(lookPos);
 			//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
-			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * 20 * turnSpeed);
+			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 		}
 	}
 
@@ -803,7 +820,19 @@ public class PlayerController : CharacterClass
 	}
 
 
-
+	public void PrepareHit()
+	{
+		switch(weapon.kind)
+        {
+			case Weapons.Bow:
+				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				weapon.GetComponent<BowScript>().PrepareLeftHand(APR_Parts[5].GetComponent<ConfigurableJoint>(), APR_Parts[6].GetComponent<ConfigurableJoint>());
+				break;
+			default:
+				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				break;
+        }
+	}
 	//---Player Punch---//
 	/////////////////////
 	void PlayerPunch()
@@ -815,7 +844,7 @@ public class PlayerController : CharacterClass
 			attacking = true;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
-				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
+				PrepareHit();
 			}
 			else
 			{
@@ -842,6 +871,10 @@ public class PlayerController : CharacterClass
 						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);
 						weapon.Shoot(lookPos.normalized, Characters.Player1);
 						if (metralletaCheat) hitCoolDown = .05f;
+                        else
+						{
+							ResetLeftArm();
+						}
 						break;
 					case Weapons.Axe:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
@@ -877,23 +910,27 @@ public class PlayerController : CharacterClass
 			}
 		}
 
-		
 		//punch left
-		if(!punchingLeft && Input.GetButton(left))
+		if(!punchingLeft && (Input.GetButton(left) || (!usingLeft && Input.GetAxis(left) > 0)))
 		{
+			usingLeft = true;
 			punchingLeft = true;
-            
-			//Left hand punch pull back pose
-			//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-			//APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( -0.15f, 0.15f, 0, 1);
-			//APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion( 0.62f, -0.51f, 0.02f, 1);
-			APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(.15f, -.18f, -.46f, 1f);
-			//APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.7f, -.06f, -.02f, -.7f);
-			APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.77f, -0.19f, -.06f, -.61f);
+			if (!Object.ReferenceEquals(weapon, null))
+			{
+				switch (weapon.kind)
+				{
+					case Weapons.SwordNShield:
+						weapon.GetComponent<SwordAndShield>().ShieldDefense(APR_Parts[5].GetComponent<ConfigurableJoint>(), APR_Parts[6].GetComponent<ConfigurableJoint>());
+						break;
+					case Weapons.Bow:
+						break;
+				};
+			}
 		}
         
-		if(punchingLeft && !Input.GetButton(left))
+		if(punchingLeft && (!Input.GetButton(left) && Input.GetAxis(left) == 0))
 		{
+			usingLeft = false;
 			punchingLeft = false;
             if(!Object.ReferenceEquals(weapon, null))
             {
@@ -904,7 +941,7 @@ public class PlayerController : CharacterClass
 					case Weapons.Bow:
 						break;
 				};
-		}
+			}
 			else
             {
 				//Left hand punch release pose
@@ -920,7 +957,7 @@ public class PlayerController : CharacterClass
 			StartCoroutine(DelayCoroutine());
 			IEnumerator DelayCoroutine()
 			{
-				yield return new WaitForSeconds(0.3f);
+				yield return new WaitForSeconds(0.05f);
 				if(!Input.GetButton(left))
 				{
 					APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
@@ -1229,6 +1266,12 @@ public class PlayerController : CharacterClass
 
 	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
+	}
+
+	public void ResetLeftArm()
+	{
+		APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
+		APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
 	}
 
 

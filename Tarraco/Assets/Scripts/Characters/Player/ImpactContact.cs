@@ -9,16 +9,18 @@ public class ImpactContact : MonoBehaviour
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
-        if (!Object.ReferenceEquals(APR_Player.weapon, null) && (col.transform.IsChildOf(APR_Player.transform) || col.transform.IsChildOf(APR_Player.weapon.transform))) return;
+        if (col.transform.IsChildOf(APR_Player.transform) || APR_Player.detector.IsOneOfMine(col.transform)) return;
         //Knockout by impact
         if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
         {
-            if (col.gameObject.layer == LayerMask.NameToLayer("ArrowE"))
+            LayerMask layer = col.gameObject.layer;
+            if (layer > LayerMask.NameToLayer("Arrow_1") && layer <= LayerMask.NameToLayer("Arrow_E") && col.collider.enabled)
             {
                 (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
                 col.rigidbody.velocity = Vector3.zero;
                 col.collider.enabled = false;
             }
+
             APR_Player.ActivateRagdoll();
 
             if (APR_Player.SoundSource != null)

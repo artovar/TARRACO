@@ -43,7 +43,8 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!enemyScript.IsDead() && IsRagdoll())
+        if(enemyScript.IsDead()) return;
+        if (IsRagdoll())
         {
             attackCD -= Time.deltaTime;
             if(attackCD <= 0)

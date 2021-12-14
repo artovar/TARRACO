@@ -9,14 +9,17 @@ public class SpawnPoint : MonoBehaviour
     public GameObject[] weaponPrefab;
     public GameObject[] points;
     public int secondsSpawn = 5;
+    private int deathCount = 0;
     private IEnumerator coroutine;
     
     public int maxEnemies;
+    private int maxDef;
     private List<EnemyController> enemies = new List<EnemyController>();
 
     // Start is called before the first frame update
     void Start()
     {
+        maxDef = maxEnemies;
         coroutine = spawnEnemy(secondsSpawn);
         StartCoroutine(coroutine);
     }
@@ -29,6 +32,7 @@ public class SpawnPoint : MonoBehaviour
             {
                 if (e.IsDead())
                 {
+                    deathCount++;
                     deadGuys.Add(i); // ESTO PUEDE DAR PROBLEMAS SI EL TIEMPO DE MUERTE ES MENOR QUE EL INTERVALO DE SPAWN
                 }
                 i++;
@@ -48,11 +52,12 @@ public class SpawnPoint : MonoBehaviour
                 enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
                 Instantiate(weaponPrefab[UnityEngine.Random.Range(0, weaponPrefab.Length)], sp.transform.position, Quaternion.identity);
             }
+            maxEnemies = (int) (maxDef * Mathf.Log(1 + deathCount));
             yield return new WaitForSeconds(time);
         }
     }
 
-    private float distance(GameObject p1, GameObject p2) {
+    private float Distance(GameObject p1, GameObject p2) {
         float x = (p1.transform.position.x - p2.transform.position.x);
         float y = (p1.transform.position.y - p2.transform.position.y);
         float z = (p1.transform.position.z - p2.transform.position.z);
@@ -63,8 +68,8 @@ public class SpawnPoint : MonoBehaviour
         float betterDistance = 0;
         GameObject betterPoint = null;
         foreach(GameObject point in points) {
-            if (distance(point, thePlayer) > betterDistance) {
-                betterDistance = distance(point, thePlayer);
+            if (Distance(point, thePlayer) > betterDistance) {
+                betterDistance = Distance(point, thePlayer);
                 betterPoint = point;
             }
         }

@@ -26,11 +26,12 @@ public class SwordAndShield : WeaponScript
     public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force)
     {
         /*a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
-        b.targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
-        c.targetRotation = new Quaternion(0.2f, 0, 0, 1);*/
-        a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
         b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
-        c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);
+        c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);*/
+
+        a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
+        b.targetRotation = new Quaternion(.79f, -.23f, .33f, .46f);
+        c.targetRotation = new Quaternion(0f, -.63f, .53f, .56f);
         sword.GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.right * force, forcePoint.position, ForceMode.Impulse);
     }
 
@@ -42,7 +43,15 @@ public class SwordAndShield : WeaponScript
         {
             g.gameObject.layer = LayerMask.NameToLayer("Weapons");
         }
-
+        switch(owner)
+        {
+            case Characters.Enemy:
+                shield.GetComponentInChildren<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer_E");
+                break;
+            default:
+                shield.GetComponentInChildren<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer");
+                break;
+        }
         foreach (Collider c in onHandCol)
         {
             c.enabled = true;
@@ -147,5 +156,11 @@ public class SwordAndShield : WeaponScript
         shield.rotation = lHand.rotation * Quaternion.Euler(50, 90, 0);
         sword.GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
         shield.GetComponent<FixedJoint>().connectedBody = lHand.GetComponent<Rigidbody>();
+    }
+
+    public void ShieldDefense(ConfigurableJoint a, ConfigurableJoint b)
+    {
+        a.targetRotation = new Quaternion(-.64f, -.21f, -.28f, 1f);
+        b.targetRotation = new Quaternion(-0.73f, -0.37f, -0.43f, 1f);
     }
 }

@@ -30,13 +30,13 @@ TagManager:
   - Player_4
   - Ground
   - Wall
-  - Arrow
-  - ArrowE
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Arrow_1
+  - Arrow_2
+  - Arrow_3
+  - Arrow_4
+  - Arrow_E
+  - ShieldLayer
+  - ShieldLayer_E
   - 
   - 
   - 

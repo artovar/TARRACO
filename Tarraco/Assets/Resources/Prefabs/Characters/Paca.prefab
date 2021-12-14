@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9024659106376240112}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3453836466222035252}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_COMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3717719991029881688}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LowerRightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5530385258758876485}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LowerLeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4152052672785870985}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LowerLeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4252922858926071237}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 3845234300132379281}
   - component: {fileID: 3845234300132379294}
   - component: {fileID: 3845234300132379295}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Sphere (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 3845234300558935750}
   - component: {fileID: 3845234300558935748}
   - component: {fileID: 3845234300558935751}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Sphere (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,7 +519,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -1, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.34717703, y: -0.43220398, z: -0.46523386}
+  m_ConnectedAnchor: {x: 0.34717703, y: -0.43220398, z: -0.46523368}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -612,7 +612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 993658208282803235}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2346959508879400265}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: UpperLeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -674,7 +674,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7972644000891127486}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: UpperRightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5187654940374321031}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: UpperLeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -737,7 +737,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6494193526340467620}
   - component: {fileID: 8150064907988980062}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Other
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -864,7 +864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5853264750115481771}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LowerRightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -895,7 +895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7805066732167092561}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -925,7 +925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7805066733629964099}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -955,7 +955,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7805066733751414180}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -985,7 +985,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7805066733931363566}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1015,7 +1015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2222472285745397450}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1049,7 +1049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2492314074581558009}
   - component: {fileID: 4471304602607304464}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1143,7 +1143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4724290311674445950}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Onesie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1175,7 +1175,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5841778009499767574}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: UpperRightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1206,7 +1206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7853838706744271180}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1242,7 +1242,7 @@ GameObject:
   - component: {fileID: 8833726004650090480}
   - component: {fileID: 8833726004650090490}
   - component: {fileID: 8833726004650090495}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_UpperRightLeg
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1305,7 +1305,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 1.0769446, y: -0.16859962, z: -0.019356547}
+  m_ConnectedAnchor: {x: 1.0769447, y: -0.1685996, z: -0.019356435}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -1401,7 +1401,7 @@ GameObject:
   - component: {fileID: 8833726004650090486}
   - component: {fileID: 8833726004650089988}
   - component: {fileID: 8833726004650090484}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_LowerLeftArm
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1464,7 +1464,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0040483344, y: 0.5227693, z: -0.4767833}
+  m_ConnectedAnchor: {x: -0.0040483344, y: 0.52276945, z: -0.4767833}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -1560,7 +1560,7 @@ GameObject:
   - component: {fileID: 8833726004650090444}
   - component: {fileID: 8833726004650090485}
   - component: {fileID: 8833726004650090442}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_UpperLeftArm
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1623,7 +1623,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.5312597, y: 0.21788979, z: -0.17431545}
+  m_ConnectedAnchor: {x: -0.53125966, y: 0.21788988, z: -0.1743152}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -1719,7 +1719,7 @@ GameObject:
   - component: {fileID: 8833726004650090434}
   - component: {fileID: 8833726004650090010}
   - component: {fileID: 8833726004650090432}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_LowerRightArm
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1782,7 +1782,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0053157504, y: -0.5319985, z: -0.31018803}
+  m_ConnectedAnchor: {x: -0.005316296, y: -0.5319985, z: -0.3101879}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -1878,7 +1878,7 @@ GameObject:
   - component: {fileID: 8833726004650090439}
   - component: {fileID: 8833726004650090433}
   - component: {fileID: 8833726004650090438}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_UpperRightArm
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -1941,7 +1941,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.5312597, y: 0.21788988, z: -0.17431474}
+  m_ConnectedAnchor: {x: 0.53125966, y: 0.21788988, z: -0.17431498}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -2039,7 +2039,7 @@ GameObject:
   - component: {fileID: 8833726004650090459}
   - component: {fileID: 2601317994085226771}
   - component: {fileID: 7347928476554001590}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_Head
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2102,7 +2102,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.48753914, z: -0.008356374}
+  m_ConnectedAnchor: {x: -1.2208448e-14, y: 0.48753902, z: -0.008356492}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -2309,7 +2309,7 @@ GameObject:
   - component: {fileID: 8833726004650090443}
   - component: {fileID: 8833726004650090449}
   - component: {fileID: 5120335260066928348}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_Body
   m_TagString: PlayerChest
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2372,7 +2372,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.30326906, z: -0.045751967}
+  m_ConnectedAnchor: {x: 0, y: 0.30326882, z: -0.04575208}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -2482,7 +2482,7 @@ GameObject:
   - component: {fileID: 8833726004650090455}
   - component: {fileID: 8833726004650090468}
   - component: {fileID: 8833726004650090454}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_Root
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2547,7 +2547,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -1.6267178, y: 1.0861251, z: 3.8583174}
+  m_ConnectedAnchor: {x: 0, y: 1.2761252, z: 0.008000016}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 2
@@ -2645,7 +2645,7 @@ GameObject:
   - component: {fileID: 8833726004650090015}
   - component: {fileID: 2614699150595773203}
   - component: {fileID: 47827683150104485}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_LeftFoot
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2708,7 +2708,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.022910843, y: -0.59757876, z: 0.18633081}
+  m_ConnectedAnchor: {x: 0.022910994, y: -0.59757876, z: 0.18633111}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -2918,7 +2918,7 @@ GameObject:
   - component: {fileID: 8833726004650090006}
   - component: {fileID: 4668856362614068539}
   - component: {fileID: 3793243461743775384}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_RightFoot
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -2981,7 +2981,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.022911299, y: -0.59757876, z: 0.18633081}
+  m_ConnectedAnchor: {x: 0.022911299, y: -0.59757876, z: 0.18633111}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3189,7 +3189,7 @@ GameObject:
   - component: {fileID: 8833726004650090479}
   - component: {fileID: 8833726004650090000}
   - component: {fileID: 8833726004650090477}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_LowerLeftLeg
   m_TagString: Foot
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -3252,7 +3252,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.04536535, y: -0.5912506, z: 0.006263016}
+  m_ConnectedAnchor: {x: -0.045365125, y: -0.5912506, z: 0.0062633078}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3348,7 +3348,7 @@ GameObject:
   - component: {fileID: 8833726004650090469}
   - component: {fileID: 8833726004650090478}
   - component: {fileID: 8833726004650090467}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_UpperLeftLeg
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -3411,7 +3411,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -1.0769446, y: -0.16859962, z: -0.019356547}
+  m_ConnectedAnchor: {x: -1.0769446, y: -0.1685996, z: -0.019356435}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3507,7 +3507,7 @@ GameObject:
   - component: {fileID: 8833726004650090491}
   - component: {fileID: 8833726004650090007}
   - component: {fileID: 8833726004650090489}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_LowerRightLeg
   m_TagString: Foot
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -3570,7 +3570,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00045724027, y: -0.5912506, z: 0.006263016}
+  m_ConnectedAnchor: {x: 0.00045724027, y: -0.5912506, z: 0.0062633078}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3664,7 +3664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8833726004650090410}
   - component: {fileID: 8752153029309144881}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: Paca
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3679,7 +3679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8833726004650090045}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6267178, y: 0, z: 3.8503175}
+  m_LocalPosition: {x: 0, y: 0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4724290311674445950}
@@ -3706,7 +3706,7 @@ MonoBehaviour:
   invTimeDef: 0.7
   id: 2
   weapon: {fileID: 0}
-  detector: {fileID: 0}
+  detector: {fileID: 3641786237387457572}
   Root: {fileID: 8833726004650089999}
   Body: {fileID: 8833726004650089998}
   Head: {fileID: 8833726004650089997}
@@ -3734,9 +3734,9 @@ MonoBehaviour:
   lookY: Look Y
   dash: Dash
   thisPlayerLayer: Player_1
-  turnSpeed: 22
+  turnSpeed: 500
   jumpForce: 14
-  dashForce: 8
+  dashForce: 80
   autoGetUpWhenPossible: 1
   useStepPrediction: 1
   balanceHeight: 2.6
@@ -3786,7 +3786,7 @@ GameObject:
   - component: {fileID: 8833726004650089989}
   - component: {fileID: 8833726004650090033}
   - component: {fileID: 8833726004650089987}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_LeftHand
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -3849,7 +3849,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: -0.5, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.11763881, y: 0.9863827, z: 0.44468898}
+  m_ConnectedAnchor: {x: -0.11763902, y: 0.98638296, z: 0.44468954}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -3945,7 +3945,7 @@ GameObject:
   - component: {fileID: 8833726004650090011}
   - component: {fileID: 8833726004650090034}
   - component: {fileID: 8833726004650090009}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: APR_RightHand
   m_TagString: CanBeGrabbed
   m_Icon: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
@@ -4103,7 +4103,7 @@ GameObject:
   - component: {fileID: 9223100501505750760}
   - component: {fileID: 9223100501505750761}
   - component: {fileID: 3641786237387457572}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: WeaponDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}

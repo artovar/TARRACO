@@ -15,6 +15,7 @@ public abstract class WeaponScript : MonoBehaviour
     public float weaponCoolDown;
     public Transform forcePoint;
     protected List<bool> dropQueue = new List<bool>();
+    protected bool destroyed;
 
     public abstract void SetOnHandColliders();
     public abstract void SetOnFloorColliders();
@@ -76,9 +77,17 @@ public abstract class WeaponScript : MonoBehaviour
             {
                 col.enabled = false;
             }
-            Destroy(this.gameObject);
+            destroyed = true;
         }
         dropQueue.RemoveAt(0);
+        if (destroyed)
+        {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            GetComponent<Rigidbody>().useGravity = false;
+            GetComponent<Rigidbody>().velocity = Vector3.down;
+            yield return new WaitForSeconds(1f);
+            Destroy(this.gameObject);
+        }
     }
     public virtual void SendToBack(Transform back)
     {

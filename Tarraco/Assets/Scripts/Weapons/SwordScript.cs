@@ -10,17 +10,14 @@ public class SwordScript : WeaponScript
         b.targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
         c.targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);*/
         a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
-        b.targetRotation = new Quaternion(-0.360000014f, -0.939999998f, 0.560000002f, 1.38f);
-        c.targetRotation = new Quaternion(0.709999979f, -0.610000014f, 0.839999974f, 1f);
+        b.targetRotation = new Quaternion(-0.36f, -0.94f, 0.56f, 1f);
+        c.targetRotation = new Quaternion(0.71f, -0.61f, 0.27f, 1f);
     }
     public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force)
     {
-        /*a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
-        b.targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);
-        c.targetRotation = new Quaternion(0.2f, 0, 0, 1);*/
         a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
-        b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
-        c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);
+        b.targetRotation = new Quaternion(.79f, -.23f, .33f, .46f);
+        c.targetRotation = new Quaternion(0f, -.63f, .53f, .56f);
         GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.right * force, forcePoint.position, ForceMode.Impulse);
     }
 

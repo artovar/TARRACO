@@ -23,9 +23,9 @@ public class WeaponDetection : MonoBehaviour
     private string drop = "Drop"; 
     private string change = "Change"; 
 
-    // Start is called before the first frame update
-    void Start()
+    public bool IsOneOfMine(Transform t)
     {
+        return ((weaponsStored > 0 && t.IsChildOf(mainWeapon)) || (weaponsStored > 1 && t.IsChildOf(backWeapon)));
     }
 
     public void SetUp()
@@ -68,6 +68,15 @@ public class WeaponDetection : MonoBehaviour
             mainWeapon = backWeapon;
             backWeapon = aux;
             controller.weapon = mainWeapon.GetComponent<WeaponScript>();
+            if (controller.attacking)
+            {
+                controller.PrepareHit();
+                if (backWeapon.GetComponent<WeaponScript>().kind == Weapons.Bow)
+                {
+                    controller.ResetLeftArm();
+                    backWeapon.GetComponent<BowScript>().StopShooting();
+                }
+            }
         }
     }
     private void OnTriggerStay(Collider col)
@@ -81,6 +90,15 @@ public class WeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
+            if (controller.attacking)
+            {
+                controller.PrepareHit();
+                if (backWeapon.GetComponent<WeaponScript>().kind == Weapons.Bow)
+                {
+                    controller.ResetLeftArm();
+                    backWeapon.GetComponent<BowScript>().StopShooting();
+                }
+            }
         }
         else if (col.CompareTag("Heal") && controller.life < controller.maxLife)
         {
