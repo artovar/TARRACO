@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4534110161829319187}
   - component: {fileID: 3821448982003539069}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 4809713329840470223}
   - component: {fileID: 5874155213928409199}
   - component: {fileID: 7257086333398783158}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Bow
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5476528810590937967}
   - component: {fileID: 237032398781394596}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,7 +388,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ce4a39e3bdaba9a4f99aee7e69feee11, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce4a39e3bdaba9a4f99aee7e69feee11, type: 3}

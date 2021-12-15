@@ -8,13 +8,29 @@ public class ImpactContact : MonoBehaviour
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.IsChildOf(APR_Player.transform) || APR_Player.detector.IsOneOfMine(col.transform)) return;
+        LayerMask layer = col.gameObject.layer;
+        if (layer.Equals(APR_Player.gameObject.layer)  || APR_Player.detector.IsOneOfMine(col.transform)) return;
         //Knockout by impact
         if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
         {
-            LayerMask layer = col.gameObject.layer;
-            if (layer > LayerMask.NameToLayer("Arrow_1") && layer <= LayerMask.NameToLayer("Arrow_E") && col.collider.enabled)
+            Characters from = Characters.Enemy;
+            if (layer >= 16 && layer <= 19 && col.collider.enabled)
             {
+                switch (layer)
+                {
+                    case 16:
+                        from = Characters.Player1;
+                        break;
+                    case 17:
+                        from = Characters.Player2;
+                        break;
+                    case 18:
+                        from = Characters.Player3;
+                        break;
+                    case 19:
+                        from = Characters.Player4;
+                        break;
+                }
                 (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
                 col.rigidbody.velocity = Vector3.zero;
                 col.collider.enabled = false;
@@ -33,7 +49,7 @@ public class ImpactContact : MonoBehaviour
             }
 
             //Damage
-            APR_Player.Damage(1, Characters.Enemy);
+            APR_Player.Damage(1, from);
             //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
             if (APR_Player.IsDead())
             {

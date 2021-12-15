@@ -79,8 +79,11 @@ public class HealthHUD : MonoBehaviour
 
     public void Restart()
     {
+        GameObject controller = GameObject.FindGameObjectWithTag("GameController");
+        controller.tag = "Untagged";
         Time.timeScale = 1f;
         SceneManager.LoadScene(1);
+        DestroyImmediate(controller);
     }
 
     public void BackToMenu()

@@ -4,32 +4,29 @@ using UnityEngine;
 using System;
 public class SpawnPoint : MonoBehaviour
 {
-    public enum Mode
-    {
-        LEVEL,
-        ARENA
-    };
-    public Mode mode;
-    public GameObject thePlayer;
-    private int numberOfPlayers;
+    private int numPlayers;
     private GameObject[] players;
-    public GameObject[] enemyPrefab;
+
+    public GameObject[] enemyPrefabs;
     public Material[] materialsForSpartan;
-    public GameObject[] weaponPrefab;
+    public GameObject[] weaponPrefabs;
+
     public GameObject[] points;
     public int secondsSpawn = 5;
     private int deathCount = 0;
+
     private IEnumerator coroutine;
     
     public int maxEnemies;
     private int maxDef;
+
     private List<EnemyController> enemies = new List<EnemyController>();
 
     // Start is called before the first frame update
     void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
-        numberOfPlayers = players.Length;
+        numPlayers = players.Length;
 
         maxDef = maxEnemies;
         coroutine = spawnEnemy(secondsSpawn);
@@ -57,14 +54,14 @@ public class SpawnPoint : MonoBehaviour
             }
             if(enemies.Count < maxEnemies)
             {
-                int e = UnityEngine.Random.Range(0, enemyPrefab.Length);
-                GameObject enemy = enemyPrefab[e];
+                int e = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+                GameObject enemy = enemyPrefabs[e];
                 if(e == 0) enemy.GetComponentInChildren<SkinnedMeshRenderer>().material = materialsForSpartan[UnityEngine.Random.Range(0, materialsForSpartan.Length)];
                 GameObject sp = BetterSP();
                 //Instanciamos el prefab del enemido en el punto
                 enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
                 enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
-                Instantiate(weaponPrefab[UnityEngine.Random.Range(0, weaponPrefab.Length)], sp.transform.position, Quaternion.identity);
+                Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
             }
             maxEnemies = (int) (maxDef * Mathf.Log(1 + deathCount));
             yield return new WaitForSeconds(time);
@@ -86,8 +83,8 @@ public class SpawnPoint : MonoBehaviour
             foreach(GameObject thePlayer in players) {
                 distaceByAllPlayers += Distance(point, thePlayer);
             }
-            if(distaceByAllPlayers/numberOfPlayers > betterDistance) {
-                betterDistance = distaceByAllPlayers/numberOfPlayers;
+            if(distaceByAllPlayers/numPlayers > betterDistance) {
+                betterDistance = distaceByAllPlayers/numPlayers;
                 betterPoint = point;
             }
         }

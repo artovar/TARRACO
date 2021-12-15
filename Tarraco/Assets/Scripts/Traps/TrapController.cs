@@ -80,14 +80,14 @@ public class TrapController : MonoBehaviour
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
-            if (type == trapType.MUD) playerController.moveSpeed *= 2f;
+            if (type == trapType.MUD) playerController.moveSpeed *= 1.4f;
             
         }
     }
 
     private void IsMud(CharacterClass playerController)
     {
-        playerController.moveSpeed /= 2;
+        playerController.moveSpeed /= 1.4f;
     }
 
     private void IsIce(CharacterClass playerController)
