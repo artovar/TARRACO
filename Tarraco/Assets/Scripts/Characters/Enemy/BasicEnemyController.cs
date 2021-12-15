@@ -1153,7 +1153,7 @@ public class BasicEnemyController : CharacterClass
 			if (character.Equals(Characters.Enemy))
 			{
 				
-				if (UnityEngine.Random.Range(0, 100) < 25) Instantiate(healingOrb, Root.transform.position, Quaternion.identity);
+				if (UnityEngine.Random.Range(0, 100) < 25) Destroy(Instantiate(healingOrb, Root.transform.position, Quaternion.identity), 20f);
 			}
 			yield return new WaitForSeconds(3f);
 			Destroy(this.gameObject);
