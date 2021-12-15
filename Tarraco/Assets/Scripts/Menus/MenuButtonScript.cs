@@ -22,6 +22,11 @@ public class MenuButtonScript : MonoBehaviour
         gameController.Arena();
     }
 
+    public void Credits() 
+    {
+        gameController.Credits();
+    }
+
     public void Exit()
     {
         gameController.Exit();
