@@ -29,6 +29,12 @@ public class MenuController : MonoBehaviour
         mainMenu.SetActive(false);
     }
 
+    public void Credits()
+    {
+        SceneManager.LoadScene(3);
+        mainMenu.SetActive(false);
+    }
+
     public void Exit()
     {
         Application.Quit();
