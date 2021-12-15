@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3039931382057803278}
   - component: {fileID: 1624772743297166353}
-  m_Layer: 15
+  m_Layer: 23
   m_Name: COL (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 499254809548806886}
   - component: {fileID: 3549520470808253763}
   - component: {fileID: 1632160441089139081}
-  m_Layer: 15
+  m_Layer: 23
   m_Name: Barricada
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1875304098652456464}
   - component: {fileID: 4359398733259502591}
-  m_Layer: 15
+  m_Layer: 23
   m_Name: COL (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2039176261053336332}
   - component: {fileID: 852697083068775278}
-  m_Layer: 15
+  m_Layer: 23
   m_Name: COL
   m_TagString: Untagged
   m_Icon: {fileID: 0}

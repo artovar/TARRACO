@@ -4,8 +4,7 @@ public class CameraControl : MonoBehaviour
 {
     [Header("Player To Follow")]
     //Player root
-    public Transform APRRoot;
-    public Transform PacaRoot;
+    public Transform[] Roots = new Transform[4];
 
     [Header("Follow Properties")]
     //Follow values
@@ -25,8 +24,6 @@ public class CameraControl : MonoBehaviour
 
     //Private variables
     private Camera cam;
-    private float currentX = 0.0f;
-    private float currentY = 0.0f;
     private Quaternion rotation;
     private Vector3 dir;
     private Vector3 offset;
@@ -45,44 +42,49 @@ public class CameraControl : MonoBehaviour
         originalOffset = offset;
     }
 
-    public void AddPlayer2(Transform p2)
+    public void AddPlayer(Transform p, int pNumber)
     {
-        PacaRoot = p2;
-    }
-
-
-    //Camera mouse input and (clamping for rotation)
-    void Update()
-    {
+        Roots[pNumber-1] = p;
     }
 
 
     //Camera follow and rotation
     void FixedUpdate()
     {
-        if (Physics.Raycast(APRRoot.position, Vector3.back, 5, 1 << LayerMask.NameToLayer("Wall")))
+        if (Physics.Raycast(Roots[0].position, Vector3.back, 5, 1 << LayerMask.NameToLayer("Wall")))
         {
             offset = originalOffset + new Vector3(0, 0, -(2 * originalOffset.z / 3));
         }
-        else if (!Physics.Raycast(APRRoot.position, Vector3.back, 6, 1 << LayerMask.NameToLayer("Wall")))
+        else if (!Physics.Raycast(Roots[0].position, Vector3.back, 6, 1 << LayerMask.NameToLayer("Wall")))
         {
             offset = originalOffset;
             distance = originalDistance;
         }
-
-        if(PacaRoot == null)
+        Vector3 point = Vector3.zero;
+        float minX = Roots[0].position.x;
+        float maxX = Roots[0].position.x;
+        float minZ = Roots[0].position.z;
+        float maxZ = Roots[0].position.z;
+        float i = 0;
+        foreach(Transform t in Roots)
         {
-            var targetRotation = Quaternion.LookRotation(APRRoot.position - cam.transform.position);
-            cam.transform.position = Vector3.Lerp(cam.transform.position, APRRoot.position + offset.normalized * distance, smoothness);
-            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
+            if(t != null)
+            {
+                if (t.position.x < minX) minX = t.position.x;
+                if (t.position.x > maxX) maxX = t.position.x;
+                if (t.position.z < minZ) minZ = t.position.z;
+                if (t.position.z > maxZ) maxZ = t.position.z;
+                point += t.position;
+                i++;
+            }
         }
-        else
-        {
-            distance = originalDistance + (PacaRoot.position - APRRoot.position).magnitude;
-            Vector3 point = (APRRoot.position + (PacaRoot.position - APRRoot.position) / 2);
-            var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
-            cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset*(((distance)/originalDistance)/1.2f), smoothness);
-            cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
-        }
+        //var targetRotation = Quaternion.LookRotation(APRRoot.position - cam.transform.position);
+        //cam.transform.position = Vector3.Lerp(cam.transform.position, APRRoot.position + offset.normalized * distance, smoothness);
+        //cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
+        point /= i;
+        distance = originalDistance + (new Vector3(maxX, 0f, maxZ) - new Vector3(minX, 0f, minZ)).magnitude;
+        var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
+        cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset*(((distance)/originalDistance)/1.2f), smoothness);
+        cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
     }
 }

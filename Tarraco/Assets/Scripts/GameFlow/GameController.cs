@@ -6,22 +6,27 @@ public class GameController : MonoBehaviour
 {
     public Texture2D cursor;
     [SerializeField]
-    private GameObject playerPrefab;
-    private GameObject mainPlayer;
+    private GameObject[] playerPrefabs;
+
+    /*private GameObject[] players;
     private GameObject secPlayer;
-    private bool p2;
-    List<GameObject> players = new List<GameObject>();
+    */
+    private bool p2, p3, p4;
+    GameObject[] players = new GameObject[4];
+
     private int controllers;
     private int prevLen;
+
     private Camera cam;
+
     public GameObject[] healthUI;
+
+
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
-        mainPlayer = GameObject.FindGameObjectWithTag("Player");
-        players.Add(mainPlayer);
-        prevLen = Input.GetJoystickNames().Length;
+        players[0] = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -32,13 +37,39 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump2"))
             {
-                secPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-                cam.GetComponent<CameraControl>().AddPlayer2(secPlayer.GetComponent<PlayerController>().Root.transform);
+                players[1] = Instantiate(playerPrefabs[1], Vector3.zero, Quaternion.identity);
+                cam.GetComponent<CameraControl>().AddPlayer(players[1].GetComponent<PlayerController>().Root.transform, 2);
                 p2 = true;
                 healthUI[1].SetActive(true);
                 HealthHUD hUI = healthUI[1].GetComponentInChildren<HealthHUD>();
-                hUI.player = secPlayer;
-                secPlayer.GetComponent<PlayerController>().SetUp(hUI.gameObject);
+                hUI.player = players[1];
+                players[1].GetComponent<PlayerController>().SetUp(hUI.gameObject);
+            }
+        }
+        if (!p3)
+        {
+            if (Input.GetButtonDown("Jump3"))
+            {
+                players[2] = Instantiate(playerPrefabs[2], Vector3.zero, Quaternion.identity);
+                cam.GetComponent<CameraControl>().AddPlayer(players[2].GetComponent<PlayerController>().Root.transform, 3);
+                p3 = true;
+                healthUI[2].SetActive(true);
+                HealthHUD hUI = healthUI[2].GetComponentInChildren<HealthHUD>();
+                hUI.player = players[2];
+                players[2].GetComponent<PlayerController>().SetUp(hUI.gameObject);
+            }
+        }
+        if (!p4)
+        {
+            if (Input.GetButtonDown("Jump4"))
+            {
+                players[3] = Instantiate(playerPrefabs[3], Vector3.zero, Quaternion.identity);
+                cam.GetComponent<CameraControl>().AddPlayer(players[3].GetComponent<PlayerController>().Root.transform, 4);
+                p4 = true;
+                healthUI[3].SetActive(true);
+                HealthHUD hUI = healthUI[3].GetComponentInChildren<HealthHUD>();
+                hUI.player = players[3];
+                players[3].GetComponent<PlayerController>().SetUp(hUI.gameObject);
             }
         }
     }

@@ -658,6 +658,7 @@ public class PlayerController : CharacterClass
 	////////////////////
 	void PlayerReach()
 	{
+		/*
 		//Body Bending
 		if (1 != 1)
 		{
@@ -678,7 +679,7 @@ public class PlayerController : CharacterClass
 
 			APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(MouseYAxisBody, 0, 0, 1);
 		}
-
+		*/
 
 		//Reach Left
 		if (Input.GetButton(drop) && !punchingLeft)

@@ -512,28 +512,6 @@ public class BasicEnemyController : CharacterClass
 	////////////////////
 	void PlayerReach()
 	{
-		//Body Bending
-		if (1 == 0)
-		{
-			if (MouseYAxisBody <= 0f && MouseYAxisBody >= -0.1f)
-			{
-				MouseYAxisBody = MouseYAxisBody + (Input.GetAxis("Mouse Y") / reachSensitivity);
-			}
-
-			else if (MouseYAxisBody > 0f)
-			{
-				MouseYAxisBody = 0f;
-			}
-
-			else if (MouseYAxisBody < -0.1f)
-			{
-				MouseYAxisBody = -0.1f;
-			}
-
-			APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(MouseYAxisBody, 0, 0, 1);
-		}
-
-
 		//Reach Left
 		if (drop && !punchingLeft)
 		{
