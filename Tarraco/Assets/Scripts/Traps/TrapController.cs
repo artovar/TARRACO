@@ -16,23 +16,18 @@ public class TrapController : MonoBehaviour
 
     private IEnumerator coroutine;
 
-    //Ovaciones jugadores
-    private GameObject[] players = new GameObject[4];
-    private GameObject fromPlayer;
 
     // Start is called before the first frame update
-    void Start() {
+    void Start() 
+    {
         // Nos guardamos todos los jugadores en la lista
-        players = GameObject.FindGameObjectsWithTag("Player");
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Foot"))
         {
-            //feet++;
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
-
             if (originalSpeed == 0)
             {
                 originalSpeed = playerController.moveSpeed; //Guarda la velocidad original para devolversela al salir
@@ -48,27 +43,25 @@ public class TrapController : MonoBehaviour
                     IsIce(playerController);
                     break;
                 case trapType.SPIKES:
+                    IsSpikes(playerController);
+                    /*
                     coroutine = IsSpikes(playerController, 10);
                     StopAllCoroutines();
-                    StartCoroutine(coroutine);
+                    StartCoroutine(coroutine);*/
                     break;
             }
 
             if (other.gameObject.layer == 7/*"Enemies"*/) {
                 //Si esta en la capa enemigos, es un enemigo
-                GameObject py = other.gameObject.GetComponentInParent<EnemyController>().player;
-                if (py == null) return;
-
-                int layerPlayer = py.layer; //El jugador al que persigue
-                foreach(GameObject player in players) {
-                    if(layerPlayer == player.layer) fromPlayer = player;
-                }
-
+                EnemyController py = other.gameObject.GetComponentInParent<EnemyController>();
+                if (py == null || py.player == null) return;
+                Transform t = py.player.GetComponentInParent<PlayerController>().Root.transform;
                 //Buscamos el jugador más cerca de la trampa (que será el que ha metido alli el enemigo)
-                if (fromPlayer != null && Distance(this.gameObject, fromPlayer) < 40) {
-                    if (type == trapType.MUD) OvationSingleton.Instance.IncreaseMeter(5f, fromPlayer.GetComponent<CharacterClass>().character);
-                    if (type == trapType.SPIKES) OvationSingleton.Instance.IncreaseMeter(10f, fromPlayer.GetComponent<CharacterClass>().character);
-                    Debug.Log("Me ha metido en este berenjenal: "+fromPlayer.GetComponent<CharacterClass>().character.ToString());
+                if ((py.enemyScript.Root.transform.position - t.position).magnitude < 10) {
+                    print("Aquí está entrando");
+                    if (type == trapType.MUD) OvationSingleton.Instance.IncreaseMeter(2f, py.player.GetComponentInParent<CharacterClass>().character);
+                    if (type == trapType.SPIKES) OvationSingleton.Instance.IncreaseMeter(5f, py.player.GetComponentInParent<CharacterClass>().character);
+                    //Debug.Log("Me ha metido en este berenjenal: "+fromPlayer.GetComponent<CharacterClass>().character.ToString());
                 }
             }
         }
@@ -79,7 +72,6 @@ public class TrapController : MonoBehaviour
         if (other.gameObject.CompareTag("Foot"))
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
-
             if (type == trapType.MUD) playerController.moveSpeed *= 1.4f;
             
         }
@@ -95,7 +87,27 @@ public class TrapController : MonoBehaviour
         playerController.moveSpeed += 7;
     }
 
-    private IEnumerator IsSpikes(CharacterClass controller, float time)
+    private void IsSpikes(CharacterClass controller)
+    {
+        controller.Damage(1, Characters.Enemy);
+        Rigidbody rootRigidbody;
+        switch(controller.character) {
+            case Characters.None:
+                break;
+            case Characters.Enemy:
+                rootRigidbody = controller.GetComponent<BasicEnemyController>().Root.GetComponent<Rigidbody>();
+                controller.GetComponent<BasicEnemyController>().ActivateRagdoll();
+                rootRigidbody.AddForce((rootRigidbody.transform.position - transform.position).normalized * 200, ForceMode.Impulse);
+                break;
+            default:
+                rootRigidbody = controller.GetComponent<PlayerController>().Root.GetComponent<Rigidbody>();
+                controller.GetComponent<PlayerController>().ActivateRagdoll();
+                rootRigidbody.AddForce((rootRigidbody.transform.position - transform.position).normalized * 200, ForceMode.Impulse);
+                break;
+        }
+    }
+
+    /*private IEnumerator IsSpikes(CharacterClass controller, float time)
     {
         while (true)
         {
@@ -104,12 +116,5 @@ public class TrapController : MonoBehaviour
             Debug.Log("Aun me he pinchado me queda esta vida: "+controller.life);
             yield return new WaitForSeconds(time);
         }
-    }
-
-    private float Distance(GameObject p1, GameObject p2) {
-        float x = (p1.transform.position.x - p2.transform.position.x);
-        float y = (p1.transform.position.y - p2.transform.position.y);
-        float z = (p1.transform.position.z - p2.transform.position.z);
-        return (float)Mathf.Sqrt(x*x + y*y + z*z);
-    }
+    }*/
 }

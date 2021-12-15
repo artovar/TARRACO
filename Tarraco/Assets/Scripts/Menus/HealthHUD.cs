@@ -54,10 +54,8 @@ public class HealthHUD : MonoBehaviour
     {
         if (life <= 0) return;
         life -= damage;
-        print(animator.GetBool("Damage"));
         animator.SetInteger("Life", life);
         animator.SetBool("Damage", true);
-        print(life);
         heartList[life].SetActive(false);
         if (life == 0)
         {
@@ -66,7 +64,6 @@ public class HealthHUD : MonoBehaviour
     }
     public void StopDamaging()
     {
-        print("Stoped damaging");
         animator.SetBool("Damage", false);
         animator.SetBool("Heal", false);
     }

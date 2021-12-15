@@ -190,7 +190,11 @@ public class PlayerController : CharacterClass
 		life = maxLife;
 	}
 
-	public void SetUp(GameObject hUI)
+    private void Start()
+    {
+		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
+    }
+    public void SetUp(GameObject hUI)
     {
 		if (id != 1)
 		{

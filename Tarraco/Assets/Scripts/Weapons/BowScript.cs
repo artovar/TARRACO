@@ -88,7 +88,6 @@ public class BowScript : WeaponScript
                 break;
             default:
                 float desviation = Random.Range(-0.05f, 0.05f);
-                print(desviation);
                 if (desviation > 0)
                 {
                     arrowClone = Instantiate(arrows[4], transform.position, Quaternion.LookRotation(direction + Vector3.forward * desviation, Vector3.up));

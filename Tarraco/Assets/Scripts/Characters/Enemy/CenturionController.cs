@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class CenturionController : MonoBehaviour
 {
     public BasicEnemyController enemyScript;
     public GameObject player;
@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
         started = true;
         player = jugador;
         p = player.GetComponentInParent<PlayerController>().Root.transform;
-        //enemyScript.jump = 1;
+        enemyScript.jump = 1;
         estado = 0; //"Buscando"
     }
     public bool IsRagdoll()
@@ -43,22 +43,22 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(enemyScript.IsDead()) return;
+        if (enemyScript.IsDead()) return;
         if (IsRagdoll())
         {
             attackCD -= Time.deltaTime;
-            if(attackCD <= 0)
+            if (attackCD <= 0)
             {
                 attackCD = 1;
                 enemyScript.Jump();
             }
         }
-        if(!started)
+        if (!started)
         {
             return;
         }
         attackCD -= Time.deltaTime;
-        if(!Object.ReferenceEquals(enemyScript.weapon, null) 
+        if (!Object.ReferenceEquals(enemyScript.weapon, null)
             && enemyScript.weapon.kind.Equals(Weapons.Bow)
             && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 12f)
         {

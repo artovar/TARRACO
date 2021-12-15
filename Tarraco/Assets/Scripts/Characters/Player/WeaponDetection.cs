@@ -30,7 +30,6 @@ public class WeaponDetection : MonoBehaviour
 
     public void SetUp()
     {
-        print("Setting up");
         if (controller.id != 1)
         {
             interact = "Interact" + controller.id;
