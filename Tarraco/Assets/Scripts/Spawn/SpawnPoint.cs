@@ -4,7 +4,8 @@ using UnityEngine;
 using System;
 public class SpawnPoint : MonoBehaviour
 {
-    public GameObject thePlayer;
+    private int numberOfPlayers;
+    private GameObject[] players;
     public GameObject[] enemyPrefab;
     public Material[] materialsForSpartan;
     public GameObject[] weaponPrefab;
@@ -20,6 +21,9 @@ public class SpawnPoint : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        players = GameObject.FindGameObjectsWithTag("Player");
+        numberOfPlayers = players.Length;
+
         maxDef = maxEnemies;
         coroutine = spawnEnemy(secondsSpawn);
         StartCoroutine(coroutine);
@@ -69,10 +73,14 @@ public class SpawnPoint : MonoBehaviour
 
     private GameObject BetterSP() {
         float betterDistance = 0;
+        float distaceByAllPlayers = 0;
         GameObject betterPoint = null;
         foreach(GameObject point in points) {
-            if (Distance(point, thePlayer) > betterDistance) {
-                betterDistance = Distance(point, thePlayer);
+            foreach(GameObject thePlayer in players) {
+                distaceByAllPlayers += Distance(point, thePlayer);
+            }
+            if(distaceByAllPlayers/numberOfPlayers > betterDistance) {
+                betterDistance = distaceByAllPlayers/numberOfPlayers;
                 betterPoint = point;
             }
         }
