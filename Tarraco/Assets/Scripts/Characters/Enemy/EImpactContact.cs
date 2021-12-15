@@ -14,9 +14,25 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
+            Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
-            if (layer >= LayerMask.NameToLayer("Arrow_1") && layer <= LayerMask.NameToLayer("Arrow_E") && damageTaken != 0)
+            if (layer >= 16 && layer <= 19 && damageTaken != 0)
             {
+                switch(layer)
+                {
+                    case 16:
+                        from = Characters.Player1;
+                        break;
+                    case 17:
+                        from = Characters.Player2;
+                        break;
+                    case 18:
+                        from = Characters.Player3;
+                        break;
+                    case 19:
+                        from = Characters.Player4;
+                        break;
+                }
                 (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
                 col.rigidbody.velocity = Vector3.zero;
                 col.collider.enabled = false;
@@ -34,7 +50,6 @@ public class EImpactContact : MonoBehaviour
                     enemyController.SoundSource.Play();
                 }
             }
-            Characters from = Characters.Player1;
             int damage = 1 * damageTaken;
             WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
             if (wp != null)
