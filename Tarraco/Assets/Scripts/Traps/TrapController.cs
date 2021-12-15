@@ -16,8 +16,15 @@ public class TrapController : MonoBehaviour
 
     private IEnumerator coroutine;
 
+    //Ovaciones jugadores
+    private GameObject[] players = new GameObject[4];
+    private GameObject fromPlayer;
+
     // Start is called before the first frame update
-    void Start() { }
+    void Start() {
+        // Nos guardamos todos los jugadores en la lista
+        players = GameObject.FindGameObjectsWithTag("Player");
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -45,6 +52,24 @@ public class TrapController : MonoBehaviour
                     StartCoroutine(coroutine);
                     break;
             }
+
+            if (other.gameObject.layer == 7/*"Enemies"*/) {
+                //Si esta en la capa enemigos, es un enemigo
+                GameObject py = other.gameObject.GetComponentInParent<EnemyController>().player;
+                if (py == null) return;
+
+                int layerPlayer = py.layer; //El jugador al que persigue
+                foreach(GameObject player in players) {
+                    if(layerPlayer == player.layer) fromPlayer = player;
+                }
+
+                //Buscamos el jugador más cerca de la trampa (que será el que ha metido alli el enemigo)
+                if (fromPlayer != null && Distance(this.gameObject, fromPlayer) < 40) {
+                    if (type == trapType.MUD) OvationSingleton.Instance.IncreaseMeter(5f, fromPlayer.GetComponent<CharacterClass>().character);
+                    if (type == trapType.SPIKES) OvationSingleton.Instance.IncreaseMeter(10f, fromPlayer.GetComponent<CharacterClass>().character);
+                    Debug.Log("Me ha metido en este berenjenal: "+fromPlayer.GetComponent<CharacterClass>().character.ToString());
+                }
+            }
         }
     }
 
@@ -54,15 +79,8 @@ public class TrapController : MonoBehaviour
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
 
-            /*feet--;
-            if (feet == 0)
-            {
-                playerController.moveSpeed = originalSpeed; //Reestablecemos la velocidad al salir
-            }
-            else if (feet == 1)
-            {*/
-            playerController.moveSpeed *= 2f;
-            //}
+            if (type == trapType.MUD) playerController.moveSpeed *= 2f;
+            
         }
     }
 
@@ -82,8 +100,15 @@ public class TrapController : MonoBehaviour
         {
             if (controller.gameObject == null) StopAllCoroutines();
             controller.Damage(1, Characters.Enemy);
-            Debug.Log("Me estoy clavando los pinchos :( \n me queda esta vida: " + controller.life);
+            Debug.Log("Aun me he pinchado");
             yield return new WaitForSeconds(time);
         }
+    }
+
+    private float Distance(GameObject p1, GameObject p2) {
+        float x = (p1.transform.position.x - p2.transform.position.x);
+        float y = (p1.transform.position.y - p2.transform.position.y);
+        float z = (p1.transform.position.z - p2.transform.position.z);
+        return (float)Mathf.Sqrt(x*x + y*y + z*z);
     }
 }
