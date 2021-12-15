@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthHUD : MonoBehaviour
 {
     [SerializeField]
     public GameObject player;
+    public GameObject gameOver;
+
     private int life;
+
+
 
     private List<GameObject> heartList = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
+        gameOver.SetActive(false);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -19,6 +25,7 @@ public class HealthHUD : MonoBehaviour
         }
 
         life = player.GetComponent<CharacterClass>().life;
+
 
     }
 
@@ -56,6 +63,19 @@ public class HealthHUD : MonoBehaviour
 
     void GameOver()
     {
-        Time.timeScale = 0.99f;
+        gameOver.SetActive(true);
+        Time.timeScale = 0.1f;
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(1);
+    }
+
+    public void BackToMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 }
