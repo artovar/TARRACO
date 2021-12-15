@@ -36,7 +36,6 @@ public class OvationBar : MonoBehaviour
     public void IncreaseMeter(float incrPerc)
     {
         ovationMeter += (ovationMax) * (incrPerc/100f);
-        print("Increased " + ((ovationMax) * (incrPerc / 100f)) + " up to " + ovationMeter);
         if(ovationMeter >= ovationMax)
         {
             ovationMeter = ovationMax;

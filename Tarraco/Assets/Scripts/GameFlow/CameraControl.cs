@@ -9,9 +9,9 @@ public class CameraControl : MonoBehaviour
 
     [Header("Follow Properties")]
     //Follow values
-    public float distance = 12.5f; //The distance is only used when "rotateCamera" is enabled, when disabled the camera offset is used
-    private float originalDistance;
-    public float smoothness = 0.15f;
+    public float distance = 12.5f;
+    private float originalDistance = 12.5f;
+    public float smoothness = 0.07f;
 
     [Header("Rotation Properties")]
     //Rotate with input
@@ -54,10 +54,6 @@ public class CameraControl : MonoBehaviour
     //Camera mouse input and (clamping for rotation)
     void Update()
     {
-        currentX = currentX + Input.GetAxis("Mouse X") * rotateSpeed;
-        currentY = currentY + Input.GetAxis("Mouse Y") * rotateSpeed;
-
-        currentY = Mathf.Clamp(currentY, minAngle, maxAngle);
     }
 
 
@@ -66,8 +62,7 @@ public class CameraControl : MonoBehaviour
     {
         if (Physics.Raycast(APRRoot.position, Vector3.back, 5, 1 << LayerMask.NameToLayer("Wall")))
         {
-            offset = originalOffset + new Vector3(0, 0/*Mathf.Abs(originalOffset.z)*/, -(2 * originalOffset.z / 3));
-            //distance = offset.magnitude;
+            offset = originalOffset + new Vector3(0, 0, -(2 * originalOffset.z / 3));
         }
         else if (!Physics.Raycast(APRRoot.position, Vector3.back, 6, 1 << LayerMask.NameToLayer("Wall")))
         {
@@ -75,7 +70,7 @@ public class CameraControl : MonoBehaviour
             distance = originalDistance;
         }
 
-        if(!Object.ReferenceEquals(PacaRoot, null))
+        if(PacaRoot == null)
         {
             var targetRotation = Quaternion.LookRotation(APRRoot.position - cam.transform.position);
             cam.transform.position = Vector3.Lerp(cam.transform.position, APRRoot.position + offset.normalized * distance, smoothness);

@@ -21,7 +21,7 @@ public abstract class CharacterClass : MonoBehaviour
         {
             return false;
         }
-        invTime = invTimeDef;
+        if(amount != 0) invTime = invTimeDef;
         life -= amount;
         if (life < 0) life = 0;
         if (IsDead())
