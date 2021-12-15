@@ -144,7 +144,7 @@ MonoBehaviour:
   character: 2
   life: 0
   maxLife: 3
-  moveSpeed: 10
+  moveSpeed: 12
   id: 2
   weapon: {fileID: 0}
   detector: {fileID: 4853642154414667597}

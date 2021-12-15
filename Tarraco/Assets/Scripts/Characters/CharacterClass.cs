@@ -6,6 +6,7 @@ using System;
 public abstract class CharacterClass : MonoBehaviour
 {
     public Characters character;
+    public HealthHUD hUD;
     public int life;
     public int maxLife;
     public float moveSpeed;
@@ -20,20 +21,22 @@ public abstract class CharacterClass : MonoBehaviour
         {
             return false;
         }
-        invTime = invTimeDef;
+        if(amount != 0) invTime = invTimeDef;
         life -= amount;
         if (life < 0) life = 0;
         if (IsDead())
         {
-            if(!alreadyDead) OvationSingleton.Instance.IncreaseMeter(25f, from);
+            if(!alreadyDead) OvationSingleton.Instance.IncreaseMeter(10f, from);
             alreadyDead = true;
             YoureDead(this, EventArgs.Empty);
         }
+        if(!character.Equals(Characters.Enemy)) hUD.GetComponent<HealthHUD>().HurtHUD(1);
         return true;
     }
 
     public void Heal(int amount) {
         life += amount;
+        invTime = invTimeDef / 2;
         if (life > maxLife) life = maxLife;
     }
 

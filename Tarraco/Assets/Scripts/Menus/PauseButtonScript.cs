@@ -7,10 +7,11 @@ using UnityEngine.SceneManagement;
 public class PauseButtonScript : MonoBehaviour
 {
     public PauseMenuController eventSystem;
+    private GameObject controller;
 
     void Start()
     {
-
+        controller = GameObject.FindGameObjectWithTag("GameController");
     }
 
 
@@ -21,8 +22,9 @@ public class PauseButtonScript : MonoBehaviour
 
     public void Exit()
     {
+        controller.tag = "Untagged";
         Time.timeScale = 1f;
-        DestroyImmediate(GameObject.FindGameObjectWithTag("GameController"));
         SceneManager.LoadScene(0);
+        DestroyImmediate(controller);
     }
 }

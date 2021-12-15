@@ -4,6 +4,13 @@ using UnityEngine;
 using System;
 public class SpawnPoint : MonoBehaviour
 {
+    public enum Mode
+    {
+        LEVEL,
+        ARENA
+    };
+    public Mode mode;
+    public GameObject thePlayer;
     private int numberOfPlayers;
     private GameObject[] players;
     public GameObject[] enemyPrefab;
