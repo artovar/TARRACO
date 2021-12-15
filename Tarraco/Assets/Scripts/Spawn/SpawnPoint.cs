@@ -4,6 +4,12 @@ using UnityEngine;
 using System;
 public class SpawnPoint : MonoBehaviour
 {
+    public enum Mode
+    {
+        LEVEL,
+        ARENA
+    };
+    public Mode mode;
     public GameObject thePlayer;
     public GameObject[] enemyPrefab;
     public Material[] materialsForSpartan;

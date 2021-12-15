@@ -141,7 +141,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   APR_Player: {fileID: 104004996}
-  HealthHUD: {fileID: 127426329}
 --- !u!1001 &9530945
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -404,6 +403,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
@@ -872,6 +875,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planta_muerta 1 (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
 --- !u!4 &163587302 stripped
@@ -1021,6 +1028,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -1177,6 +1188,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
@@ -1384,6 +1399,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: piedras (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
 --- !u!4 &372218061 stripped
@@ -1546,6 +1565,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
@@ -2040,6 +2063,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: piedras (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
 --- !u!4 &510893806 stripped
@@ -2117,6 +2144,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -2268,6 +2299,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -2720,6 +2755,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: piedras (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
 --- !u!4 &650520210 stripped
@@ -2881,6 +2920,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planta_muerta 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
 --- !u!4 &709897686 stripped
@@ -3031,6 +3074,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -3271,6 +3318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: piedras (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
 --- !u!4 &935257184 stripped
@@ -3349,6 +3400,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: piedras (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
 --- !u!4 &948687318 stripped
@@ -3426,6 +3481,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -3598,7 +3657,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   APR_Player: {fileID: 104004996}
-  HealthHUD: {fileID: 127426329}
 --- !u!1 &1081145633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3810,6 +3868,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planta_muerta 1 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
 --- !u!4 &1093741703 stripped
@@ -3887,6 +3949,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
@@ -4204,6 +4270,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: piedras (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
 --- !u!4 &1223585515 stripped
@@ -4281,6 +4351,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -4360,6 +4434,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planta_muerta 1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
 --- !u!4 &1236834799 stripped
@@ -4437,6 +4515,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
@@ -4599,6 +4681,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planta_muerta 1 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
 --- !u!4 &1265802452 stripped
@@ -4686,6 +4772,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
@@ -4998,6 +5088,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -5397,6 +5491,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5970677242463461839, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
+      propertyPath: hUD
+      value: 
+      objectReference: {fileID: 127426331}
     - target: {fileID: 7829202649020753954, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
       propertyPath: HealthHUD
       value: 
@@ -5536,6 +5634,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
@@ -5770,6 +5872,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -6195,6 +6301,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Planta_muerta 1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
 --- !u!4 &1759080329 stripped
@@ -6272,6 +6382,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
       propertyPath: m_Name
       value: piedras (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
@@ -6351,6 +6465,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: piedras (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da06da618dc95ba439f4ec5194071f3a, type: 3}
 --- !u!4 &1824437760 stripped
@@ -6428,6 +6546,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
       propertyPath: m_Name
       value: Planta_muerta 1 (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73dd147746ec8648b05863b2d997d71, type: 3}

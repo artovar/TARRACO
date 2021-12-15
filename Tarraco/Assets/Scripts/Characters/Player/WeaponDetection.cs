@@ -90,7 +90,7 @@ public class WeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
-            if (controller.attacking)
+            if (controller.attacking && !Object.ReferenceEquals(backWeapon, null))
             {
                 controller.PrepareHit();
                 if (backWeapon.GetComponent<WeaponScript>().kind == Weapons.Bow)

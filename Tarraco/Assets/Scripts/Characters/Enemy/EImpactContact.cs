@@ -15,7 +15,7 @@ public class EImpactContact : MonoBehaviour
         if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
             LayerMask layer = col.gameObject.layer;
-            if (layer >= LayerMask.NameToLayer("Arrow_1") && layer <= LayerMask.NameToLayer("Arrow_E"))
+            if (layer >= LayerMask.NameToLayer("Arrow_1") && layer <= LayerMask.NameToLayer("Arrow_E") && damageTaken != 0)
             {
                 (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
                 col.rigidbody.velocity = Vector3.zero;
@@ -40,7 +40,28 @@ public class EImpactContact : MonoBehaviour
             if (wp != null)
             {
                 from = wp.owner;
-                damage = wp.damageDealed * damageTaken;
+                switch (wp.kind)
+                {
+                    case Weapons.Spear:
+                        damage = wp.damageDealed * (damageTaken + 1);
+                        break;
+                    default:
+                        damage = wp.damageDealed * damageTaken;
+                        break;
+                }
+            }
+            else
+            {
+                switch(col.gameObject.layer)
+                {
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                        from = col.gameObject.GetComponentInParent<CharacterClass>().character;
+                        damage = damageTaken;
+                        break;
+                }
             }
             //Damage
             enemyController.Damage(damage, from);

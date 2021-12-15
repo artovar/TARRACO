@@ -116,7 +116,7 @@ MonoBehaviour:
   - {fileID: 5005624509908467568}
   kind: 11
   owner: 0
-  damageDealed: 3
+  damageDealed: 1
   weaponCoolDown: 0.6
   forcePoint: {fileID: 5005624509908464381}
 --- !u!1 &5005624509908465536

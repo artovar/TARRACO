@@ -194,10 +194,7 @@ public class PlayerController : CharacterClass
     {
 		if (id != 1)
 		{
-			Head.GetComponent<ImpactContact>().HealthHUD = hUI;
-			//UpperRightArm.GetComponent<ImpactContact>().HealthHUD = hUI;
-			//UpperLeftArm.GetComponent<ImpactContact>().HealthHUD = hUI;
-			Body.GetComponent<ImpactContact>().HealthHUD = hUI;
+			hUD = hUI.GetComponent<HealthHUD>();
 			detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
 			/*forwardBackward = "Vertical" + id;
 			leftRight = "Horizontal" + id;
@@ -863,6 +860,7 @@ public class PlayerController : CharacterClass
 				hitCoolDown = weapon.weaponCoolDown;
 				if (!metralletaCheat)
 				{
+					invTime = .1f;
 					weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 				}
 				switch (weapon.kind)
@@ -889,6 +887,7 @@ public class PlayerController : CharacterClass
 			else
 			{
 				hitCoolDown = .5f;
+				invTime = .1f;
 				//Right hand punch release pose
 				APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
 				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(0.74f, 0.04f, 0f, 1);

@@ -7,7 +7,7 @@ public class OvationBar : MonoBehaviour
 {
     private float ovationMeter = 0;
     [SerializeField]
-    private float ovationMax = 180;
+    private float ovationMax = 240;
     [SerializeField]
     private RectTransform meter;
     [SerializeField]
@@ -16,15 +16,16 @@ public class OvationBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ovationMeter = 5;
+        ovationMeter = 0;
         OvationSingleton.Instance.AddBar(this, owner);
     }
 
     // Update is called once per frame
     void Update()
     {
-        ovationMeter -= Time.deltaTime * 4;
-        meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta;
+        if (ovationMeter == ovationMax) return;
+        ovationMeter -= Time.deltaTime * 3.5f;
+        meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta.y;
         if (ovationMeter <= 0)
         {
             ovationMeter = 0;
@@ -32,15 +33,17 @@ public class OvationBar : MonoBehaviour
         }
     }
 
-    public void IncreaseMeter(float incr)
+    public void IncreaseMeter(float incrPerc)
     {
-        ovationMeter += incr;
+        ovationMeter += (ovationMax) * (incrPerc/100f);
+        print("Increased " + ((ovationMax) * (incrPerc / 100f)) + " up to " + ovationMeter);
         if(ovationMeter >= ovationMax)
         {
             ovationMeter = ovationMax;
-            foreach(Image i in GetComponentsInChildren<Image>())
+            meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta.y;
+            foreach (Image i in GetComponentsInChildren<Image>())
             { 
-                if(!i.gameObject.Equals(this.gameObject)) i.color = Color.green;
+                if(!i.gameObject.Equals(this.gameObject)) i.color = Color.yellow;
             }
             OvationSingleton.Instance.BarAccomplished();
         }
