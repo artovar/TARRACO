@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3861179, g: 0.47332495, b: 0.6188446, a: 1}
+  m_IndirectSpecularColor: {r: 0.38549656, g: 0.47287822, b: 0.6186742, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -696,6 +696,10 @@ PrefabInstance:
     - target: {fileID: 102841181029215775, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 479826746245650546, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000030517578
       objectReference: {fileID: 0}
     - target: {fileID: 8581044425732207925, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
       propertyPath: player
@@ -2479,6 +2483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24719dd1dff76c4f85a0b91afe160b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 0}
   playerPrefab: {fileID: 812357007076044116, guid: 70cc0b92773cfb6439c247c0c269f587, type: 3}
   healthUI:
   - {fileID: 1495942993}
