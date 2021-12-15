@@ -26,7 +26,7 @@ public abstract class CharacterClass : MonoBehaviour
         if (life < 0) life = 0;
         if (IsDead())
         {
-            if(!alreadyDead) OvationSingleton.Instance.IncreaseMeter(10f, from);
+            if(!alreadyDead) OvationSingleton.Instance.IncreaseMeter(8f, from);
             alreadyDead = true;
             YoureDead(this, EventArgs.Empty);
         }

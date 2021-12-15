@@ -1339,6 +1339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: 1
+  hUD: {fileID: 0}
   life: 0
   maxLife: 3
   moveSpeed: 12
@@ -11958,7 +11959,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   APR_Player: {fileID: 5970677242463461839}
-  HealthHUD: {fileID: 0}
 --- !u!1 &5854201647924977905
 GameObject:
   m_ObjectHideFlags: 0
@@ -12549,7 +12549,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   APR_Player: {fileID: 5970677242463461839}
-  HealthHUD: {fileID: 0}
 --- !u!1 &5854201647924977908
 GameObject:
   m_ObjectHideFlags: 0
