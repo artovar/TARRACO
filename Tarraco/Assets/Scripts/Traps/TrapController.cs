@@ -48,7 +48,8 @@ public class TrapController : MonoBehaviour
                     IsIce(playerController);
                     break;
                 case trapType.SPIKES:
-                    coroutine = IsSpikes(playerController, 4);
+                    coroutine = IsSpikes(playerController, 10);
+                    StopAllCoroutines();
                     StartCoroutine(coroutine);
                     break;
             }
@@ -100,7 +101,7 @@ public class TrapController : MonoBehaviour
         {
             if (controller.gameObject == null) StopAllCoroutines();
             controller.Damage(1, Characters.Enemy);
-            Debug.Log("Aun me he pinchado");
+            Debug.Log("Aun me he pinchado me queda esta vida: "+controller.life);
             yield return new WaitForSeconds(time);
         }
     }
