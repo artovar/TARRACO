@@ -115,8 +115,8 @@ public class SpawnPoint : MonoBehaviour
                 enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
                 Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
             }
-            maxEnemies = (int) (maxDef + Mathf.Sqrt(deathCount));
-            time = time - secondsSpawn * 0.02f * deadGuys.Count;
+            maxEnemies = (int) (maxDef + Mathf.Sqrt(deathCount) / 2);
+            time = time - secondsSpawn * 0.01f * deadGuys.Count;
             if (time < 0.1f) time = .1f;
             yield return new WaitForSeconds(time);
         }
