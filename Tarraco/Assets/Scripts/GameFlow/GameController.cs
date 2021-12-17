@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     */
     private bool p2, p3, p4;
     GameObject[] players = new GameObject[4];
+    private Vector3[] points = { new Vector3(-.5f,0f,-.5f), new Vector3(-.5f,0f,.5f), new Vector3(.5f, 0f, .5f), new Vector3(.5f, 0f, -5f) };
 
     private int controllers;
     private int prevLen;
@@ -37,7 +38,7 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump2"))
             {
-                players[1] = Instantiate(playerPrefabs[1], Vector3.zero, Quaternion.identity);
+                players[1] = Instantiate(playerPrefabs[1], BetterSP(), Quaternion.identity);
                 cam.GetComponent<CameraControl>().AddPlayer(players[1].GetComponent<PlayerController>().Root.transform, 2);
                 p2 = true;
                 healthUI[1].SetActive(true);
@@ -50,7 +51,7 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump3"))
             {
-                players[2] = Instantiate(playerPrefabs[2], Vector3.zero, Quaternion.identity);
+                players[2] = Instantiate(playerPrefabs[2], BetterSP(), Quaternion.identity);
                 cam.GetComponent<CameraControl>().AddPlayer(players[2].GetComponent<PlayerController>().Root.transform, 3);
                 p3 = true;
                 healthUI[2].SetActive(true);
@@ -63,7 +64,7 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump4"))
             {
-                players[3] = Instantiate(playerPrefabs[3], Vector3.zero, Quaternion.identity);
+                players[3] = Instantiate(playerPrefabs[3], BetterSP(), Quaternion.identity);
                 cam.GetComponent<CameraControl>().AddPlayer(players[3].GetComponent<PlayerController>().Root.transform, 4);
                 p4 = true;
                 healthUI[3].SetActive(true);
@@ -72,5 +73,33 @@ public class GameController : MonoBehaviour
                 players[3].GetComponent<PlayerController>().SetUp(hUI.gameObject);
             }
         }
+    }
+
+    private Vector3 BetterSP()
+    {
+        float betterDistance = 0;
+        Vector3 betterPoint = Vector3.zero;
+        foreach (Vector3 point in points)
+        {
+            float shortestToPlayers = 100;
+            float trying;
+            foreach (GameObject thePlayer in players)
+            {
+                if(thePlayer != null)
+                {
+                    trying = (point - thePlayer.transform.position).magnitude;
+                    if (trying < shortestToPlayers)
+                    {
+                        shortestToPlayers = trying;
+                    }
+                }
+            }
+            if (shortestToPlayers > betterDistance)
+            {
+                betterDistance = shortestToPlayers;
+                betterPoint = point;
+            }
+        }
+        return betterPoint;
     }
 }

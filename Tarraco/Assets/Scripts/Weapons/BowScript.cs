@@ -90,12 +90,13 @@ public class BowScript : WeaponScript
                 float desviation = Random.Range(-0.05f, 0.05f);
                 if (desviation > 0)
                 {
-                    arrowClone = Instantiate(arrows[4], transform.position, Quaternion.LookRotation(direction + Vector3.forward * desviation, Vector3.up));
+                    direction += Vector3.right * desviation;
                 }
                 else
                 {
-                    arrowClone = Instantiate(arrows[4], transform.position, Quaternion.LookRotation(direction + Vector3.right * desviation, Vector3.up));
+                    direction += Vector3.forward * desviation;
                 }
+                arrowClone = Instantiate(arrows[4], transform.position, Quaternion.LookRotation(direction, Vector3.up));
                 break;
         };
         arrowClone.GetComponent<Rigidbody>().velocity = direction * arrowForce;

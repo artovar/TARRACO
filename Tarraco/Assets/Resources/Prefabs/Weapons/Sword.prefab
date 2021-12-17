@@ -79,15 +79,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e98a35c03b25a4eb7c8b6f7a83780f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kind: 12
-  owner: 0
-  damageDealed: 1
-  weaponCoolDown: 0.6
-  forcePoint: {fileID: 4435941406284680647}
   onHandCol:
   - {fileID: 4994013598877241573}
   onFloorCol:
   - {fileID: 6234101051761324848}
+  kind: 12
+  owner: 0
+  damageDealed: 1
+  weaponCoolDown: 0.5
+  forcePoint: {fileID: 4435941406284680647}
 --- !u!1 &680089056451318971
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,13 +186,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5955294274073792409}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.18301237, y: 0.18301237, z: -0.6830128, w: 0.6830128}
   m_LocalPosition: {x: 0, y: 0, z: 1.737}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 817711224635863244}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: -90}
 --- !u!1001 &3799317248959769589
 PrefabInstance:
   m_ObjectHideFlags: 0

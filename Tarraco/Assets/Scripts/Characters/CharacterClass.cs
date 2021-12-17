@@ -11,7 +11,7 @@ public abstract class CharacterClass : MonoBehaviour
     public int maxLife;
     public float moveSpeed;
     [SerializeField]
-    protected const float invTimeDef = .7f;
+    public float invTimeDef = .7f;
     protected float invTime = 0;
     public event EventHandler YoureDead;
     private bool alreadyDead;

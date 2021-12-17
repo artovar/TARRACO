@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4592431702456635500}
   m_Layer: 0
   m_Name: spcontroller
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8817aac9126c8b40a9ff6ba3b7b81d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   enemyPrefabs:
   - {fileID: 6806997512440848726, guid: d6081449ffb38d94ea521d25058169ca, type: 3}
   - {fileID: 535573018164911671, guid: f52deef497a418c49a35cae256d6fe0f, type: 3}

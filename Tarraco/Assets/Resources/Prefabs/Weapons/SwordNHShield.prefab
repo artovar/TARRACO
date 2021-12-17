@@ -148,13 +148,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2758997493542018518}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.18301229, y: 0.18301222, z: -0.68301284, w: 0.68301284}
   m_LocalPosition: {x: 0, y: 0, z: 1.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2758997493542017622}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: -90}
 --- !u!1 &2758997493542018566
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
   kind: 13
   owner: 0
   damageDealed: 1
-  weaponCoolDown: 0.6
+  weaponCoolDown: 0.5
   forcePoint: {fileID: 2758997493542017561}
   sword: {fileID: 2758997493542017622}
   shield: {fileID: 2758997493542017911}

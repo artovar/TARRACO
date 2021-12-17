@@ -378,7 +378,7 @@ MonoBehaviour:
   kind: 13
   owner: 0
   damageDealed: 1
-  weaponCoolDown: 0.6
+  weaponCoolDown: 0.5
   forcePoint: {fileID: 6017559285807721532}
   sword: {fileID: 3747745831672171243}
   shield: {fileID: 8866114414172161546}
@@ -550,9 +550,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f59e5cc8423781488bb43d6e2ba1492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!1 &5565817201958161498
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,13 +603,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7958397489058548073}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0.18301229, y: 0.18301222, z: -0.68301284, w: 0.68301284}
   m_LocalPosition: {x: 0, y: 0, z: 1.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3747745831672171243}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: -90}
 --- !u!1001 &3710558826755638762
 PrefabInstance:
   m_ObjectHideFlags: 0

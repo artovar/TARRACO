@@ -70,16 +70,26 @@ public class HealthHUD : MonoBehaviour
 
     void GameOver()
     {
+        StartCoroutine(Slower());
+    }
+    private IEnumerator Slower()
+    {
+        while(Time.timeScale > 0.5f)
+        {
+            Time.timeScale -= Time.deltaTime;
+            if (Time.timeScale < 0.5f) Time.timeScale = 0;
+            yield return null;
+        }
         gameOver.SetActive(true);
-        Time.timeScale = 0.1f;
     }
 
     public void Restart()
     {
         GameObject controller = GameObject.FindGameObjectWithTag("GameController");
         controller.tag = "Untagged";
+        StopAllCoroutines();
         Time.timeScale = 1f;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         DestroyImmediate(controller);
     }
 
@@ -87,6 +97,7 @@ public class HealthHUD : MonoBehaviour
     {
         GameObject controller = GameObject.FindGameObjectWithTag("GameController");
         controller.tag = "Untagged";
+        StopAllCoroutines();
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
         DestroyImmediate(controller);

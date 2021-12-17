@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class OvationSingleton : MonoBehaviour
 {
     private static OvationSingleton instance;
     public static OvationSingleton Instance => instance;
     private OvationBar[] bars = new OvationBar[4];
+    bool winned = false;
 
     private void Awake()
     {
@@ -58,5 +60,25 @@ public class OvationSingleton : MonoBehaviour
     public void BarAccomplished()
     {
         print("Has llegado al maximo");
+    }
+    public void Win(Characters charact, TextMeshProUGUI texto)
+    {
+        if (winned) return;
+        switch(charact)
+        {
+            case Characters.Player1:
+                texto.text = "You win!";
+                break;
+            case Characters.Player2:
+                texto.text = "You win!";
+                break;
+            case Characters.Player3:
+                texto.text = "You win!";
+                break;
+            case Characters.Player4:
+                texto.text = "You win!";
+                break;
+        }
+        Time.timeScale = .5f;
     }
 }

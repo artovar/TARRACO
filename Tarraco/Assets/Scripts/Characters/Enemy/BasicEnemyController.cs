@@ -429,7 +429,7 @@ public class BasicEnemyController : CharacterClass
 		//Camera Direction
 		//Turn with camera
 		//var lookPos = cam.transform.forward; CAMBIO
-		if ((leftRight != 0 || forwardBackward != 0) && (!attacking)/**/)
+		if ((leftRight != 0 || forwardBackward != 0))
 		{
 			var lookPos = new Vector3(-leftRight, 0.0f, forwardBackward) * 5;
 			lookPos.y = 0;
@@ -702,7 +702,8 @@ public class BasicEnemyController : CharacterClass
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
-						var lookPos = new Vector3(Root.transform.forward.x, 0.0f, Root.transform.forward.z);
+						//var lookPos = new Vector3(Root.transform.forward.x, 0.0f, Root.transform.forward.z);
+						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
 						weapon.Shoot(lookPos.normalized, Characters.Enemy);
 						break;
 					default:

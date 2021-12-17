@@ -110,7 +110,7 @@ public class PlayerController : CharacterClass
 		WalkForward, WalkBackward,
 		StepRight, StepLeft, Alert_Leg_Right,
 		Alert_Leg_Left, balanced = true, GettingUp,
-		ResetPose, isRagdoll, usingLeft,
+		ResetPose, isRagdoll, usingLeft, ableToStop = true,
 		jumpAxisUsed, reachLeftAxisUsed, reachRightAxisUsed;
 
 	[HideInInspector]
@@ -192,6 +192,7 @@ public class PlayerController : CharacterClass
 
     private void Start()
     {
+		GameObject.FindGameObjectWithTag("Respawn").GetComponent<SpawnPoint>().AddPlayer(Root.transform);
 		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
     }
     public void SetUp(GameObject hUI)
@@ -564,6 +565,10 @@ public class PlayerController : CharacterClass
             {
 				pPos = new Vector3(Input.GetAxis(lookY), -Input.GetAxis(lookX), 0f);
 			}
+			else if (Input.GetAxis(leftRight)!= 0 || Input.GetAxis(forwardBackward) != 0)
+            {
+				pPos = new Vector3(Input.GetAxis(leftRight), Input.GetAxis(forwardBackward), 0f);
+            }
 			usingController = true;
 		}
 		else
@@ -837,12 +842,19 @@ public class PlayerController : CharacterClass
 	}
 	//---Player Punch---//
 	/////////////////////
+	private IEnumerator JustDid()
+    {
+		yield return new WaitForSeconds(.15f);
+		ableToStop = true;
+    }
 	void PlayerPunch()
 	{
 
 		//punch right
-		if (!attacking && !inAir && !isRagdoll && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
+		if (ableToStop && !attacking && !inAir && !isRagdoll && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
 		{
+			ableToStop = false;
+			StartCoroutine(JustDid());
 			attacking = true;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
@@ -857,7 +869,7 @@ public class PlayerController : CharacterClass
 			}
 		}
 
-		if (attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || (metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0)))))
+		if (ableToStop && attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || (metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0)))))
 		{
 			attacking = false;
 			if (!Object.ReferenceEquals(weapon, null))
@@ -871,8 +883,9 @@ public class PlayerController : CharacterClass
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
-						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);
-						weapon.Shoot(lookPos.normalized, Characters.Player1);
+						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
+						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
+						weapon.Shoot(lookPos.normalized, character);
 						if (metralletaCheat) hitCoolDown = .05f;
                         else
 						{
