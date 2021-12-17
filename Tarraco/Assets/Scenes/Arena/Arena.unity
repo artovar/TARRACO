@@ -1043,9 +1043,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   distance: 12.5
-  smoothness: 0.075
+  smoothness: 0.09
   rotateCamera: 0
-  rotateSpeed: 5
+  rotateSpeed: 10
   minAngle: -45
   maxAngle: -10
 --- !u!81 &230857355
@@ -1439,6 +1439,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b73dd147746ec8648b05863b2d997d71, type: 3}
   m_PrefabInstance: {fileID: 412706085}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &426954765 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7997706389791661265, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
+  m_PrefabInstance: {fileID: 802199296}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &430285049
 PrefabInstance:
@@ -2678,6 +2683,10 @@ PrefabInstance:
       propertyPath: m_fontColor.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7094289831862389306, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
+      propertyPath: m_FirstSelected
+      value: 
+      objectReference: {fileID: 426954765}
     - target: {fileID: 8008455396647930331, guid: d32f7207479c69e47a578e28326d0a97, type: 3}
       propertyPath: gameOver
       value: 
@@ -5786,6 +5795,7 @@ MonoBehaviour:
   - {fileID: 812357007076044116, guid: 70cc0b92773cfb6439c247c0c269f587, type: 3}
   - {fileID: 2959625576506336315, guid: 797430b8c85b4ad43a62023ba2794deb, type: 3}
   - {fileID: 358931752589513274, guid: 441402c7bdf2bf74db59a947d6b163ad, type: 3}
+  gameOver: {fileID: 802199300}
   healthUI:
   - {fileID: 4719300349018407453}
   - {fileID: 155007745069684177}

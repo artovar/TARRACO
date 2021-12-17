@@ -59,7 +59,6 @@ public class OvationSingleton : MonoBehaviour
 
     public void BarAccomplished()
     {
-        print("Has llegado al maximo");
     }
     public void Win(Characters charact, TextMeshProUGUI texto)
     {

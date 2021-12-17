@@ -7,7 +7,6 @@ public class HealthHUD : MonoBehaviour
 {
     [SerializeField]
     public GameObject player;
-    public GameObject gameOver;
     private Animator animator;
     public List<GameObject> heartList = new List<GameObject>();
 
@@ -18,7 +17,6 @@ public class HealthHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameOver.SetActive(false);
         animator = GetComponent<Animator>();
         /*foreach (Transform child in transform)
         {
@@ -37,7 +35,6 @@ public class HealthHUD : MonoBehaviour
 
     public void HealHUD(int bonus)
     {
-        print(player.name);
         life += bonus;
         if (life <= player.GetComponent<CharacterClass>().maxLife)
         {
@@ -57,10 +54,6 @@ public class HealthHUD : MonoBehaviour
         animator.SetInteger("Life", life);
         animator.SetBool("Damage", true);
         heartList[life].SetActive(false);
-        if (life == 0)
-        {
-            GameOver();
-        }
     }
     public void StopDamaging()
     {
@@ -68,20 +61,6 @@ public class HealthHUD : MonoBehaviour
         animator.SetBool("Heal", false);
     }
 
-    void GameOver()
-    {
-        StartCoroutine(Slower());
-    }
-    private IEnumerator Slower()
-    {
-        while(Time.timeScale > 0.5f)
-        {
-            Time.timeScale -= Time.deltaTime;
-            if (Time.timeScale < 0.5f) Time.timeScale = 0;
-            yield return null;
-        }
-        gameOver.SetActive(true);
-    }
 
     public void Restart()
     {

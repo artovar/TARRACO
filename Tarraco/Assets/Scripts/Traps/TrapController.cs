@@ -96,12 +96,12 @@ public class TrapController : MonoBehaviour
             case Characters.Enemy:
                 rootRigidbody = controller.GetComponent<BasicEnemyController>().Root.GetComponent<Rigidbody>();
                 controller.GetComponent<BasicEnemyController>().ActivateRagdoll();
-                rootRigidbody.velocity = (rootRigidbody.transform.position - transform.position).normalized * 100;
+                rootRigidbody.velocity = (rootRigidbody.transform.position - transform.position).normalized * 50;
                 break;
             default:
                 rootRigidbody = controller.GetComponent<PlayerController>().Root.GetComponent<Rigidbody>();
                 controller.GetComponent<PlayerController>().ActivateRagdoll();
-                rootRigidbody.velocity = (rootRigidbody.transform.position - transform.position).normalized * 20;
+                rootRigidbody.velocity = (rootRigidbody.transform.position - transform.position).normalized * 50;
                 break;
         }
     }

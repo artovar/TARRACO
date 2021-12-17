@@ -2654,6 +2654,7 @@ MonoBehaviour:
   - {fileID: 812357007076044116, guid: 70cc0b92773cfb6439c247c0c269f587, type: 3}
   - {fileID: 2959625576506336315, guid: 797430b8c85b4ad43a62023ba2794deb, type: 3}
   - {fileID: 358931752589513274, guid: 441402c7bdf2bf74db59a947d6b163ad, type: 3}
+  gameOver: {fileID: 827022937}
   healthUI:
   - {fileID: 1495942993}
   - {fileID: 1255662290}

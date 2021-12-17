@@ -118,7 +118,6 @@ public class SpawnPoint : MonoBehaviour
             maxEnemies = (int) (maxDef + Mathf.Sqrt(deathCount));
             time = time - secondsSpawn * 0.02f * deadGuys.Count;
             if (time < 0.1f) time = .1f;
-            print(maxEnemies + " " + time);
             yield return new WaitForSeconds(time);
         }
     }

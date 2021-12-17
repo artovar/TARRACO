@@ -30,8 +30,20 @@ public abstract class CharacterClass : MonoBehaviour
             alreadyDead = true;
             YoureDead(this, EventArgs.Empty);
         }
-        if(!character.Equals(Characters.Enemy)) hUD.GetComponent<HealthHUD>().HurtHUD(1);
-        return true;
+        if (!character.Equals(Characters.Enemy))
+        {
+            hUD.GetComponent<HealthHUD>().HurtHUD(1);
+            if (life == 0)
+            {
+                GameController.Instance.AddDeath(character);
+                foreach(MonoBehaviour m in GetComponentsInChildren<MonoBehaviour>())
+                {
+                    if (m != this) m.enabled = false;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Heal(int amount) {
