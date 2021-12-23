@@ -185,6 +185,7 @@ public class PlayerController : CharacterClass
 			lookY += id;
 			dash += id;
 			detector.SetUp();
+			usingController = true;
 		}
 		PlayerSetup();
 		YoureDead += OnDead;
@@ -507,6 +508,7 @@ public class PlayerController : CharacterClass
 		float y = Input.GetAxis(forwardBackward);
 		float cX = Input.GetAxis(lookY);
 		float cY = -Input.GetAxis(lookX);*/
+		if (!usingController && (Input.GetAxis("Horizontal1") != 0 || Input.GetAxis("Vertical1") != 0)) usingController = true;
 		if(!isRagdoll)
 		{
 			Direction = new Vector3(x, 0.0f, y).normalized;

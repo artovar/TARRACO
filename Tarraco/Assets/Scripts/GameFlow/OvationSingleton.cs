@@ -9,6 +9,7 @@ public class OvationSingleton : MonoBehaviour
     public static OvationSingleton Instance => instance;
     private OvationBar[] bars = new OvationBar[4];
     bool winned = false;
+    private float time = 0;
 
     private void Awake()
     {
@@ -19,6 +20,10 @@ public class OvationSingleton : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         instance = this;
+    }
+    private void Update()
+    {
+        if(!winned) time += Time.deltaTime;
     }
     public void AddBar(OvationBar bar, Characters character)
     {
@@ -59,10 +64,13 @@ public class OvationSingleton : MonoBehaviour
 
     public void BarAccomplished()
     {
+        print("You needed " + time + " seconds.");
     }
+
     public void Win(Characters charact, TextMeshProUGUI texto)
     {
         if (winned) return;
+        winned = true;
         switch(charact)
         {
             case Characters.Player1:

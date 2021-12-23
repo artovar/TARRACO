@@ -56,7 +56,7 @@ public class OvationBar : MonoBehaviour
             OvationSingleton.Instance.BarAccomplished();
             scoreInt++;
             score.text = "" + scoreInt;
-            if (scoreInt == 5) OvationSingleton.Instance.Win(owner, score);
+            if (scoreInt == 3) OvationSingleton.Instance.Win(owner, score);
             ovationMeter = 0;
         }
     }
