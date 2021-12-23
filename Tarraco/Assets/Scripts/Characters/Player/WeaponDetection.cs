@@ -89,23 +89,18 @@ public class WeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
-            if (controller.attacking && !Object.ReferenceEquals(backWeapon, null))
+            if (controller.attacking)
             {
                 controller.PrepareHit();
-                if (backWeapon.GetComponent<WeaponScript>().kind == Weapons.Bow)
+                /*if (backWeapon.GetComponent<WeaponScript>().kind == Weapons.Bow)
                 {
                     controller.ResetLeftArm();
                     backWeapon.GetComponent<BowScript>().StopShooting();
-                }
+                }*/
             }
         }
         else if (col.CompareTag("Heal") && controller.life < controller.maxLife)
         {
-            if (!picking)
-            {
-                return;
-            }
-            picking = false;
             col.enabled = false;
             Destroy(col.gameObject);
             controller.Heal(1);

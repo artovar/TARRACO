@@ -37,7 +37,6 @@ public class EImpactContact : MonoBehaviour
                 col.rigidbody.velocity = Vector3.zero;
                 col.collider.enabled = false;
             }
-            enemyController.ActivateRagdoll();
 
             //SUSTITUIR ESTO POR MUERTE
 
@@ -79,7 +78,7 @@ public class EImpactContact : MonoBehaviour
                 }
             }
             //Damage
-            enemyController.Damage(damage, from);
+            if(enemyController.Damage(damage, from)) enemyController.ActivateRagdoll();
 
             if (enemyController.IsDead())
             {

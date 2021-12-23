@@ -7,7 +7,6 @@ public class HealthHUD : MonoBehaviour
 {
     [SerializeField]
     public GameObject player;
-    public GameObject gameOver;
     private Animator animator;
     public List<GameObject> heartList = new List<GameObject>();
 
@@ -18,7 +17,6 @@ public class HealthHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameOver.SetActive(false);
         animator = GetComponent<Animator>();
         /*foreach (Transform child in transform)
         {
@@ -37,7 +35,6 @@ public class HealthHUD : MonoBehaviour
 
     public void HealHUD(int bonus)
     {
-        print(player.name);
         life += bonus;
         if (life <= player.GetComponent<CharacterClass>().maxLife)
         {
@@ -57,10 +54,6 @@ public class HealthHUD : MonoBehaviour
         animator.SetInteger("Life", life);
         animator.SetBool("Damage", true);
         heartList[life].SetActive(false);
-        if (life == 0)
-        {
-            GameOver();
-        }
     }
     public void StopDamaging()
     {
@@ -68,18 +61,14 @@ public class HealthHUD : MonoBehaviour
         animator.SetBool("Heal", false);
     }
 
-    void GameOver()
-    {
-        gameOver.SetActive(true);
-        Time.timeScale = 0.1f;
-    }
 
     public void Restart()
     {
         GameObject controller = GameObject.FindGameObjectWithTag("GameController");
         controller.tag = "Untagged";
+        StopAllCoroutines();
         Time.timeScale = 1f;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         DestroyImmediate(controller);
     }
 
@@ -87,6 +76,7 @@ public class HealthHUD : MonoBehaviour
     {
         GameObject controller = GameObject.FindGameObjectWithTag("GameController");
         controller.tag = "Untagged";
+        StopAllCoroutines();
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
         DestroyImmediate(controller);

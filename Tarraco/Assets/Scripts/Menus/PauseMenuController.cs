@@ -17,7 +17,7 @@ public class PauseMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Cancel") || Input.GetButtonDown("Start"))
+        if (Input.GetButtonDown("Cancel") || Input.GetButtonDown("Start") && (Time.timeScale == 1 || pauseMenu.activeSelf))
         {
             Pause();
         }
@@ -32,7 +32,7 @@ public class PauseMenuController : MonoBehaviour
             pauseMenu.SetActive(true);
             background.SetActive(true);
             Time.timeScale = 0f;
-            Taco.GetComponent<PlayerController>().enabled = false;
+            //Taco.GetComponent<PlayerController>().enabled = false;
 
         }
         else
@@ -40,7 +40,7 @@ public class PauseMenuController : MonoBehaviour
             pauseMenu.SetActive(false);
             background.SetActive(false);
             Time.timeScale = 1f;
-            Taco.GetComponent<PlayerController>().enabled = true;
+            //Taco.GetComponent<PlayerController>().enabled = true;
         }
     }
 

@@ -124,17 +124,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c96a3caa6cb9e47a81837161b19a94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kind: 0
-  owner: 0
-  damageDealed: 2
-  weaponCoolDown: 1
-  forcePoint: {fileID: 6046163114138738175}
   onHandCol:
   - {fileID: 4253577779469104060}
   - {fileID: 4322794904878895932}
   onFloorCol:
   - {fileID: 5649506151767117806}
   - {fileID: 6662037992095331947}
+  kind: 0
+  owner: 0
+  damageDealed: 2
+  weaponCoolDown: 0.8
+  forcePoint: {fileID: 6046163114138738175}
 --- !u!65 &6662037992095331947
 BoxCollider:
   m_ObjectHideFlags: 0

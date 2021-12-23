@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OvationBar : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class OvationBar : MonoBehaviour
     private RectTransform meter;
     [SerializeField]
     private Characters owner;
+    [SerializeField]
+    private TextMeshProUGUI score;
+    private int scoreInt = 0;
+
+    private bool coloring;
 
     // Start is called before the first frame update
     void Start()
@@ -23,13 +29,14 @@ public class OvationBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ovationMeter == ovationMax) return;
-        ovationMeter -= Time.deltaTime * 3.5f;
-        meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta.y;
+        ovationMeter -= Time.deltaTime * 2.5f;
+        if(!coloring) {
+            meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta.y;
+        }
         if (ovationMeter <= 0)
         {
             ovationMeter = 0;
-            meter.sizeDelta -= Vector2.right * meter.sizeDelta.x;
+            if(!coloring) meter.sizeDelta -= Vector2.right * meter.sizeDelta.x;
         }
     }
 
@@ -44,7 +51,23 @@ public class OvationBar : MonoBehaviour
             { 
                 if(!i.gameObject.Equals(this.gameObject)) i.color = Color.yellow;
             }
+            coloring = true;
+            StartCoroutine(PrepareColor());
             OvationSingleton.Instance.BarAccomplished();
+            scoreInt++;
+            score.text = "" + scoreInt;
+            if (scoreInt == 3) OvationSingleton.Instance.Win(owner, score);
+            ovationMeter = 0;
         }
+    }
+    private IEnumerator PrepareColor()
+    {
+        //GetComponent<Animator>();
+        yield return new WaitForSeconds(1.5f);
+        foreach (Image i in GetComponentsInChildren<Image>())
+        {
+            if (!i.gameObject.Equals(this.gameObject)) i.color = new Color(0.3738351f, 0.8584f, 0.28888f, 1);
+        }
+        coloring = false;
     }
 }

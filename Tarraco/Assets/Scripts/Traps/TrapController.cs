@@ -58,7 +58,6 @@ public class TrapController : MonoBehaviour
                 Transform t = py.player.GetComponentInParent<PlayerController>().Root.transform;
                 //Buscamos el jugador más cerca de la trampa (que será el que ha metido alli el enemigo)
                 if ((py.enemyScript.Root.transform.position - t.position).magnitude < 10) {
-                    print("Aquí está entrando");
                     if (type == trapType.MUD) OvationSingleton.Instance.IncreaseMeter(2f, py.player.GetComponentInParent<CharacterClass>().character);
                     if (type == trapType.SPIKES) OvationSingleton.Instance.IncreaseMeter(5f, py.player.GetComponentInParent<CharacterClass>().character);
                     //Debug.Log("Me ha metido en este berenjenal: "+fromPlayer.GetComponent<CharacterClass>().character.ToString());
@@ -97,12 +96,12 @@ public class TrapController : MonoBehaviour
             case Characters.Enemy:
                 rootRigidbody = controller.GetComponent<BasicEnemyController>().Root.GetComponent<Rigidbody>();
                 controller.GetComponent<BasicEnemyController>().ActivateRagdoll();
-                rootRigidbody.AddForce((rootRigidbody.transform.position - transform.position).normalized * 200, ForceMode.Impulse);
+                rootRigidbody.velocity = (rootRigidbody.transform.position - transform.position).normalized * 50;
                 break;
             default:
                 rootRigidbody = controller.GetComponent<PlayerController>().Root.GetComponent<Rigidbody>();
                 controller.GetComponent<PlayerController>().ActivateRagdoll();
-                rootRigidbody.AddForce((rootRigidbody.transform.position - transform.position).normalized * 200, ForceMode.Impulse);
+                rootRigidbody.velocity = (rootRigidbody.transform.position - transform.position).normalized * 50;
                 break;
         }
     }

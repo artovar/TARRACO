@@ -104,13 +104,14 @@ public class PlayerController : CharacterClass
 	//Hidden variables
 	private float
 		timer, Step_R_timer, Step_L_timer,
-		MouseYAxisArms, MouseXAxisArms, MouseYAxisBody;
+		MouseYAxisArms, MouseXAxisArms, MouseYAxisBody,
+		x, y, cX, cY;
 
 	private bool
 		WalkForward, WalkBackward,
 		StepRight, StepLeft, Alert_Leg_Right,
 		Alert_Leg_Left, balanced = true, GettingUp,
-		ResetPose, isRagdoll, usingLeft,
+		ResetPose, isRagdoll, usingLeft, ableToStop = true,
 		jumpAxisUsed, reachLeftAxisUsed, reachRightAxisUsed;
 
 	[HideInInspector]
@@ -184,6 +185,7 @@ public class PlayerController : CharacterClass
 			lookY += id;
 			dash += id;
 			detector.SetUp();
+			usingController = true;
 		}
 		PlayerSetup();
 		YoureDead += OnDead;
@@ -192,6 +194,7 @@ public class PlayerController : CharacterClass
 
     private void Start()
     {
+		GameObject.FindGameObjectWithTag("Respawn").GetComponent<SpawnPoint>().AddPlayer(Root.transform);
 		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
     }
     public void SetUp(GameObject hUI)
@@ -219,8 +222,13 @@ public class PlayerController : CharacterClass
 	////////////////
 	void Update()
 	{
+		if (IsDead()) this.enabled = false;
 		invTime -= Time.deltaTime;
 		dashCD -= Time.deltaTime;
+		x = Input.GetAxis(leftRight);
+		y = Input.GetAxis(forwardBackward);
+		cX = Input.GetAxis(lookY);
+		cY = -Input.GetAxis(lookX);
 		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
@@ -495,10 +503,12 @@ public class PlayerController : CharacterClass
 	////////////////////////
 	void PlayerMovement()
 	{
+		/*
 		float x = Input.GetAxis(leftRight);
 		float y = Input.GetAxis(forwardBackward);
 		float cX = Input.GetAxis(lookY);
-		float cY = -Input.GetAxis(lookX);
+		float cY = -Input.GetAxis(lookX);*/
+		if (!usingController && (Input.GetAxis("Horizontal1") != 0 || Input.GetAxis("Vertical1") != 0)) usingController = true;
 		if(!isRagdoll)
 		{
 			Direction = new Vector3(x, 0.0f, y).normalized;
@@ -558,12 +568,16 @@ public class PlayerController : CharacterClass
 	////////////////////////
 	void PlayerRotation()
 	{
-		if (usingController || Input.GetAxis(lookX) != 0 || Input.GetAxis(lookX) != 0)
+		if (usingController || Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0)
         {
-			if(Input.GetAxis(lookX) != 0 || Input.GetAxis(lookX) != 0)
+			if(Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0)
             {
 				pPos = new Vector3(Input.GetAxis(lookY), -Input.GetAxis(lookX), 0f);
 			}
+			else if (x!= 0 || y != 0)
+            {
+				pPos = new Vector3(x, y, 0f);
+            }
 			usingController = true;
 		}
 		else
@@ -580,9 +594,8 @@ public class PlayerController : CharacterClass
 		//var lookPos = cam.transform.forward; CAMBIO
 		if (/*(Input.GetAxis(leftRight) != 0 || Input.GetAxis(forwardBackward) != 0)*/!isRagdoll/**/)
 		{
-			var lookPos = new Vector3(-pPos.x, 0.0f, pPos.y) * 5;
+			var lookPos = new Vector3(-pPos.x, 0.0f, pPos.y);
 			//new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
-			lookPos.y = 0;
 			var rotation = Quaternion.LookRotation(lookPos);
 			//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
@@ -837,12 +850,19 @@ public class PlayerController : CharacterClass
 	}
 	//---Player Punch---//
 	/////////////////////
+	private IEnumerator JustDid()
+    {
+		yield return new WaitForSeconds(.15f);
+		ableToStop = true;
+    }
 	void PlayerPunch()
 	{
 
 		//punch right
-		if (!attacking && !inAir && !isRagdoll && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
+		if (ableToStop && !attacking && !inAir && !isRagdoll && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
 		{
+			ableToStop = false;
+			StartCoroutine(JustDid());
 			attacking = true;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
@@ -857,7 +877,7 @@ public class PlayerController : CharacterClass
 			}
 		}
 
-		if (attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || (metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0)))))
+		if (ableToStop && attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || (metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0)))))
 		{
 			attacking = false;
 			if (!Object.ReferenceEquals(weapon, null))
@@ -871,8 +891,9 @@ public class PlayerController : CharacterClass
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
-						var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);
-						weapon.Shoot(lookPos.normalized, Characters.Player1);
+						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
+						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
+						weapon.Shoot(lookPos.normalized, character);
 						if (metralletaCheat) hitCoolDown = .05f;
                         else
 						{
