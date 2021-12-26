@@ -87,6 +87,6 @@ public class CameraControl : MonoBehaviour
         distance = originalDistance + mag;
         var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
         cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset*(((distance)/originalDistance)/1.2f), smoothness);
-        cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness*1.3f);
+        cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness*2f);
     }
 }

@@ -99,7 +99,7 @@ public class WeaponDetection : MonoBehaviour
                 }*/
             }
         }
-        else if (col.CompareTag("Heal") && controller.life < controller.maxLife)
+        else if (col.CompareTag("Heal") && controller.life < controller.maxLife && !controller.IsDead())
         {
             col.enabled = false;
             Destroy(col.gameObject);

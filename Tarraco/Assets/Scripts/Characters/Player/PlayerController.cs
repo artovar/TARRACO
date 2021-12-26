@@ -1291,6 +1291,23 @@ public class PlayerController : CharacterClass
 
 	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
+		StartCoroutine(Kill());
+		IEnumerator Kill()
+		{
+			yield return new WaitForSeconds(4f);
+			foreach (Collider c in GetComponentsInChildren<Collider>())
+			{
+				c.enabled = false;
+			}
+			foreach (Rigidbody r in GetComponentsInChildren<Rigidbody>())
+			{
+				r.velocity = Vector3.zero;
+				r.useGravity = false;
+				r.velocity = Vector3.down;
+			}
+			yield return new WaitForSeconds(3f);
+			Destroy(this.gameObject);
+		}
 	}
 
 	public void ResetLeftArm()
