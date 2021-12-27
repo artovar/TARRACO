@@ -251,6 +251,7 @@ public class PlayerController : CharacterClass
 		if (IsDead()) this.enabled = false;
 		invTime -= Time.deltaTime;
 		dashCD -= Time.deltaTime;
+		if (attacking && !Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.Bow)) chargingTime += Time.deltaTime * 1.4f;
 		x = Input.GetAxis(leftRight);
 		y = Input.GetAxis(forwardBackward);
 		cX = Input.GetAxis(lookY);
@@ -866,6 +867,7 @@ public class PlayerController : CharacterClass
 		switch(weapon.kind)
         {
 			case Weapons.Bow:
+				chargingTime = .45f;
 				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
 				weapon.GetComponent<BowScript>().PrepareLeftHand(APR_Parts[5].GetComponent<ConfigurableJoint>(), APR_Parts[6].GetComponent<ConfigurableJoint>());
 				break;
@@ -917,14 +919,19 @@ public class PlayerController : CharacterClass
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
-						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
-						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
-						weapon.Shoot(lookPos.normalized, character);
-						if (metralletaCheat) hitCoolDown = .05f;
-                        else
+						if (metralletaCheat)
+						{
+							chargingTime = 1.2f;
+							hitCoolDown = .05f;
+						}
+						else
 						{
 							ResetLeftArm();
 						}
+						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
+						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
+						weapon.Shoot(lookPos.normalized, character, chargingTime);
+						chargingTime = .45f;
 						break;
 					case Weapons.Axe:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);

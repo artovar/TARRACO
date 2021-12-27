@@ -20,6 +20,7 @@ public abstract class GameController : MonoBehaviour
     private Material[] materials;
 
     public GameObject gameOver;
+    public GameObject pauseMenu;
 
     public GameObject[] healthUIs;
     GameObject[] players = new GameObject[4];
@@ -203,5 +204,12 @@ public abstract class GameController : MonoBehaviour
         //SetSelectedGameObject(gameObject, new BaseEventData(eventSystem));
         //print(EventSystem.current.firstSelectedGameObject.name);
     }
-    
+
+    public void Exit()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        gameObject.tag = "Untagged";
+        Destroy(GameController.Instance.pauseMenu);
+        DestroyImmediate(GameController.Instance.gameObject);
+    }
 }

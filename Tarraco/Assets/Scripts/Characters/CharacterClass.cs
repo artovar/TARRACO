@@ -17,6 +17,8 @@ public abstract class CharacterClass : MonoBehaviour
     public event EventHandler YoureDead;
     private bool alreadyDead;
 
+    protected float chargingTime = .1f;
+
     public bool Damage(int amount, Characters from) {
         if (invTime > 0)
         {

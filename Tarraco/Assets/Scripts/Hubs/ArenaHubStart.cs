@@ -21,7 +21,7 @@ public class ArenaHubStart : MonoBehaviour
         if(players > 0)
         {
             countDown -= Time.deltaTime;
-            print(countDown);
+            print((int)countDown);
             if(countDown <= 0)
             {
                 LoadGame();
