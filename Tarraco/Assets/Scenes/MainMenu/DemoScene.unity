@@ -6237,7 +6237,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   distance: 12.5
-  smoothness: 0.07
+  smoothness: 0.08
   rotateCamera: 0
   rotateSpeed: 5
   minAngle: -45

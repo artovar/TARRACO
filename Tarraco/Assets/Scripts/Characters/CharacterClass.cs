@@ -7,6 +7,7 @@ public abstract class CharacterClass : MonoBehaviour
 {
     public Characters character;
     public HealthHUD hUD;
+    [HideInInspector]
     public int life;
     public int maxLife;
     public float moveSpeed;
@@ -15,6 +16,8 @@ public abstract class CharacterClass : MonoBehaviour
     protected float invTime = 0;
     public event EventHandler YoureDead;
     private bool alreadyDead;
+
+    protected float chargingTime = .1f;
 
     public bool Damage(int amount, Characters from) {
         if (invTime > 0)

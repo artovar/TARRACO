@@ -41,6 +41,17 @@ public class WeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print("Updating");
+        print(controller.IsDead());
+        if (controller.IsDead())
+        {
+            print("Trying to drop xD");
+            if(weaponsStored >= 1)
+            {
+                print("Doing it");
+                Drop(mainWeapon);
+            }
+        }
         if (Input.GetButtonDown(interact))
         {
             picking = true;
@@ -99,7 +110,7 @@ public class WeaponDetection : MonoBehaviour
                 }*/
             }
         }
-        else if (col.CompareTag("Heal") && controller.life < controller.maxLife)
+        else if (col.CompareTag("Heal") && controller.life < controller.maxLife && !controller.IsDead())
         {
             col.enabled = false;
             Destroy(col.gameObject);

@@ -58,6 +58,7 @@ public class EnemyController : MonoBehaviour
             return;
         }
         attackCD -= Time.deltaTime;
+        if (player == null) return;
         if(!Object.ReferenceEquals(enemyScript.weapon, null) 
             && enemyScript.weapon.kind.Equals(Weapons.Bow)
             && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 12f)
@@ -74,7 +75,7 @@ public class EnemyController : MonoBehaviour
             }
             estado = 1; //"Atacando"
         }
-        else if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 3.4f)
+        else if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 4f)
         {
             //Atacar
             if (attackCD < 0 && !enemyScript.IsRagdoll())

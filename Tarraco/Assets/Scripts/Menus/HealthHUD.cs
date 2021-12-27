@@ -60,25 +60,4 @@ public class HealthHUD : MonoBehaviour
         animator.SetBool("Damage", false);
         animator.SetBool("Heal", false);
     }
-
-
-    public void Restart()
-    {
-        GameObject controller = GameObject.FindGameObjectWithTag("GameController");
-        controller.tag = "Untagged";
-        StopAllCoroutines();
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        DestroyImmediate(controller);
-    }
-
-    public void BackToMenu()
-    {
-        GameObject controller = GameObject.FindGameObjectWithTag("GameController");
-        controller.tag = "Untagged";
-        StopAllCoroutines();
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
-        DestroyImmediate(controller);
-    }
 }
