@@ -172,6 +172,7 @@ public class PlayerController : CharacterClass
 	//////////////
 	void Awake()
 	{
+		/*
 		if(id != 1)
 		{
 			forwardBackward += id;
@@ -186,7 +187,7 @@ public class PlayerController : CharacterClass
 			dash += id;
 			detector.SetUp();
 			usingController = true;
-		}
+		}*/
 		PlayerSetup();
 		YoureDead += OnDead;
 		life = maxLife;
@@ -194,27 +195,52 @@ public class PlayerController : CharacterClass
 
     private void Start()
     {
-		GameObject.FindGameObjectWithTag("Respawn").GetComponent<SpawnPoint>().AddPlayer(Root.transform);
+		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Respawn"))
+        {
+			g.GetComponent<SpawnPoint>().AddPlayer(Root.transform);
+		}
 		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
     }
-    public void SetUp(GameObject hUI)
-    {
+    public void SetUp(GameObject hUI, int i)
+	{
+		id = i;
 		if (id != 1)
 		{
-			hUD = hUI.GetComponent<HealthHUD>();
-			detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
-			/*forwardBackward = "Vertical" + id;
-			leftRight = "Horizontal" + id;
-			jump = "Jump" + id;
-			left = "Left" + id;
-			attack = "Right" + id;
-			drop = "Drop" + id;
-			interact = "Interact" + id;
-			lookX = "Look X" + id;
-			lookY = "Look Y" + id;
-			dash = "Dash" + id;
-			detector.SetUp();*/
+			forwardBackward += id;
+			leftRight += id;
+			jump += id;
+			left += id;
+			attack += id;
+			drop += id;
+			interact += id;
+			lookX += id;
+			lookY += id;
+			dash += id;
+			detector.SetUp();
+			usingController = true;
+			LayerMask layer = 0;
+			switch (i)
+			{
+				case 2:
+					character = Characters.Player2;
+					layer = 11;
+					break;
+				case 3:
+					character = Characters.Player3;
+					layer = 12;
+					break;
+				case 4:
+					character = Characters.Player4;
+					layer = 13;
+					break;
+			}
+			foreach (Transform g in GetComponentsInChildren<Transform>())
+			{
+				g.gameObject.layer = layer;
+			}
 		}
+		hUD = hUI.GetComponent<HealthHUD>();
+		detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
 	}
 
 
@@ -1142,6 +1168,11 @@ public class PlayerController : CharacterClass
 	}
 
 
+	public bool IsRagdoll()
+    {
+		return isRagdoll;
+    }
+
 
 	//---Activate Ragdoll---//
 	/////////////////////////
@@ -1303,8 +1334,9 @@ public class PlayerController : CharacterClass
 			{
 				r.velocity = Vector3.zero;
 				r.useGravity = false;
-				r.velocity = Vector3.down;
+				r.velocity = Vector3.down * 2;
 			}
+			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(id);
 			yield return new WaitForSeconds(3f);
 			Destroy(this.gameObject);
 		}

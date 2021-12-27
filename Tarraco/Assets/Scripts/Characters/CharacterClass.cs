@@ -7,6 +7,7 @@ public abstract class CharacterClass : MonoBehaviour
 {
     public Characters character;
     public HealthHUD hUD;
+    [HideInInspector]
     public int life;
     public int maxLife;
     public float moveSpeed;

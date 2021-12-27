@@ -9,6 +9,7 @@ public class PauseMenuController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(transform.parent.gameObject);
         pauseMenu.SetActive(false);
         background.SetActive(false);
         Taco = GameObject.FindWithTag("Player");

@@ -2,31 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour
+public abstract class GameController : MonoBehaviour
 {
     private static GameController instance;
     public static GameController Instance => instance;
 
-    public Texture2D cursor;
     [SerializeField]
-    private GameObject[] playerPrefabs;
+    public Texture2D cursor;
+
+    [SerializeField]
+    private GameObject playerPrefab;
+    [SerializeField]
+    private Mesh[] meshes;
+    [SerializeField]
+    private Material[] materials;
+
     public GameObject gameOver;
 
-    /*private GameObject[] players;
-    private GameObject secPlayer;
-    */
-    private bool p2, p3, p4, finished;
-    private bool[] playerDeaths= {false, false, false, false};
+    public GameObject[] healthUIs;
     GameObject[] players = new GameObject[4];
-    private Vector3[] points = { new Vector3(-.5f,0f,-.5f), new Vector3(-.5f,0f,.5f), new Vector3(.5f, 0f, .5f), new Vector3(.5f, 0f, -5f) };
+    private bool[] p = { true, false, false, false };
+    public bool inGame;
+    private bool finished;
+    private bool[] playerDeaths= {false, false, false, false};
+    private int pCount;
 
-    private int controllers;
-    private int prevLen;
+    private Vector3[] playersSpawnPoints = { new Vector3(-.5f,0f,-.5f), new Vector3(-.5f,0f,.5f), new Vector3(.5f, 0f, .5f), new Vector3(.5f, 0f, -5f) };
 
     private Camera cam;
 
-    public GameObject[] healthUI;
 
     private void Awake()
     {
@@ -37,19 +43,49 @@ public class GameController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         instance = this;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Starto();
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Starto()
     {
         gameOver.SetActive(false);
         cam = Camera.main;
-        players[0] = GameObject.FindGameObjectWithTag("Player");
+        pCount = 0;
+        foreach(bool pl in p)
+        {
+            if (pl)
+            {
+                SpawnPlayer();
+            }
+        }
+        for (int i = 0; i < playerDeaths.Length; i++) 
+        {
+            playerDeaths[i] = false;
+        }
+        switch(SceneManager.GetActiveScene().buildIndex)
+        {
+            case 1:
+            case 3:
+                inGame = false;
+                cam.GetComponent<CameraControl>().ChangeToHub();
+                break;
+            case 2:
+            case 4:
+                inGame = true;
+                cam.GetComponent<CameraControl>().ChangeToGame();
+                break;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         if (finished) return;
         bool gameOv = true;
         for (int i = 0; i < playerDeaths.Length; i++)
@@ -61,53 +97,48 @@ public class GameController : MonoBehaviour
             GameOver();
             finished = true;
         }
-        //Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
-        if (!p2 && Time.timeScale > 0)
+
+        if(!inGame)
         {
-            if (Input.GetButtonDown("Jump2"))
+            if (!p[1] && Input.GetButtonDown("Jump2"))
             {
-                players[1] = Instantiate(playerPrefabs[1], BetterSP(), Quaternion.identity);
-                cam.GetComponent<CameraControl>().AddPlayer(players[1].GetComponent<PlayerController>().Root.transform, 2);
-                p2 = true;
-                healthUI[1].SetActive(true);
-                HealthHUD hUI = healthUI[1].GetComponentInChildren<HealthHUD>();
-                hUI.player = players[1];
-                players[1].GetComponent<PlayerController>().SetUp(hUI.gameObject);
+                SpawnPlayer();
             }
-        }
-        if (!p3 && Time.timeScale > 0)
-        {
-            if (Input.GetButtonDown("Jump3"))
+            if (!p[2] && Input.GetButtonDown("Jump3"))
             {
-                players[2] = Instantiate(playerPrefabs[2], BetterSP(), Quaternion.identity);
-                cam.GetComponent<CameraControl>().AddPlayer(players[2].GetComponent<PlayerController>().Root.transform, 3);
-                p3 = true;
-                healthUI[2].SetActive(true);
-                HealthHUD hUI = healthUI[2].GetComponentInChildren<HealthHUD>();
-                hUI.player = players[2];
-                players[2].GetComponent<PlayerController>().SetUp(hUI.gameObject);
+                SpawnPlayer();
             }
-        }
-        if (!p4 && Time.timeScale > 0)
-        {
-            if (Input.GetButtonDown("Jump4"))
+            if (!p[3] && Input.GetButtonDown("Jump4"))
             {
-                players[3] = Instantiate(playerPrefabs[3], BetterSP(), Quaternion.identity);
-                cam.GetComponent<CameraControl>().AddPlayer(players[3].GetComponent<PlayerController>().Root.transform, 4);
-                p4 = true;
-                healthUI[3].SetActive(true);
-                HealthHUD hUI = healthUI[3].GetComponentInChildren<HealthHUD>();
-                hUI.player = players[3];
-                players[3].GetComponent<PlayerController>().SetUp(hUI.gameObject);
+                SpawnPlayer();
             }
         }
     }
 
-    private Vector3 BetterSP()
+    //SPAWNPOINT
+
+    protected void SpawnPlayer()
+    {
+        pCount++;
+        players[pCount-1] = Instantiate(playerPrefab, BestSP(), Quaternion.identity);
+        cam.GetComponent<CameraControl>().AddPlayer(players[pCount-1].GetComponent<PlayerController>().Root.transform, pCount);
+        p[pCount-1] = true;
+        healthUIs[pCount-1].SetActive(true);
+        HealthHUD hUI = healthUIs[pCount-1].GetComponentInChildren<HealthHUD>();
+        hUI.player = players[pCount-1];
+        //DESCOMENTAR CUANDO ESTE EL SKINMANAGER
+        //Mesh mesh;
+        //Material mat;
+        //players[pCount-1].GetComponent<CharacterSkin>().SetSkin(SkinManagerSingleton.Instance.GetNextSkin(mesh, mat));
+        players[pCount - 1].GetComponent<CharacterSkin>().SetSkin(meshes[pCount-1], materials[pCount-1]);
+        players[pCount-1].GetComponent<PlayerController>().SetUp(hUI.gameObject, pCount);
+    }
+
+    private Vector3 BestSP()
     {
         float betterDistance = 0;
         Vector3 betterPoint = Vector3.zero;
-        foreach (Vector3 point in points)
+        foreach (Vector3 point in playersSpawnPoints)
         {
             float shortestToPlayers = 100;
             float trying;
@@ -130,6 +161,30 @@ public class GameController : MonoBehaviour
         }
         return betterPoint;
     }
+
+    //DEATH COUNT
+
+    public void AddDeath(Characters c)
+    {
+        switch (c)
+        {
+            case Characters.Player1:
+                playerDeaths[0] = true;
+                break;
+            case Characters.Player2:
+                playerDeaths[1] = true;
+                break;
+            case Characters.Player3:
+                playerDeaths[2] = true;
+                break;
+            case Characters.Player4:
+                playerDeaths[3] = true;
+                break;
+        }
+    }
+
+    //GAME OVER
+
     void GameOver()
     {
         StartCoroutine(Slower());
@@ -148,23 +203,5 @@ public class GameController : MonoBehaviour
         //SetSelectedGameObject(gameObject, new BaseEventData(eventSystem));
         //print(EventSystem.current.firstSelectedGameObject.name);
     }
-
-    public void AddDeath(Characters c)
-    {
-        switch(c)
-        {
-            case Characters.Player1:
-                playerDeaths[0] = true;
-                break;
-            case Characters.Player2:
-                playerDeaths[1] = true;
-                break;
-            case Characters.Player3:
-                playerDeaths[2] = true;
-                break;
-            case Characters.Player4:
-                playerDeaths[3] = true;
-                break;
-        }
-    }
+    
 }

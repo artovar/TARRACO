@@ -88,7 +88,6 @@ public class BowScript : WeaponScript
                 break;
             default:
                 float desviation = Random.Range(-0.1f, 0.1f);
-                print(desviation);
                 if (desviation > 0)
                 {
                     direction += Vector3.right * desviation;
