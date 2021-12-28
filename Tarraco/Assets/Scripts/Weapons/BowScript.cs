@@ -99,8 +99,8 @@ public class BowScript : WeaponScript
                 arrowClone = Instantiate(arrows[4], transform.position, Quaternion.LookRotation(direction, Vector3.up));
                 break;
         };
-        if (mult > 2f) mult = 2f;
-        arrowClone.GetComponent<Rigidbody>().velocity = direction * arrowForce * mult + Vector3.up;
+        if (mult > 1.6f) mult = 1.6f;
+        arrowClone.GetComponent<Rigidbody>().velocity = direction * arrowForce * mult + Vector3.up*1.5f;
         arrowClone.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         Destroy(arrowClone, 3);
     }

@@ -14,6 +14,7 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
+            Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
             if (layer >= 16 && layer <= 19 && damageTaken != 0)
@@ -78,7 +79,11 @@ public class EImpactContact : MonoBehaviour
                 }
             }
             //Damage
-            if(enemyController.Damage(damage, from)) enemyController.ActivateRagdoll();
+            if (enemyController.Damage(damage, from))
+            {
+                enemyController.ActivateRagdoll();
+                GetComponent<Rigidbody>().AddForce(vel*2, ForceMode.Impulse);
+            }
 
             if (enemyController.IsDead())
             {

@@ -29,7 +29,7 @@ public class OvationBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ovationMeter -= Time.deltaTime * 2.5f;
+        ovationMeter -= Time.deltaTime * 1.5f;
         if(!coloring) {
             meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta.y;
         }
@@ -59,6 +59,13 @@ public class OvationBar : MonoBehaviour
             if (scoreInt == 3) OvationSingleton.Instance.Win(owner, score);
             ovationMeter = 0;
         }
+    }
+
+    public void ResetBar()
+    {
+        score.text = "0";
+        scoreInt = 0;
+        ovationMeter = 0f;
     }
     private IEnumerator PrepareColor()
     {

@@ -50,7 +50,11 @@ public class FieldDetection : MonoBehaviour
                 pickNext = true;
             }
         }
-        if (enemy.player == null && followedPlayer != null) enemy.Detect(followedPlayer.gameObject);
+        if (enemy.player == null)
+        {
+            if (followedPlayer != null) enemy.Detect(followedPlayer.gameObject);
+            else { }
+        }
         else if (enemy.player != followedPlayer) enemy.Detect(followedPlayer.gameObject);
     }
 }

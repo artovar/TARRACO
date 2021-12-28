@@ -41,17 +41,6 @@ public class WeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("Updating");
-        print(controller.IsDead());
-        if (controller.IsDead())
-        {
-            print("Trying to drop xD");
-            if(weaponsStored >= 1)
-            {
-                print("Doing it");
-                Drop(mainWeapon);
-            }
-        }
         if (Input.GetButtonDown(interact))
         {
             picking = true;
@@ -206,5 +195,18 @@ public class WeaponDetection : MonoBehaviour
     void BringFromBack(Transform weapon)
     {
         weapon.GetComponent<WeaponScript>().BringFromBack(rHandTransform, lHandTransform);
+    }
+
+    public void DropAllWeapons()
+    {
+        //Esto no es duplicidad, es para soltar si tiene dos
+        if(weaponsStored > 0)
+        {
+            Drop(mainWeapon);
+        }
+        if(weaponsStored > 0) 
+        {
+            Drop(mainWeapon);
+        }
     }
 }

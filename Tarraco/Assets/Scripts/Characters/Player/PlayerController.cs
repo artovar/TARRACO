@@ -248,7 +248,11 @@ public class PlayerController : CharacterClass
 	////////////////
 	void Update()
 	{
-		if (IsDead()) this.enabled = false;
+		if (IsDead())
+		{
+			detector.DropAllWeapons();
+			this.enabled = false;
+		}
 		invTime -= Time.deltaTime;
 		dashCD -= Time.deltaTime;
 		if (attacking && !Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.Bow)) chargingTime += Time.deltaTime * 1.4f;
@@ -623,7 +627,8 @@ public class PlayerController : CharacterClass
 		{
 			var lookPos = new Vector3(-pPos.x, 0.0f, pPos.y);
 			//new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
-			var rotation = Quaternion.LookRotation(lookPos);
+			var rotation = Quaternion.identity;
+			if(lookPos != Vector3.zero) rotation = Quaternion.LookRotation(lookPos);
 			//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 		}
@@ -1328,6 +1333,7 @@ public class PlayerController : CharacterClass
 	}
 
 	public void OnDead(object s, System.EventArgs e) {
+		print(life);
 		ActivateRagdoll();
 		StartCoroutine(Kill());
 		IEnumerator Kill()
@@ -1343,8 +1349,10 @@ public class PlayerController : CharacterClass
 				r.useGravity = false;
 				r.velocity = Vector3.down * 2;
 			}
+			print(life);
 			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(id);
 			yield return new WaitForSeconds(3f);
+			print(life);
 			Destroy(this.gameObject);
 		}
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public abstract class GameController : MonoBehaviour
 {
@@ -81,6 +82,7 @@ public abstract class GameController : MonoBehaviour
                 cam.GetComponent<CameraControl>().ChangeToGame();
                 break;
         }
+        finished = false;
     }
 
     // Update is called once per frame
@@ -91,7 +93,11 @@ public abstract class GameController : MonoBehaviour
         bool gameOv = true;
         for (int i = 0; i < playerDeaths.Length; i++)
         {
-            if((players[i] != null)) gameOv = gameOv && playerDeaths[i];
+            if ((players[i] != null))
+            {
+                gameOv = gameOv && playerDeaths[i];
+                print(playerDeaths[i]);
+            }
         }
         if (gameOv)
         {
@@ -200,7 +206,8 @@ public abstract class GameController : MonoBehaviour
         }
         gameOver.SetActive(true);
         EventSystem eventSystem = EventSystem.current;
-        eventSystem.SetSelectedGameObject(gameOver.GetComponentsInChildren<MenuButtonScript>()[0].gameObject);
+        Button[] select = gameOver.GetComponentsInChildren<Button>();
+        eventSystem.SetSelectedGameObject(select[0].gameObject);
         //SetSelectedGameObject(gameObject, new BaseEventData(eventSystem));
         //print(EventSystem.current.firstSelectedGameObject.name);
     }
@@ -211,5 +218,13 @@ public abstract class GameController : MonoBehaviour
         gameObject.tag = "Untagged";
         Destroy(GameController.Instance.pauseMenu);
         DestroyImmediate(GameController.Instance.gameObject);
+    }
+    public void ResetStats()
+    {
+        foreach (GameObject g in healthUIs)
+        {
+            g.GetComponentInChildren<HealthHUD>().ResetLife();
+        }
+        OvationSingleton.Instance.ResetBars();
     }
 }
