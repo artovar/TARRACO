@@ -68,11 +68,12 @@ public class HealthHUD : MonoBehaviour
     {
         if (!gameObject.activeInHierarchy) return;
         life = 3;
+        animator.SetInteger("Life", life);
         animator.SetBool("Heal", true);
+        animator.SetTrigger("Revive");
         for (int i = 0; i < life; i++)
         {
             heartList[i].SetActive(true);
         }
-        animator.SetBool("Heal", true);
     }
 }

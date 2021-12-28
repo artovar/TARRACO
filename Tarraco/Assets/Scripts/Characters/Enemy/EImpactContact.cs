@@ -17,7 +17,7 @@ public class EImpactContact : MonoBehaviour
             Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
-            if (layer >= 16 && layer <= 19 && damageTaken != 0)
+            if (layer >= 16 && layer <= 19)
             {
                 switch(layer)
                 {
@@ -34,9 +34,16 @@ public class EImpactContact : MonoBehaviour
                         from = Characters.Player4;
                         break;
                 }
-                (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
-                col.rigidbody.velocity = Vector3.zero;
-                col.collider.enabled = false;
+                if (damageTaken != 0)
+                {
+                    (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
+                    col.rigidbody.velocity = Vector3.zero;
+                    col.collider.enabled = false;
+                }
+                else
+                {
+                    col.rigidbody.velocity = -col.rigidbody.velocity * .1f;
+                }
             }
 
             //SUSTITUIR ESTO POR MUERTE
@@ -82,8 +89,8 @@ public class EImpactContact : MonoBehaviour
             if (enemyController.Damage(damage, from))
             {
                 enemyController.ActivateRagdoll();
-                GetComponent<Rigidbody>().AddForce(vel*2, ForceMode.Impulse);
             }
+            GetComponent<Rigidbody>().AddForce(vel * 1.5f, ForceMode.Impulse);
 
             if (enemyController.IsDead())
             {

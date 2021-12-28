@@ -1378,7 +1378,7 @@ MonoBehaviour:
   turnSpeed: 500
   jumpForce: 14
   dashForce: 80
-  autoGetUpWhenPossible: 1
+  autoGetUpWhenPossible: 0
   useStepPrediction: 1
   balanceHeight: 2.6
   balanceStrength: 5000

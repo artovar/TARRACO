@@ -108,8 +108,6 @@ public class SwordAndShield : WeaponScript
     }
     public override void DropWeapon(Transform rHand)
     {
-        transform.position = rHand.position;
-
         sword.GetComponent<FixedJoint>().connectedBody = null;
         shield.GetComponent<FixedJoint>().connectedBody = null;
         Destroy(sword.GetComponent<FixedJoint>());
@@ -117,6 +115,8 @@ public class SwordAndShield : WeaponScript
         Destroy(sword.GetComponent<Rigidbody>());
         Destroy(shield.GetComponent<Rigidbody>());
 
+        transform.position = rHand.position + rHand.right * .5f;
+        /*
         RaycastHit hitInfo;
         Ray ray = new Ray(transform.position, Vector3.down);
         if (Physics.Raycast(ray, out hitInfo, 1, 1 << LayerMask.NameToLayer("Ground")))
@@ -126,10 +126,10 @@ public class SwordAndShield : WeaponScript
         else
         {
             transform.position -= Vector3.up * .1f;
-        }
-        transform.rotation = Quaternion.Euler(0, 0, 90);
+        }*/
+        transform.rotation = rHand.rotation * Quaternion.Euler(0,0,160);
         sword.position = swordPoint.position;
-        sword.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
+        sword.rotation = transform.rotation; //* Quaternion.Euler(0, 0, 90);
         shield.position = shieldPoint.position;
         shield.rotation = transform.rotation * Quaternion.Euler(0, 0, 90);
 

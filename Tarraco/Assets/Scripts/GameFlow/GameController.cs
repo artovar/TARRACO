@@ -96,7 +96,6 @@ public abstract class GameController : MonoBehaviour
             if ((players[i] != null))
             {
                 gameOv = gameOv && playerDeaths[i];
-                print(playerDeaths[i]);
             }
         }
         if (gameOv)

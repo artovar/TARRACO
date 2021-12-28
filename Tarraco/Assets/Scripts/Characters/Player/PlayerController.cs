@@ -1333,7 +1333,6 @@ public class PlayerController : CharacterClass
 	}
 
 	public void OnDead(object s, System.EventArgs e) {
-		print(life);
 		ActivateRagdoll();
 		StartCoroutine(Kill());
 		IEnumerator Kill()
