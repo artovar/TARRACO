@@ -39,7 +39,10 @@ public class HealthHUD : MonoBehaviour
         if (life <= player.GetComponent<CharacterClass>().maxLife)
         {
             animator.SetBool("Heal", true);
-            heartList[life - 1].SetActive(true);
+            for(int i = 0; i < life; i++)
+            {
+                heartList[i].SetActive(true);
+            }
         }
         else
         {
@@ -59,5 +62,18 @@ public class HealthHUD : MonoBehaviour
     {
         animator.SetBool("Damage", false);
         animator.SetBool("Heal", false);
+    }
+
+    public void ResetLife()
+    {
+        if (!gameObject.activeInHierarchy) return;
+        life = 3;
+        animator.SetInteger("Life", life);
+        animator.SetBool("Heal", true);
+        animator.SetTrigger("Revive");
+        for (int i = 0; i < life; i++)
+        {
+            heartList[i].SetActive(true);
+        }
     }
 }

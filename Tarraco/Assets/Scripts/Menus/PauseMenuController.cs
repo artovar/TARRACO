@@ -51,8 +51,8 @@ public class PauseMenuController : MonoBehaviour
     {
         StopAllCoroutines();
         Time.timeScale = 1f;
-        GameController.Instance.Exit();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameController.Instance.ResetStats();
     }
 
     public void BackToMenu()

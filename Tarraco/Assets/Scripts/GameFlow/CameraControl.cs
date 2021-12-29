@@ -46,12 +46,14 @@ public class CameraControl : MonoBehaviour
     public void ChangeToHub()
     {
         cam = Camera.main;
+        Start();
         mode = CAMMODE.Hub;
     }
 
     public void ChangeToGame()
     {
         cam = Camera.main;
+        Start();
         mode = CAMMODE.InGame;
     }
 
@@ -160,6 +162,7 @@ public class CameraControl : MonoBehaviour
         //var targetRotation = Quaternion.LookRotation(APRRoot.position - cam.transform.position);
         //cam.transform.position = Vector3.Lerp(cam.transform.position, APRRoot.position + offset.normalized * distance, smoothness);
         //cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness);
+        if (i == 0) i = 1;
         point /= i;
         float mag = (new Vector3(maxX, 0f, maxZ) - new Vector3(minX, 0f, minZ)).magnitude;
         if (mag < 10f) mag = 10f;

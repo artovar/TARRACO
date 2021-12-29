@@ -43,7 +43,7 @@ public abstract class WeaponScript : MonoBehaviour
     }
     public virtual void DropWeapon(Transform rHand)
     {
-        transform.position = rHand.position;
+        transform.position = rHand.position + rHand.right * .2f;
         /*RaycastHit hitInfo;
         
         Ray ray = new Ray(transform.position, Vector3.down);
