@@ -60,6 +60,7 @@ public abstract class WeaponScript : MonoBehaviour
         transform.GetComponent<FixedJoint>().connectedBody = null;
         transform.GetComponent<FixedJoint>().breakForce = 0f;
         transform.GetComponent<Rigidbody>().useGravity = true;
+        transform.GetComponent<Rigidbody>().velocity = rHand.GetComponent<Rigidbody>().velocity;
         SetOnFloorColliders();
         transform.tag = "Weapon";
         StartCoroutine(DestroyWeapon());
