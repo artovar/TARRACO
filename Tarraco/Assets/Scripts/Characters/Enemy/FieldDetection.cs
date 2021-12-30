@@ -8,7 +8,6 @@ public class FieldDetection : MonoBehaviour
     private List<Transform> players = new List<Transform>();
     private Transform followedPlayer;
     float distance = 100;
-    private bool pickNext;
     float nextDistance = 0;
     private void OnTriggerEnter(Collider other)
     {
@@ -35,26 +34,13 @@ public class FieldDetection : MonoBehaviour
     {
         foreach(Transform t in players)
         {
-            if(t != null)
+            nextDistance = (transform.position - t.position).magnitude;
+            if (nextDistance < distance) 
             {
-                nextDistance = (transform.position - t.position).magnitude;
-                if (nextDistance < distance || pickNext)
-                {
-                    distance = nextDistance;
-                    followedPlayer = t;
-                    pickNext = false;
-                }
-            }
-            else
-            {
-                pickNext = true;
+                distance = nextDistance;
+                followedPlayer = t;
             }
         }
-        if (enemy.player == null)
-        {
-            if (followedPlayer != null) enemy.Detect(followedPlayer.gameObject);
-            else { }
-        }
-        else if (enemy.player != followedPlayer) enemy.Detect(followedPlayer.gameObject);
+        if (enemy.player != followedPlayer) enemy.Detect(followedPlayer.gameObject);
     }
 }

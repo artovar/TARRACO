@@ -14,12 +14,12 @@ public class MenuButtonScript : MonoBehaviour
 
     public void Play()
     {
-        gameController.LevelsMode();
+        gameController.Play();
     }
     
     public void Arena()
     {
-        gameController.ArenaMode();
+        gameController.Arena();
     }
 
     public void Credits() 

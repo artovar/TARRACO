@@ -39,10 +39,7 @@ public class HealthHUD : MonoBehaviour
         if (life <= player.GetComponent<CharacterClass>().maxLife)
         {
             animator.SetBool("Heal", true);
-            for(int i = 0; i < life; i++)
-            {
-                heartList[i].SetActive(true);
-            }
+            heartList[life - 1].SetActive(true);
         }
         else
         {
@@ -64,16 +61,24 @@ public class HealthHUD : MonoBehaviour
         animator.SetBool("Heal", false);
     }
 
-    public void ResetLife()
+
+    public void Restart()
     {
-        if (!gameObject.activeInHierarchy) return;
-        life = 3;
-        animator.SetInteger("Life", life);
-        animator.SetBool("Heal", true);
-        animator.SetTrigger("Revive");
-        for (int i = 0; i < life; i++)
-        {
-            heartList[i].SetActive(true);
-        }
+        GameObject controller = GameObject.FindGameObjectWithTag("GameController");
+        controller.tag = "Untagged";
+        StopAllCoroutines();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        DestroyImmediate(controller);
+    }
+
+    public void BackToMenu()
+    {
+        GameObject controller = GameObject.FindGameObjectWithTag("GameController");
+        controller.tag = "Untagged";
+        StopAllCoroutines();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
+        DestroyImmediate(controller);
     }
 }

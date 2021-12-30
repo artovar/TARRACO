@@ -154,7 +154,6 @@ public class BasicEnemyController : CharacterClass
 	void Update()
 	{
 		invTime -= Time.deltaTime;
-		if (attacking && !Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.Bow)) chargingTime += Time.deltaTime*1.4f;
 		if (!inAir)
 		{
 			PlayerMovement();
@@ -705,8 +704,7 @@ public class BasicEnemyController : CharacterClass
 					case Weapons.Bow:
 						//var lookPos = new Vector3(Root.transform.forward.x, 0.0f, Root.transform.forward.z);
 						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
-						weapon.Shoot(lookPos.normalized, Characters.Enemy, chargingTime);
-						chargingTime = .45f;
+						weapon.Shoot(lookPos.normalized, Characters.Enemy);
 						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);

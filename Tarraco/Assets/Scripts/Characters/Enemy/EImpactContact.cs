@@ -14,10 +14,9 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
         {
-            Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
-            if (layer >= 16 && layer <= 19)
+            if (layer >= 16 && layer <= 19 && damageTaken != 0)
             {
                 switch(layer)
                 {
@@ -34,16 +33,9 @@ public class EImpactContact : MonoBehaviour
                         from = Characters.Player4;
                         break;
                 }
-                if (damageTaken != 0)
-                {
-                    (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
-                    col.rigidbody.velocity = Vector3.zero;
-                    col.collider.enabled = false;
-                }
-                else
-                {
-                    col.rigidbody.velocity = -col.rigidbody.velocity * .1f;
-                }
+                (col.gameObject.AddComponent<FixedJoint>()).connectedBody = this.gameObject.GetComponent<Rigidbody>();
+                col.rigidbody.velocity = Vector3.zero;
+                col.collider.enabled = false;
             }
 
             //SUSTITUIR ESTO POR MUERTE
@@ -86,11 +78,7 @@ public class EImpactContact : MonoBehaviour
                 }
             }
             //Damage
-            if (enemyController.Damage(damage, from))
-            {
-                enemyController.ActivateRagdoll();
-            }
-            GetComponent<Rigidbody>().AddForce(vel * 1.5f, ForceMode.Impulse);
+            if(enemyController.Damage(damage, from)) enemyController.ActivateRagdoll();
 
             if (enemyController.IsDead())
             {

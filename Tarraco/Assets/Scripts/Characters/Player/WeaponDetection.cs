@@ -99,7 +99,7 @@ public class WeaponDetection : MonoBehaviour
                 }*/
             }
         }
-        else if (col.CompareTag("Heal") && controller.life < controller.maxLife && !controller.IsDead())
+        else if (col.CompareTag("Heal") && controller.life < controller.maxLife)
         {
             col.enabled = false;
             Destroy(col.gameObject);
@@ -195,18 +195,5 @@ public class WeaponDetection : MonoBehaviour
     void BringFromBack(Transform weapon)
     {
         weapon.GetComponent<WeaponScript>().BringFromBack(rHandTransform, lHandTransform);
-    }
-
-    public void DropAllWeapons()
-    {
-        //Esto no es duplicidad, es para soltar si tiene dos
-        if(weaponsStored > 0)
-        {
-            Drop(mainWeapon);
-        }
-        if(weaponsStored > 0) 
-        {
-            Drop(mainWeapon);
-        }
     }
 }

@@ -6,41 +6,40 @@ public class EnemyController : MonoBehaviour
 {
     public BasicEnemyController enemyScript;
     public GameObject player;
-    Transform playerTransform;
-
-    private bool foundSomeone;
-    
+    Transform p;
+    private bool started;
     private float attackCD;
-    private float originalSpeed;
-
     [HideInInspector]
     public int estado; //de momento no se usa, pero usa 1 si está atacando, 2 si acaba de atacar y 3 si está herido. 0 de lo contrario (buscando)
-    
     // Start is called before the first frame update
     void Start()
     {
-        foundSomeone = false;
-        attackCD = 3;
-        originalSpeed = enemyScript.moveSpeed;
-
+        started = false;
+        attackCD = 1;
         estado = -1; //"Haciendo el tonto"
     }
 
     public void Detect(GameObject jugador)
     {
-        foundSomeone = true;
+        started = true;
         player = jugador;
-        playerTransform = player.GetComponentInParent<PlayerController>().Root.transform;
-
+        p = player.GetComponentInParent<PlayerController>().Root.transform;
+        //enemyScript.jump = 1;
         estado = 0; //"Buscando"
     }
-
+    public bool IsRagdoll()
+    {
+        return enemyScript.IsRagdoll();
+    }
+    public bool IsDead()
+    {
+        return enemyScript.IsDead();
+    }
     public void MoveTowardsInSpawn(Vector3 dir)
     {
         enemyScript.forwardBackward = dir.x;
         enemyScript.leftRight = dir.z;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -53,49 +52,32 @@ public class EnemyController : MonoBehaviour
                 attackCD = 1;
                 enemyScript.Jump();
             }
-            return;
         }
-        if(!foundSomeone)
+        if(!started)
         {
             return;
         }
-
         attackCD -= Time.deltaTime;
-        if (enemyScript.moveSpeed == originalSpeed * .1f) enemyScript.moveSpeed = originalSpeed;
-
-        if (player == null) return;
-
         if(!Object.ReferenceEquals(enemyScript.weapon, null) 
             && enemyScript.weapon.kind.Equals(Weapons.Bow)
             && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 12f)
         {
-            Vector3 direction;
-            if(enemyScript.attack)
-            {
-                enemyScript.moveSpeed = originalSpeed * .1f;
-                direction = (playerTransform.position - enemyScript.Root.transform.position);
-            }
-            else
-            {
-                direction = ((playerTransform.position + (enemyScript.Root.transform.position - playerTransform.position).normalized * 7) - enemyScript.Root.transform.position);
-            }
+            Vector3 direction = ((p.position + (enemyScript.Root.transform.position - p.position).normalized * 2) - enemyScript.Root.transform.position);
             Vector2 dir = new Vector2(direction.x, direction.z).normalized;
             enemyScript.forwardBackward = dir.y;
             enemyScript.leftRight = dir.x;
             //Atacar
-            if (attackCD <= 0 && !enemyScript.IsRagdoll())
+            if (attackCD < 0 && !enemyScript.IsRagdoll())
             {
                 enemyScript.Attack();
                 attackCD = 3;
             }
-
             estado = 1; //"Atacando"
         }
-        else if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 4f)
+        else if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 3.4f)
         {
-            enemyScript.moveSpeed = originalSpeed * .1f;
             //Atacar
-            if (attackCD <= 0 && !enemyScript.IsRagdoll())
+            if (attackCD < 0 && !enemyScript.IsRagdoll())
             {
                 enemyScript.Attack();
                 attackCD = 3;
@@ -104,7 +86,7 @@ public class EnemyController : MonoBehaviour
         }
         else if (attackCD > 2.5f || attackCD < 1f)
         {
-            Vector3 direction = (playerTransform.position - enemyScript.Root.transform.position) - enemyScript.Root.transform.right;
+            Vector3 direction = (p.position - enemyScript.Root.transform.position);
             Vector2 dir = new Vector2(direction.x, direction.z).normalized;
             enemyScript.forwardBackward = dir.y;
             enemyScript.leftRight = dir.x;
@@ -114,13 +96,5 @@ public class EnemyController : MonoBehaviour
             enemyScript.forwardBackward = 0;
             enemyScript.leftRight = 0;
         }
-    }
-    public bool IsRagdoll()
-    {
-        return enemyScript.IsRagdoll();
-    }
-    public bool IsDead()
-    {
-        return enemyScript.IsDead();
     }
 }

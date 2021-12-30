@@ -141,13 +141,10 @@ public class SpawnPoint : MonoBehaviour
             float shortestToPlayers = 100;
             float trying;
             foreach(Transform thePlayer in players) {
-                if(thePlayer != null)
+                trying = (point.transform.position - thePlayer.position).magnitude;
+                if (trying < shortestToPlayers)
                 {
-                    trying = (point.transform.position - thePlayer.position).magnitude;
-                    if (trying < shortestToPlayers)
-                    {
-                        shortestToPlayers = trying;
-                    }
+                    shortestToPlayers = trying;
                 }
             }
             if(shortestToPlayers > betterDistance) {

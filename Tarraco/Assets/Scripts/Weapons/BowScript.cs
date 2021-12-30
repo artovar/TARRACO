@@ -69,7 +69,7 @@ public class BowScript : WeaponScript
         }
     }
 
-    public override void Shoot(Vector3 direction, Characters cType, float mult)
+    public override void Shoot(Vector3 direction, Characters cType)
     {
         GameObject arrowClone;
         switch (cType)
@@ -88,6 +88,7 @@ public class BowScript : WeaponScript
                 break;
             default:
                 float desviation = Random.Range(-0.1f, 0.1f);
+                print(desviation);
                 if (desviation > 0)
                 {
                     direction += Vector3.right * desviation;
@@ -99,8 +100,7 @@ public class BowScript : WeaponScript
                 arrowClone = Instantiate(arrows[4], transform.position, Quaternion.LookRotation(direction, Vector3.up));
                 break;
         };
-        if (mult > 1.6f) mult = 1.6f;
-        arrowClone.GetComponent<Rigidbody>().velocity = direction * arrowForce * mult + Vector3.up*1.5f;
+        arrowClone.GetComponent<Rigidbody>().velocity = direction * arrowForce + Vector3.up;
         arrowClone.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         Destroy(arrowClone, 3);
     }
