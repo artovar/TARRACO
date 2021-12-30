@@ -1,17 +1,20 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class PauseMenuController : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject background;
 
-    GameObject Taco;
+    //GameObject Taco;
 
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(transform.parent.gameObject);
         pauseMenu.SetActive(false);
         background.SetActive(false);
-        Taco = GameObject.FindWithTag("Player");
+        //Taco = GameObject.FindWithTag("Player");
     }
 
     // Update is called once per frame
@@ -44,4 +47,19 @@ public class PauseMenuController : MonoBehaviour
         }
     }
 
+    public void Restart()
+    {
+        StopAllCoroutines();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameController.Instance.ResetStats();
+    }
+
+    public void BackToMenu()
+    {
+        StopAllCoroutines();
+        Time.timeScale = 1f;
+        GameController.Instance.Exit();
+        SceneManager.LoadScene(0);
+    }
 }

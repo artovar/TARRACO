@@ -17,21 +17,21 @@ public class MenuController : MonoBehaviour
 
     // Update is called once per frame
 
-    public void Play()
+    public void LevelsMode()
     {
         SceneManager.LoadScene(1);
         mainMenu.SetActive(false);
     }
 
-    public void Arena()
+    public void ArenaMode()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
         mainMenu.SetActive(false);
     }
 
     public void Credits()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(5);
         mainMenu.SetActive(false);
     }
 

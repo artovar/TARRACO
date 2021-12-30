@@ -172,6 +172,7 @@ public class PlayerController : CharacterClass
 	//////////////
 	void Awake()
 	{
+		/*
 		if(id != 1)
 		{
 			forwardBackward += id;
@@ -186,7 +187,7 @@ public class PlayerController : CharacterClass
 			dash += id;
 			detector.SetUp();
 			usingController = true;
-		}
+		}*/
 		PlayerSetup();
 		YoureDead += OnDead;
 		life = maxLife;
@@ -194,27 +195,52 @@ public class PlayerController : CharacterClass
 
     private void Start()
     {
-		GameObject.FindGameObjectWithTag("Respawn").GetComponent<SpawnPoint>().AddPlayer(Root.transform);
+		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Respawn"))
+        {
+			g.GetComponent<SpawnPoint>().AddPlayer(Root.transform);
+		}
 		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
     }
-    public void SetUp(GameObject hUI)
-    {
+    public void SetUp(GameObject hUI, int i)
+	{
+		id = i;
 		if (id != 1)
 		{
-			hUD = hUI.GetComponent<HealthHUD>();
-			detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
-			/*forwardBackward = "Vertical" + id;
-			leftRight = "Horizontal" + id;
-			jump = "Jump" + id;
-			left = "Left" + id;
-			attack = "Right" + id;
-			drop = "Drop" + id;
-			interact = "Interact" + id;
-			lookX = "Look X" + id;
-			lookY = "Look Y" + id;
-			dash = "Dash" + id;
-			detector.SetUp();*/
+			forwardBackward += id;
+			leftRight += id;
+			jump += id;
+			left += id;
+			attack += id;
+			drop += id;
+			interact += id;
+			lookX += id;
+			lookY += id;
+			dash += id;
+			detector.SetUp();
+			usingController = true;
+			LayerMask layer = 0;
+			switch (i)
+			{
+				case 2:
+					character = Characters.Player2;
+					layer = 11;
+					break;
+				case 3:
+					character = Characters.Player3;
+					layer = 12;
+					break;
+				case 4:
+					character = Characters.Player4;
+					layer = 13;
+					break;
+			}
+			foreach (Transform g in GetComponentsInChildren<Transform>())
+			{
+				g.gameObject.layer = layer;
+			}
 		}
+		hUD = hUI.GetComponent<HealthHUD>();
+		detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
 	}
 
 
@@ -222,9 +248,14 @@ public class PlayerController : CharacterClass
 	////////////////
 	void Update()
 	{
-		if (IsDead()) this.enabled = false;
+		if (IsDead())
+		{
+			detector.DropAllWeapons();
+			this.enabled = false;
+		}
 		invTime -= Time.deltaTime;
 		dashCD -= Time.deltaTime;
+		if (attacking && !Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.Bow)) chargingTime += Time.deltaTime * 1.4f;
 		x = Input.GetAxis(leftRight);
 		y = Input.GetAxis(forwardBackward);
 		cX = Input.GetAxis(lookY);
@@ -596,7 +627,8 @@ public class PlayerController : CharacterClass
 		{
 			var lookPos = new Vector3(-pPos.x, 0.0f, pPos.y);
 			//new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
-			var rotation = Quaternion.LookRotation(lookPos);
+			var rotation = Quaternion.identity;
+			if(lookPos != Vector3.zero) rotation = Quaternion.LookRotation(lookPos);
 			//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 		}
@@ -840,6 +872,7 @@ public class PlayerController : CharacterClass
 		switch(weapon.kind)
         {
 			case Weapons.Bow:
+				chargingTime = .45f;
 				weapon.PrepareHit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>());
 				weapon.GetComponent<BowScript>().PrepareLeftHand(APR_Parts[5].GetComponent<ConfigurableJoint>(), APR_Parts[6].GetComponent<ConfigurableJoint>());
 				break;
@@ -891,14 +924,19 @@ public class PlayerController : CharacterClass
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
-						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
-						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
-						weapon.Shoot(lookPos.normalized, character);
-						if (metralletaCheat) hitCoolDown = .05f;
-                        else
+						if (metralletaCheat)
+						{
+							chargingTime = 1.2f;
+							hitCoolDown = .05f;
+						}
+						else
 						{
 							ResetLeftArm();
 						}
+						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
+						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
+						weapon.Shoot(lookPos.normalized, character, chargingTime);
+						chargingTime = .45f;
 						break;
 					case Weapons.Axe:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
@@ -1142,6 +1180,11 @@ public class PlayerController : CharacterClass
 	}
 
 
+	public bool IsRagdoll()
+    {
+		return isRagdoll;
+    }
+
 
 	//---Activate Ragdoll---//
 	/////////////////////////
@@ -1291,6 +1334,26 @@ public class PlayerController : CharacterClass
 
 	public void OnDead(object s, System.EventArgs e) {
 		ActivateRagdoll();
+		StartCoroutine(Kill());
+		IEnumerator Kill()
+		{
+			yield return new WaitForSeconds(4f);
+			foreach (Collider c in GetComponentsInChildren<Collider>())
+			{
+				c.enabled = false;
+			}
+			foreach (Rigidbody r in GetComponentsInChildren<Rigidbody>())
+			{
+				r.velocity = Vector3.zero;
+				r.useGravity = false;
+				r.velocity = Vector3.down * 2;
+			}
+			print(life);
+			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(id);
+			yield return new WaitForSeconds(3f);
+			print(life);
+			Destroy(this.gameObject);
+		}
 	}
 
 	public void ResetLeftArm()
