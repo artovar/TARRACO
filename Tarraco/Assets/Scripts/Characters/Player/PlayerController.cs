@@ -942,6 +942,8 @@ public class PlayerController : CharacterClass
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
 						break;
+					case Weapons.Discobolus:
+						
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
