@@ -88,4 +88,12 @@ public class OvationSingleton : MonoBehaviour
         }
         Time.timeScale = .5f;
     }
+
+    public void ResetBars()
+    {
+        foreach(OvationBar o in bars)
+        {
+            if(o != null) o.ResetBar();
+        }
+    }
 }

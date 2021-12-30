@@ -9,7 +9,7 @@ public class ImpactContact : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         LayerMask layer = col.gameObject.layer;
-        if (layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
+        if (APR_Player.IsRagdoll() || col.collider.CompareTag("Weapon") || layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
         //Knockout by impact
         if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
         {
@@ -49,7 +49,7 @@ public class ImpactContact : MonoBehaviour
             }
 
             //Damage
-            APR_Player.Damage(1, from);
+            if (GameController.Instance.inGame) APR_Player.Damage(1, from);
             //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
             if (APR_Player.IsDead())
             {

@@ -43,8 +43,9 @@ public abstract class WeaponScript : MonoBehaviour
     }
     public virtual void DropWeapon(Transform rHand)
     {
-        transform.position = rHand.position;
-        RaycastHit hitInfo;
+        transform.position = rHand.position + rHand.right * .2f;
+        /*RaycastHit hitInfo;
+        
         Ray ray = new Ray(transform.position, Vector3.down);
         if (Physics.Raycast(ray, out hitInfo, 1, 1 << LayerMask.NameToLayer("Ground")))
         {
@@ -55,7 +56,7 @@ public abstract class WeaponScript : MonoBehaviour
         {
             transform.position -= Vector3.up * .1f;
             transform.rotation = new Quaternion(0f, transform.rotation.y, 0f, transform.rotation.w);
-        }
+        }*/
         transform.GetComponent<FixedJoint>().connectedBody = null;
         transform.GetComponent<FixedJoint>().breakForce = 0f;
         transform.GetComponent<Rigidbody>().useGravity = true;
@@ -116,5 +117,5 @@ public abstract class WeaponScript : MonoBehaviour
         transform.rotation = rHand.rotation;
         GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
     }
-    public virtual void Shoot(Vector3 direction, Characters cType) {}
+    public virtual void Shoot(Vector3 direction, Characters cType, float mult) {}
 }
