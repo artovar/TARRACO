@@ -80,6 +80,10 @@ public class WeaponDetection : MonoBehaviour
     }
     private void OnTriggerStay(Collider col)
     {
+        /*if(col.CompareTag("ThrownWeapon"))
+        {
+            
+        }else if*/
         if (col.CompareTag("Weapon"))
         {
             if (!picking)
@@ -205,6 +209,13 @@ public class WeaponDetection : MonoBehaviour
             Drop(mainWeapon);
         }
         if(weaponsStored > 0) 
+        {
+            Drop(mainWeapon);
+        }
+    }
+    public void ThrowDisco()
+    {
+        if (weaponsStored > 0 && mainWeapon.GetComponent<WeaponScript>().kind.Equals(Weapons.Discobolus))
         {
             Drop(mainWeapon);
         }
