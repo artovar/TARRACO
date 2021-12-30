@@ -64,21 +64,6 @@ public abstract class WeaponScript : MonoBehaviour
         transform.tag = "Weapon";
         StartCoroutine(DestroyWeapon());
     }
-    public virtual void ThrowWeapon(Transform rHand, Vector3 direction)
-    {
-        transform.position = rHand.position;
-
-        transform.GetComponent<FixedJoint>().connectedBody = null;
-        transform.GetComponent<FixedJoint>().breakForce = 0f;
-        //transform.GetComponent<Rigidbody>().useGravity = true;
-        
-        transform.GetComponent<Rigidbody>().velocity = direction * 50 + Vector3.up;
-        transform.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-        //SetOnFloorColliders();
-        transform.tag = "Weapon";
-        StartCoroutine(DestroyWeapon());
-    }
     protected IEnumerator DestroyWeapon()
     {
         dropQueue.Add(true);
