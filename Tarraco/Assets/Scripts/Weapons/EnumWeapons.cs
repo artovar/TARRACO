@@ -13,5 +13,6 @@ public enum Weapons
     Slingshot,
     Spear,
     Sword,
-    SwordNShield
+    SwordNShield,
+    None
 }

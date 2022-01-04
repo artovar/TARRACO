@@ -243,6 +243,11 @@ public class PlayerController : CharacterClass
 		detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
 	}
 
+	public void GetWeapons(out Weapons w1, out Weapons w2)
+    {
+		detector.GetWeapons(out w1, out w2);
+    }
+
 
 	//---Updates---//
 	////////////////
