@@ -11,6 +11,7 @@ public class CameraControl : MonoBehaviour
     public float distance = 12.5f;
     private float originalDistance = 12.5f;
     public float smoothness = 0.09f;
+    public float menosAltura = 10f;
 
     [Header("Rotation Properties")]
     //Rotate with input
@@ -127,7 +128,7 @@ public class CameraControl : MonoBehaviour
         //if (mag < 10f) mag = 10f;
         distance = originalDistance + mag;
         var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
-        cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset * (((distance) / originalDistance) / 1.2f) - Vector3.up*14, smoothness);
+        cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset * (((distance) / originalDistance) / 1.2f) - Vector3.up*menosAltura, smoothness);
         cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness * rotateSpeed);
     }
 
