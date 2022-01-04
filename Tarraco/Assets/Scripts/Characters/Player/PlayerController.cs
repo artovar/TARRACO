@@ -932,7 +932,7 @@ public class PlayerController : CharacterClass
 						if (metralletaCheat)
 						{
 							chargingTime = 1.2f;
-							hitCoolDown = .05f;
+							hitCoolDown = .001f;
 						}
 						else
 						{
@@ -941,7 +941,7 @@ public class PlayerController : CharacterClass
 						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
 						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
 						weapon.Shoot(lookPos.normalized, character, chargingTime);
-						chargingTime = .45f;
+						if (!metralletaCheat) chargingTime = .45f;
 						break;
 					case Weapons.Axe:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
