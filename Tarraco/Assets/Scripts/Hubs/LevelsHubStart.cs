@@ -21,7 +21,6 @@ public class LevelsHubStart : MonoBehaviour
         if (players > 0)
         {
             countDown -= Time.fixedDeltaTime;
-            print((int)countDown + 1);
             if (countDown <= 0)
             {
                 countDown = 100;
@@ -46,6 +45,6 @@ public class LevelsHubStart : MonoBehaviour
 
     private void LoadGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(GameController.Instance.NextLevel());
     }
 }

@@ -58,6 +58,7 @@ MonoBehaviour:
   - {fileID: 5204333461666080442, guid: ec3977f4fe6c9284f8e12c9945288559, type: 3}
   - {fileID: 2409546422908356482, guid: 7691ce9f6dfbe7f42a0c96268b859d34, type: 3}
   - {fileID: 2758997493542018869, guid: 6746966d46538fa4cb46b779b4633d04, type: 3}
+  - {fileID: 4047533474643959505, guid: 4f745603bb5374848a1ec1ac476e2346, type: 3}
   points: []
   secondsSpawn: 3
   maxEnemies: 0

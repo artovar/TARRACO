@@ -64,7 +64,6 @@ public class OvationSingleton : MonoBehaviour
 
     public void BarAccomplished()
     {
-        print("You needed " + time + " seconds.");
     }
 
     public void Win(Characters charact, TextMeshProUGUI texto)
@@ -86,7 +85,7 @@ public class OvationSingleton : MonoBehaviour
                 texto.text = "You win!";
                 break;
         }
-        Time.timeScale = .5f;
+        GameController.Instance.Win();
     }
 
     public void ResetBars()

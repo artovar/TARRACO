@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         foundSomeone = false;
-        attackCD = 3;
+        attackCD = 0;
         originalSpeed = enemyScript.moveSpeed;
 
         estado = -1; //"Haciendo el tonto"

@@ -5449,7 +5449,7 @@ MonoBehaviour:
   - {fileID: 0}
   distance: 12.5
   smoothness: 0.08
-  rotateSpeed: 5
+  rotateSpeed: 10
 --- !u!81 &1679972333
 AudioListener:
   m_ObjectHideFlags: 0
