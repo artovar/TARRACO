@@ -87,6 +87,12 @@ public class WeaponDetection : MonoBehaviour
                 return;
             }
             picking = false;
+            if(col.gameObject.GetComponent<Switcher>() != null)
+            {
+                Switcher switcher = col.gameObject.GetComponent<Switcher>();
+                switcher.ChangeArena();
+                return;
+            }
             GameController.Instance.ChangeSkin(controller.character);
         }
         else if (col.CompareTag("Weapon"))

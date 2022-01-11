@@ -101,6 +101,12 @@ public abstract class GameController : MonoBehaviour
                 break;
         }
         finished = false;
+        AdditionalStarto();
+    }
+
+    protected virtual void AdditionalStarto()
+    {
+
     }
 
     public void ChangeSkin(Characters pl)
