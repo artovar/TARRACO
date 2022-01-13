@@ -1406,6 +1406,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 489a8d92a4b760b4f8b6c126c3793f10, type: 3}
   Steps:
   - {fileID: 8300000, guid: c4a11a79e4f82c64ca401704d3d95ade, type: 3}
+  Jummy:
+  - {fileID: 8300000, guid: b1532791ae2f48a43ad5ce485075093a, type: 3}
   SoundSource: {fileID: 1130477657655846893}
   StepSource: {fileID: 6535610657714270112}
   usingController: 0
@@ -1415,6 +1417,7 @@ MonoBehaviour:
   attacking: 0
   punchingLeft: 0
   editorDebugMode: 0
+  waitForDisco: 0
 --- !u!114 &5139175125312220019
 MonoBehaviour:
   m_ObjectHideFlags: 0

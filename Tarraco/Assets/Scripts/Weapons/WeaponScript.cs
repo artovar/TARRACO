@@ -65,6 +65,20 @@ public abstract class WeaponScript : MonoBehaviour
         transform.tag = "Weapon";
         StartCoroutine(DestroyWeapon());
     }
+    public virtual void ThrowWeapon(Transform rHand)
+    {
+        transform.position = rHand.position + rHand.right * .2f;
+        transform.GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.forward * 50 * 1.5f, forcePoint.position, ForceMode.Impulse);
+        
+        //transform.GetComponent<FixedJoint>().connectedBody = null;
+        transform.GetComponent<FixedJoint>().breakForce = 0f;
+        transform.GetComponent<Rigidbody>().useGravity = true;
+        //transform.GetComponent<Rigidbody>().velocity = Vector3.forward;
+        
+        //SetOnFloorColliders();
+        transform.tag = "Weapon";
+        //StartCoroutine(DestroyWeapon());
+    }
     protected IEnumerator DestroyWeapon()
     {
         dropQueue.Add(true);
@@ -104,4 +118,5 @@ public abstract class WeaponScript : MonoBehaviour
         GetComponent<FixedJoint>().connectedBody = rHand.GetComponent<Rigidbody>();
     }
     public virtual void Shoot(Vector3 direction, Characters cType, float mult) {}
+    public virtual void MakeCurve(Vector3 direction) {}
 }
