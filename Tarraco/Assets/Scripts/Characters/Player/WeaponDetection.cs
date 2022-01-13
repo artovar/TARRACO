@@ -120,6 +120,16 @@ public class WeaponDetection : MonoBehaviour
             Destroy(col.gameObject);
             controller.Heal(1);
             healthUI.HealHUD(1);
+
+            //Sound
+            if (controller.SoundSource != null) {
+                if (!controller.SoundSource.isPlaying && controller.Jummy != null)
+                {
+                    int i = Random.Range(0, controller.Jummy.Length);
+                    controller.SoundSource.clip = controller.Jummy[i];
+                    controller.SoundSource.Play();
+                }
+            }
         }
     }
 
@@ -191,6 +201,48 @@ public class WeaponDetection : MonoBehaviour
         }
     }
 
+    void Throw(Transform weapon)
+    {
+        if (weapon == null) return;
+        switch (weaponsStored)
+        {
+            case 0:
+                if (mainWeapon != null)
+                {
+                    ThrowWeapon(mainWeapon);
+                    print("Error with mainWeapon");
+                }
+                if (backWeapon != null)
+                {
+                    ThrowWeapon(backWeapon);
+                    print("Error with backWeapon");
+                }
+                mainWeapon = null;
+                backWeapon = null;
+                break;
+            case 1:
+                ThrowWeapon(mainWeapon);
+                mainWeapon = null;
+                weaponsStored--;
+                break;
+            case 2:
+                ThrowWeapon(mainWeapon);
+                mainWeapon = backWeapon;
+                BringFromBack(backWeapon);
+                backWeapon = null;
+                weaponsStored--;
+                break;
+        }
+        if (mainWeapon == null)
+        {
+            controller.weapon = null;
+        }
+        else
+        {
+            controller.weapon = mainWeapon.GetComponent<WeaponScript>();
+        }
+    }
+
 
     void GetWeapon(Transform weapon)
     {
@@ -200,6 +252,11 @@ public class WeaponDetection : MonoBehaviour
     void DropWeapon(Transform weapon)
     {
         weapon.GetComponent<WeaponScript>().DropWeapon(rHandTransform);
+    }
+
+    void ThrowWeapon(Transform weapon)
+    {
+        weapon.GetComponent<WeaponScript>().ThrowWeapon(rHandTransform);
     }
 
     void SendToBack(Transform weapon)
@@ -224,7 +281,6 @@ public class WeaponDetection : MonoBehaviour
             Drop(mainWeapon);
         }
     }
-
     public void PickFromBegining(Transform newWeapon)
     {
         Pick(newWeapon);
@@ -252,11 +308,19 @@ public class WeaponDetection : MonoBehaviour
         }
     }
 
-    public void ThrowDisco()
+    public void ThrowDisco(Vector3 direction)
     {
         if (weaponsStored > 0 && mainWeapon.GetComponent<WeaponScript>().kind.Equals(Weapons.Discobolus))
         {
+            //Throw(mainWeapon);
+            DiscobolusScript disco = mainWeapon.gameObject.GetComponent<DiscobolusScript>();
+
             Drop(mainWeapon);
+            //disco.transform.rotation = Quaternion.identity;
+            disco.MakeCurve(direction);
         }
+    }
+    public void PickDisco(Transform weapon) {
+        Pick(weapon);
     }
 }
