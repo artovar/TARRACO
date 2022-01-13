@@ -172,22 +172,6 @@ public class PlayerController : CharacterClass
 	//////////////
 	void Awake()
 	{
-		/*
-		if(id != 1)
-		{
-			forwardBackward += id;
-			leftRight += id;
-			jump += id;
-			left += id;
-			attack += id;
-			drop += id;
-			interact += id;
-			lookX += id;
-			lookY += id;
-			dash += id;
-			detector.SetUp();
-			usingController = true;
-		}*/
 		PlayerSetup();
 		YoureDead += OnDead;
 		life = maxLife;
@@ -618,9 +602,8 @@ public class PlayerController : CharacterClass
 		}
 		else
 		{
-			pPos = cam.WorldToScreenPoint(Root.transform.position);
-			pPos -= Input.mousePosition;
-			pPos *= -1;
+			pPos = Input.mousePosition ;
+			pPos -= cam.WorldToScreenPoint(Root.transform.position);
 		}
 
 

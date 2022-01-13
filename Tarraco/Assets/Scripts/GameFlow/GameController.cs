@@ -11,36 +11,35 @@ public abstract class GameController : MonoBehaviour
     public static GameController Instance => instance;
 
     [SerializeField]
-    public Texture2D cursor;
-
+    protected GameObject playerPrefab;
     [SerializeField]
-    private GameObject playerPrefab;
+    protected Mesh[] meshes;
     [SerializeField]
-    private Mesh[] meshes;
-    [SerializeField]
-    private Material[] materials;
+    protected Material[] materials;
 
     public GameObject gameOver;
     public GameObject gameWin;
     public GameObject pauseMenu;
 
     public GameObject[] healthUIs;
-    GameObject[] players = new GameObject[4];
-    private bool[] p = { false, false, false, false };
+    protected GameObject[] players = new GameObject[4];
+    protected bool[] p = { false, false, false, false };
+    protected bool[] playerDeaths= {false, false, false, false};
+    protected int pCount;
+
+    [HideInInspector]
     public bool inGame;
-    private bool finished;
-    private bool[] playerDeaths= {false, false, false, false};
-    private int pCount;
+    protected bool finished;
 
     [SerializeField]
-    private GameObject[] weapons;
+    protected GameObject[] weapons;
     private Weapons[,] weaponList = 
         { { Weapons.None, Weapons.None }, { Weapons.None, Weapons.None }, 
           { Weapons.None, Weapons.None }, { Weapons.None, Weapons.None } };
 
-    private Vector3[] playersSpawnPoints = { new Vector3(-.5f,0f,-.5f), new Vector3(-.5f,0f,.5f), new Vector3(.5f, 0f, .5f), new Vector3(.5f, 0f, -5f) };
+    protected Vector3[] playersSpawnPoints = { new Vector3(-.5f,0f,-.5f), new Vector3(-.5f,0f,.5f), new Vector3(.5f, 0f, .5f), new Vector3(.5f, 0f, -5f) };
 
-    private Camera cam;
+    protected Camera cam;
 
 
     private void Awake()
@@ -54,6 +53,7 @@ public abstract class GameController : MonoBehaviour
         instance = this;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Starto();
@@ -75,7 +75,6 @@ public abstract class GameController : MonoBehaviour
         {
             if (pl)
             {
-                print("Spawning");
                 SpawnPlayer();
             }
         }
@@ -92,15 +91,17 @@ public abstract class GameController : MonoBehaviour
                 inGame = false;
                 cam.GetComponent<CameraControl>().ChangeToHub();
                 break;
-            case 6:
-            case 7:
-            case 8:
-            case 9:
+            default:
                 inGame = true;
                 cam.GetComponent<CameraControl>().ChangeToGame();
                 break;
         }
         finished = false;
+        AdditionalStarto();
+    }
+
+    protected virtual void AdditionalStarto()
+    {
     }
 
     public void ChangeSkin(Characters pl)
@@ -125,14 +126,12 @@ public abstract class GameController : MonoBehaviour
         {
             SkinSingleton.Instance.GetNextSkin(materials[i], out meshes[i], out materials[i]);
             players[i].GetComponent<CharacterSkin>().SetSkin(meshes[i], materials[i]);
-            //players[pCount - 1].GetComponent<PlayerController>().SetUp(hUI.gameObject, pCount);
         }
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        //Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         if (finished) return;
         bool gameOv = true;
         for (int i = 0; i < playerDeaths.Length; i++)
@@ -170,7 +169,7 @@ public abstract class GameController : MonoBehaviour
 
     //SPAWNPOINT
 
-    protected void SpawnPlayer()
+    protected virtual void SpawnPlayer()
     {
         pCount++;
         players[pCount-1] = Instantiate(playerPrefab, BestSP(), Quaternion.identity);
@@ -184,7 +183,7 @@ public abstract class GameController : MonoBehaviour
         GenerateWeapons(players[pCount-1].GetComponent<PlayerController>().detector, pCount -1);
     }
 
-    private void GenerateWeapons(WeaponDetection wd, int index)
+    protected void GenerateWeapons(WeaponDetection wd, int index)
     {
         GameObject weapon = SpawnWeapon(weaponList[index, 1]);
         if (weapon != null) wd.PickFromBegining(weapon.transform);
@@ -192,7 +191,7 @@ public abstract class GameController : MonoBehaviour
         if(weapon != null) wd.PickFromBegining(weapon.transform);
     }
 
-    private GameObject SpawnWeapon(Weapons weapon)
+    protected GameObject SpawnWeapon(Weapons weapon)
     {
         int weaponIndex = 0;
         switch(weapon)
@@ -246,7 +245,7 @@ public abstract class GameController : MonoBehaviour
         return Instantiate(weapons[weaponIndex]);
     }
 
-    private Vector3 BestSP()
+    protected Vector3 BestSP()
     {
         float betterDistance = 0;
         Vector3 betterPoint = Vector3.zero;
@@ -297,11 +296,11 @@ public abstract class GameController : MonoBehaviour
 
     //GAME OVER
 
-    void GameOver()
+    protected void GameOver()
     {
         StartCoroutine(Slower());
     }
-    private IEnumerator Slower()
+    protected IEnumerator Slower()
     {
         while (Time.timeScale > 0.5f)
         {
@@ -324,7 +323,7 @@ public abstract class GameController : MonoBehaviour
         StartCoroutine(Winning());
     }
 
-    private IEnumerator Winning()
+    protected IEnumerator Winning()
     {
         while (Time.timeScale > 0.5f)
         {

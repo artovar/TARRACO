@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class LevelGameController : GameController
 {
     [SerializeField]
+    private OvationBar mainBar;
+
+    [SerializeField]
     private int baseHubIndex;
     [SerializeField]
     private int midHubIndex;
@@ -18,6 +21,22 @@ public class LevelGameController : GameController
 
 
     private int currentLevel = 0;
+    protected override void AdditionalStarto()
+    {
+        mainBar.transform.parent.gameObject.SetActive(true);
+        mainBar.gameObject.SetActive(true);
+        mainBar.EnableBar();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            print("Killed Boss");
+            OvationSingleton.Instance.Win(Characters.None, mainBar.GetText());
+        }
+    }
 
     public override int NextLevel()
     {
@@ -46,5 +65,10 @@ public class LevelGameController : GameController
         {
             return 0;
         }
+    }
+
+    public void SpawnBoss()
+    {
+        print("SpawningBoss");
     }
 }

@@ -7,9 +7,13 @@ public class OvationSingleton : MonoBehaviour
 {
     private static OvationSingleton instance;
     public static OvationSingleton Instance => instance;
-    private OvationBar[] bars = new OvationBar[4];
+
+    protected OvationBar[] bars = new OvationBar[4];
+    protected OvationBar middleBar;
     bool winned = false;
     private float time = 0;
+
+    public int pointsToWin = 1;
 
     private void Awake()
     {
@@ -21,11 +25,17 @@ public class OvationSingleton : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         instance = this;
     }
+
+    public virtual void Initialise()
+    {
+
+    }
+
     private void Update()
     {
         if(!winned) time += Time.deltaTime;
     }
-    public void AddBar(OvationBar bar, Characters character)
+    public virtual void AddBar(OvationBar bar, Characters character)
     {
         switch (character)
         {
@@ -43,7 +53,7 @@ public class OvationSingleton : MonoBehaviour
                 break;
         }
     }
-    public void IncreaseMeter(float incr, Characters character)
+    public virtual void IncreaseMeter(float incr, Characters character)
     {
         switch(character)
         {
@@ -62,8 +72,12 @@ public class OvationSingleton : MonoBehaviour
         }
     }
 
-    public void BarAccomplished()
+    public virtual void BarAccomplished(int score, Characters owner, TextMeshProUGUI text)
     {
+        if(score >= pointsToWin)
+        {
+            Win(owner, text);
+        }
     }
 
     public void Win(Characters charact, TextMeshProUGUI texto)
@@ -72,6 +86,9 @@ public class OvationSingleton : MonoBehaviour
         winned = true;
         switch(charact)
         {
+            case Characters.None:
+                texto.text = "Level Finished";
+                break;
             case Characters.Player1:
                 texto.text = "You win!";
                 break;
@@ -88,8 +105,9 @@ public class OvationSingleton : MonoBehaviour
         GameController.Instance.Win();
     }
 
-    public void ResetBars()
+    public virtual void ResetBars()
     {
+        winned = false;
         foreach(OvationBar o in bars)
         {
             if(o != null) o.ResetBar();
