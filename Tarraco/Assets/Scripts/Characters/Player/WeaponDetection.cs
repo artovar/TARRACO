@@ -80,11 +80,22 @@ public class WeaponDetection : MonoBehaviour
     }
     private void OnTriggerStay(Collider col)
     {
-        /*if(col.CompareTag("ThrownWeapon"))
+        if(col.CompareTag("Finish"))
         {
-            
-        }else if*/
-        if (col.CompareTag("Weapon"))
+            if (!picking)
+            {
+                return;
+            }
+            picking = false;
+            if(col.gameObject.GetComponent<Switcher>() != null)
+            {
+                Switcher switcher = col.gameObject.GetComponent<Switcher>();
+                switcher.Interact();
+                return;
+            }
+            GameController.Instance.ChangeSkin(controller.character);
+        }
+        else if (col.CompareTag("Weapon"))
         {
             if (!picking)
             {
@@ -270,6 +281,33 @@ public class WeaponDetection : MonoBehaviour
             Drop(mainWeapon);
         }
     }
+    public void PickFromBegining(Transform newWeapon)
+    {
+        Pick(newWeapon);
+    }
+
+    public void GetWeapons(out Weapons w1, out Weapons w2)
+    {
+        //Esto no es duplicidad, es para soltar si tiene dos
+        if (weaponsStored > 0)
+        {
+            w1 = mainWeapon.GetComponent<WeaponScript>().kind;
+        }
+        else
+        {
+            w1 = Weapons.None;
+            w2 = Weapons.None;
+        }
+        if (weaponsStored > 1)
+        {
+            w2 = backWeapon.GetComponent<WeaponScript>().kind;
+        }
+        else
+        {
+            w2 = Weapons.None;
+        }
+    }
+
     public void ThrowDisco(Vector3 direction)
     {
         if (weaponsStored > 0 && mainWeapon.GetComponent<WeaponScript>().kind.Equals(Weapons.Discobolus))

@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(Animator))]
 public class OvationBar : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject bckgrnd;
     private float ovationMeter = 0;
     [SerializeField]
     private float ovationMax = 240;
@@ -15,6 +18,8 @@ public class OvationBar : MonoBehaviour
     private Characters owner;
     [SerializeField]
     private TextMeshProUGUI score;
+    [SerializeField]
+    private Animator animator;
     private int scoreInt = 0;
 
     private bool coloring;
@@ -22,6 +27,7 @@ public class OvationBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         ovationMeter = 0;
         OvationSingleton.Instance.AddBar(this, owner);
     }
@@ -53,12 +59,23 @@ public class OvationBar : MonoBehaviour
             }
             coloring = true;
             StartCoroutine(PrepareColor());
-            OvationSingleton.Instance.BarAccomplished();
             scoreInt++;
             score.text = "" + scoreInt;
-            if (scoreInt == 3) OvationSingleton.Instance.Win(owner, score);
             ovationMeter = 0;
         }
+    }
+    private IEnumerator PrepareColor()
+    {
+        animator.SetBool("Accomplished", true);
+        //GetComponent<Animator>();
+        yield return new WaitForSeconds(1.5f);
+        foreach (Image i in GetComponentsInChildren<Image>())
+        {
+            if (!i.gameObject.Equals(this.gameObject)) i.color = new Color(0.3738351f, 0.8584f, 0.28888f, 1);
+        }
+        animator.SetBool("Accomplished", false);
+        OvationSingleton.Instance.BarAccomplished(scoreInt, owner, score);
+        coloring = false;
     }
 
     public void ResetBar()
@@ -67,14 +84,20 @@ public class OvationBar : MonoBehaviour
         scoreInt = 0;
         ovationMeter = 0f;
     }
-    private IEnumerator PrepareColor()
+    public void DisableBar()
     {
-        //GetComponent<Animator>();
-        yield return new WaitForSeconds(1.5f);
-        foreach (Image i in GetComponentsInChildren<Image>())
-        {
-            if (!i.gameObject.Equals(this.gameObject)) i.color = new Color(0.3738351f, 0.8584f, 0.28888f, 1);
-        }
-        coloring = false;
+        score.gameObject.SetActive(false);
+        bckgrnd.SetActive(false);
+        gameObject.SetActive(false);
+    }
+    public void EnableBar()
+    {
+        score.gameObject.SetActive(true);
+        score.text = "";
+        bckgrnd.SetActive(true);
+    }
+    public TextMeshProUGUI GetText()
+    {
+        return score;
     }
 }

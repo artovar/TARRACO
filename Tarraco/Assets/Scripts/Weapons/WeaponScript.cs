@@ -83,7 +83,7 @@ public abstract class WeaponScript : MonoBehaviour
     {
         dropQueue.Add(true);
         yield return new WaitForSeconds(12f);
-        if(tag.Equals("Weapon") && dropQueue[0])
+        if(tag.Equals("Weapon") && dropQueue[0] && GameController.Instance.inGame)
         {
             foreach(Collider col in onFloorCol)
             {

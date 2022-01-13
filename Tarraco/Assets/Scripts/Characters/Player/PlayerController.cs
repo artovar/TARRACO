@@ -174,22 +174,6 @@ public class PlayerController : CharacterClass
 	//////////////
 	void Awake()
 	{
-		/*
-		if(id != 1)
-		{
-			forwardBackward += id;
-			leftRight += id;
-			jump += id;
-			left += id;
-			attack += id;
-			drop += id;
-			interact += id;
-			lookX += id;
-			lookY += id;
-			dash += id;
-			detector.SetUp();
-			usingController = true;
-		}*/
 		PlayerSetup();
 		YoureDead += OnDead;
 		life = maxLife;
@@ -244,6 +228,11 @@ public class PlayerController : CharacterClass
 		hUD = hUI.GetComponent<HealthHUD>();
 		detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
 	}
+
+	public void GetWeapons(out Weapons w1, out Weapons w2)
+    {
+		detector.GetWeapons(out w1, out w2);
+    }
 
 
 	//---Updates---//
@@ -615,9 +604,8 @@ public class PlayerController : CharacterClass
 		}
 		else
 		{
-			pPos = cam.WorldToScreenPoint(Root.transform.position);
-			pPos -= Input.mousePosition;
-			pPos *= -1;
+			pPos = Input.mousePosition ;
+			pPos -= cam.WorldToScreenPoint(Root.transform.position);
 		}
 
 
@@ -930,7 +918,7 @@ public class PlayerController : CharacterClass
 						if (metralletaCheat)
 						{
 							chargingTime = 1.2f;
-							hitCoolDown = .05f;
+							hitCoolDown = .001f;
 						}
 						else
 						{
@@ -939,7 +927,7 @@ public class PlayerController : CharacterClass
 						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
 						lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
 						weapon.Shoot(lookPos.normalized, character, chargingTime);
-						chargingTime = .45f;
+						if (!metralletaCheat) chargingTime = .45f;
 						break;
 					case Weapons.Axe:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);

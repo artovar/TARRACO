@@ -9,18 +9,30 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu/MainMenu.unity
     guid: 7037bd05516ec6f49af482f53e93c7da
   - enabled: 1
-    path: Assets/Scenes/Levels/LevelHub.unity
+    path: Assets/Scenes/Levels/Hubs/LevelHub.unity
     guid: 0b21df38b02f521499eabf3a9d606fc7
+  - enabled: 1
+    path: Assets/Scenes/Levels/Hubs/LevelMidHub.unity
+    guid: 92abe0cacec8a3b468c0fd2c0d654e8a
+  - enabled: 1
+    path: Assets/Scenes/Arena/Hubs/ArenaHub.unity
+    guid: dfa9c947bb1b0c74bbfae68d95ca08ef
+  - enabled: 1
+    path: Assets/Scenes/Arena/Hubs/ArenaMidHub.unity
+    guid: f51b20ecd28ea3a44a831eb667a18ee3
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: f4e002302a429084f8830a1e4ec23047
   - enabled: 1
     path: Assets/Scenes/Levels/Level1.unity
     guid: 2e7982ff15d0c1146b1230c357b5f28a
   - enabled: 1
-    path: Assets/Scenes/Arena/ArenaHub.unity
-    guid: dfa9c947bb1b0c74bbfae68d95ca08ef
+    path: Assets/Scenes/Levels/Level2.unity
+    guid: 3ea09cb3100f7224190af6ffbdb32ef7
   - enabled: 1
     path: Assets/Scenes/Arena/Arena.unity
     guid: 8563d970f35b5e2418741867049fa1a8
   - enabled: 1
-    path: Assets/Scenes/Credits.unity
-    guid: f4e002302a429084f8830a1e4ec23047
+    path: Assets/Scenes/Arena/ArenaWater.unity
+    guid: 1390965d7ae229247aa9db2446c8712d
   m_configObjects: {}
