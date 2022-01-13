@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArenaOvationSingleton : MonoBehaviour
+public class ArenaOvationSingleton : OvationSingleton
 {
-    // Start is called before the first frame update
-    void Start()
+    ArenaGameController controller;
+    private void Start()
     {
-        
+        controller = GameController.Instance.GetComponent<ArenaGameController>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

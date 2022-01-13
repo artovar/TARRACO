@@ -16,8 +16,11 @@ public class ArenaGameController : GameController
     [SerializeField]
     private int creditsIndex;
 
-
+    [HideInInspector]
+    public ModesEnum modeSelected;
     private int chosenArena = 1;
+
+
 
     private HubScreen screen;
 
@@ -26,11 +29,21 @@ public class ArenaGameController : GameController
         if (inGame) return;
         screen = GameObject.FindGameObjectWithTag("Heal").GetComponent<HubScreen>();
         screen.SetUP();
+        screen.DisplayArena(chosenArena);
+        screen.DisplayMode(modeSelected);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
     }
 
     public void ChangeMode()
     {
-
+        modeSelected++;
+        if (modeSelected > ModesEnum.AgainsAI) modeSelected = 0;
+        screen.DisplayMode(modeSelected);
     }
 
     public void ChangeArena()
@@ -49,7 +62,7 @@ public class ArenaGameController : GameController
         {
             return firstArenaIndex + chosenArena - 1;
         }
-        else if (index >= firstArenaIndex && index < firstArenaIndex + totalArenas - 1)
+        else if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)
         {
             return midHubIndex;
         }

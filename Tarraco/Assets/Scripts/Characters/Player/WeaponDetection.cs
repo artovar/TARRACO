@@ -90,7 +90,7 @@ public class WeaponDetection : MonoBehaviour
             if(col.gameObject.GetComponent<Switcher>() != null)
             {
                 Switcher switcher = col.gameObject.GetComponent<Switcher>();
-                switcher.ChangeArena();
+                switcher.Interact();
                 return;
             }
             GameController.Instance.ChangeSkin(controller.character);

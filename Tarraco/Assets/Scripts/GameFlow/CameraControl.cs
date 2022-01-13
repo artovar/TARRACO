@@ -156,7 +156,7 @@ public class CameraControl : MonoBehaviour
                 if (t.position.x > maxX) maxX = t.position.x;
                 if (t.position.z < minZ) minZ = t.position.z;
                 if (t.position.z > maxZ) maxZ = t.position.z;
-                point += t.position;
+                point += t.position - Vector3.up * t.position.y*.5f;
                 i++;
             }
         }
@@ -168,8 +168,8 @@ public class CameraControl : MonoBehaviour
         float mag = (new Vector3(maxX, 0f, maxZ) - new Vector3(minX, 0f, minZ)).magnitude;
         if (mag < 10f) mag = 10f;
         distance = originalDistance + mag;
-        var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
         cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset * (((distance) / originalDistance) / 1.2f), smoothness);
+        var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
         cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness * 2f);
     }
 }
