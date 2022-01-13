@@ -97,6 +97,7 @@ public class PlayerController : CharacterClass
 	public AudioClip[] Impacts;
 	public AudioClip[] Hits;
 	public AudioClip[] Steps;
+	public AudioClip[] Jummy;
 	public AudioSource SoundSource;
 	public AudioSource StepSource;
 
@@ -149,8 +150,9 @@ public class PlayerController : CharacterClass
 	//Debug
 	public bool editorDebugMode;
 
-
-
+	[HideInInspector]
+	public bool waitForDisco = false;
+	
 	private bool metralletaCheat = false;
 
 
@@ -909,6 +911,7 @@ public class PlayerController : CharacterClass
 					invTime = .1f;
 					weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 				}
+				Vector3 lookPos;
 				switch (weapon.kind)
 				{
 					case Weapons.Bow:
@@ -922,7 +925,7 @@ public class PlayerController : CharacterClass
 							ResetLeftArm();
 						}
 						//var lookPos = new Vector3(pPos.x, 0.0f, pPos.y);lookPos.normalized
-						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
+						lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
 						weapon.Shoot(lookPos.normalized, character, chargingTime);
 						if (!metralletaCheat) chargingTime = .45f;
 						break;
@@ -931,7 +934,10 @@ public class PlayerController : CharacterClass
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce*2, ForceMode.Impulse);
 						break;
 					case Weapons.Discobolus:
-						
+						lookPos = new Vector3(Root.transform.forward.x, 0, Root.transform.forward.z);
+						detector.ThrowDisco(lookPos);
+						waitForDisco = true;
+						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);

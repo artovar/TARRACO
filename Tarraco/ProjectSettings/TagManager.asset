@@ -13,6 +13,7 @@ TagManager:
   - Enemy
   - PlayerChest
   - Heal
+  - ThrownWeapon
   layers:
   - Default
   - TransparentFX
