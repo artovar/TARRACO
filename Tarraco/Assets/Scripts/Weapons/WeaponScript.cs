@@ -65,6 +65,10 @@ public abstract class WeaponScript : MonoBehaviour
         transform.tag = "Weapon";
         StartCoroutine(DestroyWeapon());
     }
+    public void DestroyAfterSpawning()
+    {
+        StartCoroutine(DestroyWeapon());
+    }
     public virtual void ThrowWeapon(Transform rHand)
     {
         transform.position = rHand.position + rHand.right * .2f;

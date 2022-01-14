@@ -1361,6 +1361,11 @@ MonoBehaviour:
   - {fileID: -5881974993816968728, guid: 87cd679a6441d6147b1a7d63ebc91f29, type: 3}
   - {fileID: 2985616159160566809, guid: ecf78b287a8bffd4e9034078f650d13b, type: 3}
   - {fileID: 2209492931166267338, guid: ff3d21849d9c41a43b23afcc93b76445, type: 3}
+  controllers:
+  - {fileID: 9100000, guid: e79cea61c1189a544a4e2b1822319cc5, type: 2}
+  - {fileID: 9100000, guid: 4bc0fbc71236693429116272a6705c89, type: 2}
+  - {fileID: 9100000, guid: 06500872634c90e4fa07813d4cf56b62, type: 2}
+  - {fileID: 9100000, guid: 1076ed89e1cf07d41b0af7106afa81e5, type: 2}
 --- !u!1 &2127258997
 GameObject:
   m_ObjectHideFlags: 0

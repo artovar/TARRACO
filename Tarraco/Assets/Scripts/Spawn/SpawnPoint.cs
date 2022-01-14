@@ -4,22 +4,16 @@ using UnityEngine;
 using System;
 public class SpawnPoint : MonoBehaviour
 {
-    enum Mode
-    {
-        Level,
-        Arena
-    };
-
-    [SerializeField]
-    private Mode mode;
     private int numPlayers;
     private List<Transform> players = new List<Transform>();
 
     public GameObject[] enemyPrefabs;
     public Material[] materialsForSpartan;
     public GameObject[] weaponPrefabs;
+    public GameObject[] healingPrefabs;
 
     public GameObject[] points;
+    public Transform[] audience;
     public int secondsSpawn = 5;
     private int deathCount = 0;
 
@@ -35,21 +29,61 @@ public class SpawnPoint : MonoBehaviour
     {
         //players = GameObject.FindGameObjectsWithTag("Player");
         //numPlayers = players.Length;
+        ArenaGameController arena = GameController.Instance.GetComponent<ArenaGameController>();
 
         maxDef = maxEnemies;
-        switch(mode)
-        {
-            case Mode.Level:
-                coroutine = spawnEnemy(secondsSpawn);
-                break;
-            case Mode.Arena:
-                coroutine = arenaEnemies(secondsSpawn);
-                break;
-        }
-        StartCoroutine(coroutine);
-    }
 
-    private IEnumerator spawnEnemy (float time)  {
+        if(arena != null)
+        {
+            switch (arena.modeSelected)
+            {
+                case ModesEnum.AgainsAI:
+                    coroutine = ArenaEnemies(secondsSpawn);
+                    StartCoroutine(coroutine);
+                    break;
+                case ModesEnum.KingOfTheHill:
+                    break;
+                case ModesEnum.FreeForAll:
+                    coroutine = SpawnWeapons(3, 15);
+                    StartCoroutine(coroutine);
+                    coroutine = SpawnLife(7, 25);
+                    StartCoroutine(coroutine);
+                    break;
+            }
+        }
+        else
+        {
+            coroutine = SpawnEnemy(secondsSpawn);
+            StartCoroutine(coroutine);
+        }
+    }
+    private IEnumerator SpawnWeapons(float lowerLimit, float upperLimit)
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        while (true)
+        {
+            Transform single = audience[UnityEngine.Random.Range(0, audience.Length - 1)];
+            GameObject newWeapon = Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length - 1)],
+                 single.position, single.rotation);
+            newWeapon.GetComponent<Rigidbody>().AddForce(single.forward * 10 * newWeapon.GetComponent<Rigidbody>().mass, ForceMode.Impulse);
+            newWeapon.GetComponent<WeaponScript>().DestroyAfterSpawning();
+            yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        }
+    }
+    private IEnumerator SpawnLife(float lowerLimit, float upperLimit)
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        while (true)
+        {
+            Transform single = audience[UnityEngine.Random.Range(0, audience.Length - 1)];
+            GameObject heal = Instantiate(healingPrefabs[UnityEngine.Random.Range(0, healingPrefabs.Length - 1)],
+                single.position, single.rotation);
+            heal.GetComponent<Rigidbody>().AddForce(single.forward * 40, ForceMode.Impulse);
+            Destroy(heal, 20f);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        }
+    }
+    private IEnumerator SpawnEnemy(float time)  {
         while(true) {
             int i = 0;
             List<int> deadGuys = new List<int>();
@@ -83,7 +117,7 @@ public class SpawnPoint : MonoBehaviour
             yield return new WaitForSeconds(time);
         }
     }
-    private IEnumerator arenaEnemies(float time)  {
+    private IEnumerator ArenaEnemies(float time)  {
         while(true) {
             int i = 0;
             List<int> deadGuys = new List<int>();

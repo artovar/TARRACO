@@ -11,7 +11,8 @@ public class ImpactContact : MonoBehaviour
         LayerMask layer = col.gameObject.layer;
         if (APR_Player.IsRagdoll() || col.collider.CompareTag("Weapon") || layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
         //Knockout by impact
-        if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
+        bool also = col.gameObject.CompareTag("ThrownWeapon");
+        if ((APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
         {
             Characters from = Characters.Enemy;
             if (layer >= 16 && layer <= 19 && col.collider.enabled)
@@ -58,7 +59,7 @@ public class ImpactContact : MonoBehaviour
         }
 
         //Sound on impact & normal impact
-        if (col.relativeVelocity.magnitude > APR_Player.ImpactForce)
+        if ((col.relativeVelocity.magnitude > APR_Player.ImpactForce) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
         {
             //Sound
             if (APR_Player.SoundSource != null)

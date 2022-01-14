@@ -486,7 +486,7 @@ GameObject:
   - component: {fileID: 255585237730771944}
   - component: {fileID: 4643947459493420055}
   m_Layer: 0
-  m_Name: Paca
+  m_Name: Taco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -658,6 +658,7 @@ MonoBehaviour:
   meter: {fileID: 3172670446785805311}
   owner: 4
   score: {fileID: 5472183779597597981}
+  animator: {fileID: 0}
 --- !u!95 &2653690443033226857
 Animator:
   serializedVersion: 3
@@ -668,7 +669,7 @@ Animator:
   m_GameObject: {fileID: 440436412489918869}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c9e7113517419d041a7848f3de1d762a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -733,6 +734,7 @@ MonoBehaviour:
   - {fileID: 2678042951360795527}
   - {fileID: 6378700582277047284}
   - {fileID: 8653846511899516906}
+  test: {fileID: 0}
 --- !u!95 &4146308174367091532
 Animator:
   serializedVersion: 3
@@ -743,7 +745,7 @@ Animator:
   m_GameObject: {fileID: 458632138749192650}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4bc0fbc71236693429116272a6705c89, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1076ed89e1cf07d41b0af7106afa81e5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
   m_ApplyRootMotion: 0
@@ -936,6 +938,7 @@ MonoBehaviour:
   meter: {fileID: 7724594211136184094}
   owner: 1
   score: {fileID: 687289630585639904}
+  animator: {fileID: 0}
 --- !u!95 &4906766395892659011
 Animator:
   serializedVersion: 3
@@ -946,7 +949,7 @@ Animator:
   m_GameObject: {fileID: 502323768920553404}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c9e7113517419d041a7848f3de1d762a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1214,6 +1217,7 @@ MonoBehaviour:
   meter: {fileID: 7491601232462401757}
   owner: 3
   score: {fileID: 3673418333937333003}
+  animator: {fileID: 0}
 --- !u!95 &6839883384299966023
 Animator:
   serializedVersion: 3
@@ -1224,7 +1228,7 @@ Animator:
   m_GameObject: {fileID: 727835368359164235}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c9e7113517419d041a7848f3de1d762a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1517,6 +1521,7 @@ MonoBehaviour:
   - {fileID: 5138435381108046848}
   - {fileID: 4955662575459199286}
   - {fileID: 6055548432900842097}
+  test: {fileID: 0}
 --- !u!95 &9130195420520864988
 Animator:
   serializedVersion: 3
@@ -1667,6 +1672,7 @@ MonoBehaviour:
   - {fileID: 4167714164457683755}
   - {fileID: 4857717012747345137}
   - {fileID: 2108937460384865867}
+  test: {fileID: 9100000, guid: 06500872634c90e4fa07813d4cf56b62, type: 2}
 --- !u!95 &7586885228519385215
 Animator:
   serializedVersion: 3
@@ -1870,6 +1876,7 @@ MonoBehaviour:
   meter: {fileID: 1983326948691757745}
   owner: 0
   score: {fileID: 687289630585639904}
+  animator: {fileID: 0}
 --- !u!95 &4883401860470189135
 Animator:
   serializedVersion: 3
@@ -2095,6 +2102,7 @@ MonoBehaviour:
   - {fileID: 6412749326430863315}
   - {fileID: 771017848906401996}
   - {fileID: 4131167158709228715}
+  test: {fileID: 0}
 --- !u!95 &7552833689073674650
 Animator:
   serializedVersion: 3
@@ -2105,7 +2113,7 @@ Animator:
   m_GameObject: {fileID: 2130547313255251646}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e79cea61c1189a544a4e2b1822319cc5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 06500872634c90e4fa07813d4cf56b62, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
   m_ApplyRootMotion: 0
@@ -2582,6 +2590,7 @@ MonoBehaviour:
   meter: {fileID: 8875597995558196718}
   owner: 2
   score: {fileID: 382248680487529488}
+  animator: {fileID: 0}
 --- !u!95 &9139792844486250678
 Animator:
   serializedVersion: 3
@@ -2592,7 +2601,7 @@ Animator:
   m_GameObject: {fileID: 2779047965872188049}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c9e7113517419d041a7848f3de1d762a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2824,7 +2833,7 @@ GameObject:
   - component: {fileID: 6654728522581116820}
   - component: {fileID: 9217427194845507796}
   m_Layer: 0
-  m_Name: Paca
+  m_Name: Taco
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

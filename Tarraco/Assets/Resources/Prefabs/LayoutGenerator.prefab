@@ -43,4 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f2e414bf342ed46809ef857b553a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layouts: []
+  level1Layouts:
+  - {fileID: 6414142595941168402, guid: b1f176a77e32a4f4b8353389476080f0, type: 3}
+  level2Layouts: []
+  arenaLayouts: []
+  kothLayouts:
+  - {fileID: 5211562578020835369, guid: df059d4a3ec05fe4a9838b2065b837a4, type: 3}
+  generation: 0
