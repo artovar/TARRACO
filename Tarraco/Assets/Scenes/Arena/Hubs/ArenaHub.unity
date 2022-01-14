@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 875481022}
   m_Layer: 14
   m_Name: Modelo_Boton_parte_interior
-  m_TagString: Finish
+  m_TagString: Interact
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1279,6 +1279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f188dcac0ae4c384faa537946b5a8d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointsToWin: 1
 --- !u!114 &1993758165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1291,7 +1292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cab4faa2ecb66e4aa7114b2b23e4954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursor: {fileID: 2800000, guid: fb51e2f568f8ebd42905759d9c0e37f4, type: 3}
   playerPrefab: {fileID: 5854201647924977859, guid: af3eb0e9be7eca947b126254d8a14478, type: 3}
   meshes:
   - {fileID: 5880814759177201062, guid: 7d3210c5977ad814fa0b675549433494, type: 3}
@@ -1319,12 +1319,12 @@ MonoBehaviour:
   - {fileID: 5005624509908465423, guid: 71524061fdb0cb64a93af39136d8f53a, type: 3}
   - {fileID: 494297869467144825, guid: b5dd3bea09d878c4dba11c2245bda458, type: 3}
   - {fileID: 2409546422908356482, guid: 7691ce9f6dfbe7f42a0c96268b859d34, type: 3}
-  modeSelected: 0
   baseHubIndex: 3
   midHubIndex: 4
   firstArenaIndex: 8
   totalArenas: 2
   creditsIndex: 5
+  modeSelected: 0
 --- !u!4 &1993758166
 Transform:
   m_ObjectHideFlags: 0
@@ -1376,7 +1376,7 @@ GameObject:
   - component: {fileID: 2127258999}
   m_Layer: 14
   m_Name: Modelo_Boton_parte_interior
-  m_TagString: Finish
+  m_TagString: Interact
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

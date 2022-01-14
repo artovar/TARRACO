@@ -12,8 +12,9 @@ public class EImpactContact : MonoBehaviour
     {
         if (!Object.ReferenceEquals(enemyController.weapon, null) && (col.transform.IsChildOf(enemyController.transform) || col.transform.IsChildOf(enemyController.weapon.transform))) return;
         //Knockout by impact
-        if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
+        if ((enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO) || col.gameObject.CompareTag("ThrownWeapon"))
         {
+            print("Te pego");
             Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
@@ -62,6 +63,7 @@ public class EImpactContact : MonoBehaviour
             if (wp != null)
             {
                 from = wp.owner;
+                print(from);
                 switch (wp.kind)
                 {
                     case Weapons.Spear:

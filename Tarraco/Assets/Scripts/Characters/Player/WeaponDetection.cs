@@ -80,7 +80,7 @@ public class WeaponDetection : MonoBehaviour
     }
     private void OnTriggerStay(Collider col)
     {
-        if(col.CompareTag("Finish"))
+        if(col.CompareTag("Interact"))
         {
             if (!picking)
             {
@@ -95,7 +95,7 @@ public class WeaponDetection : MonoBehaviour
             }
             GameController.Instance.ChangeSkin(controller.character);
         }
-        else if (col.CompareTag("Weapon"))
+        else if (col.CompareTag("Weapon") || col.CompareTag("ThrownWeapon"))
         {
             if (!picking)
             {

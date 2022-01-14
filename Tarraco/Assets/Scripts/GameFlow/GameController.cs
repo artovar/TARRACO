@@ -218,7 +218,7 @@ public abstract class GameController : MonoBehaviour
                 return null;
                 break;
             case Weapons.Discobolus:
-                return null;
+                weaponIndex = 6;
                 break;
             case Weapons.Garrote:
                 weaponIndex = 2;
