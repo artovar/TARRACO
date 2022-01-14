@@ -65,7 +65,7 @@ public class ArenaGameController : GameController
             if ((players[i] != null))
             {
                 gameOv = gameOv && playerDeaths[i];
-                revivePlayers[i] = true;
+                if(playerDeaths[i]) revivePlayers[i] = true;
             }
         }
         if (gameOv)
@@ -96,22 +96,22 @@ public class ArenaGameController : GameController
             {
                 RuntimeAnimatorController cont;
                 SkinSingleton.Instance.GetNewSkin(out meshes[1], out materials[1], out cont);
-                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
                 SpawnPlayer();
+                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
             if (!p[2] && Input.GetButtonDown("Jump3"))
             {
                 RuntimeAnimatorController cont;
                 SkinSingleton.Instance.GetNewSkin(out meshes[2], out materials[2], out cont);
-                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
                 SpawnPlayer();
+                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
             if (!p[3] && Input.GetButtonDown("Jump4"))
             {
                 RuntimeAnimatorController cont;
                 SkinSingleton.Instance.GetNewSkin(out meshes[3], out materials[3], out cont);
-                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
                 SpawnPlayer();
+                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
         }
     }
@@ -124,7 +124,7 @@ public class ArenaGameController : GameController
             if ((players[i] != null))
             {
                 gameOv = gameOv && playerDeaths[i];
-                revivePlayers[i] = true;
+                if (playerDeaths[i]) revivePlayers[i] = true;
             }
         }
         if (gameOv)
@@ -154,22 +154,22 @@ public class ArenaGameController : GameController
             {
                 RuntimeAnimatorController cont;
                 SkinSingleton.Instance.GetNewSkin(out meshes[1], out materials[1], out cont);
-                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
                 SpawnPlayer();
+                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
             if (!p[2] && Input.GetButtonDown("Jump3"))
             {
                 RuntimeAnimatorController cont;
                 SkinSingleton.Instance.GetNewSkin(out meshes[2], out materials[2], out cont);
-                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
                 SpawnPlayer();
+                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
             if (!p[3] && Input.GetButtonDown("Jump4"))
             {
                 RuntimeAnimatorController cont;
                 SkinSingleton.Instance.GetNewSkin(out meshes[3], out materials[3], out cont);
-                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
                 SpawnPlayer();
+                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
         }
     }
