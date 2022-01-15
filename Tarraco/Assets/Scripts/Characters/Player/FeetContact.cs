@@ -7,9 +7,12 @@ public class FeetContact : MonoBehaviour
     [SerializeField]
     private bool f;
     LayerMask g, e;
+
+    ParticleSystemRenderer spritePrint;
     private void Start()
     {
-        system = GetComponent<ParticleSystem>();
+        system = GetComponentInChildren<ParticleSystem>();
+        spritePrint = GetComponentInChildren<ParticleSystemRenderer>();
         g = LayerMask.NameToLayer("Ground");
         e = LayerMask.NameToLayer("Enemies");
     }
@@ -18,7 +21,8 @@ public class FeetContact : MonoBehaviour
     {
         if ((col.gameObject.layer == g || col.gameObject.layer == e))
         {
-            system.Emit(1);
+            footprint(col.gameObject);
+            //system.Emit(1);
             if(f)
             {
                 APR_Player.StepSource.clip = APR_Player.Steps[0];
@@ -32,5 +36,18 @@ public class FeetContact : MonoBehaviour
                 APR_Player.PlayerLanded();
             }
         }
+    }
+    void footprint(GameObject floor) {
+        //Cogemos el color
+        Color footColor = floor.GetComponent<MeshRenderer>().material.color;
+        Color printColor = (footColor + new Color(0.3f, 0.3f, 0.3f, 0.3f))/2;
+
+        var main = system.main;        
+        main.startColor = printColor;
+
+        //Direccion de la huella
+        //spritePrint.normalDirection = ;
+
+        system.Emit(1);
     }
 }

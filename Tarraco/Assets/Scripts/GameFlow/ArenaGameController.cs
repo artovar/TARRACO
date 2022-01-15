@@ -16,6 +16,13 @@ public class ArenaGameController : GameController
     [SerializeField]
     private int creditsIndex;
 
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip musicHub;
+    [SerializeField]
+    private AudioClip[] musicArenaModes;
+    [SerializeField]
+
     [HideInInspector]
     public ModesEnum modeSelected;
     private int chosenArena = 1;
@@ -31,6 +38,10 @@ public class ArenaGameController : GameController
         screen.SetUP();
         screen.DisplayArena(chosenArena);
         screen.DisplayMode(modeSelected);
+    }
+
+    private void Start() {
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected override void Update()
@@ -57,18 +68,31 @@ public class ArenaGameController : GameController
     {
         SaveWeapons();
         int index = SceneManager.GetActiveScene().buildIndex;
-        print(index);
+        //print(index);
+
+        int nextLevel = 0;
         if (index == baseHubIndex || index == midHubIndex)
         {
-            return firstArenaIndex + chosenArena - 1;
+            nextLevel = firstArenaIndex + chosenArena - 1;
+            //return firstArenaIndex + chosenArena - 1;
         }
         else if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)
         {
-            return midHubIndex;
+            nextLevel = midHubIndex;
+            //return midHubIndex;
         }
-        else
+        /*else
         {
             return 0;
+        }*/
+        if (nextLevel == midHubIndex) {
+           audioSource.clip = musicHub;
+        } else if (nextLevel >= firstArenaIndex && nextLevel <= firstArenaIndex + totalArenas - 1) {
+            audioSource.clip = musicArenaModes[chosenArena-1];
+            print("Arena: "+chosenArena);
         }
+        audioSource.Play();
+        audioSource.loop = true;
+        return nextLevel;
     }
 }
