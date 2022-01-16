@@ -39,8 +39,8 @@ public abstract class GameController : MonoBehaviour
           { Weapons.None, Weapons.None }, { Weapons.None, Weapons.None } };
 
     protected Vector3[] playersSpawnPoints = 
-        { new Vector3(-.5f,0f,-.5f), new Vector3(-.5f,0f,.5f), 
-          new Vector3(.5f, 0f, .5f), new Vector3(.5f, 0f, -5f) };
+        { new Vector3(-.75f,0f,-.2f), new Vector3(-.25f,0f,.2f), 
+          new Vector3(.25f, 0f, .2f), new Vector3(.75f, 0f, -2f) };
 
     protected Camera cam;
 
@@ -197,16 +197,16 @@ public abstract class GameController : MonoBehaviour
     
     protected virtual void RevivePlayer(int id)
     {
-        return;
         players[id] = Instantiate(playerPrefab, BestSP(), Quaternion.identity);
         cam.GetComponent<CameraControl>().AddPlayer(players[id].GetComponent<PlayerController>().Root.transform, id+1);
         p[id] = true;
         healthUIs[id].SetActive(true);
         HealthHUD hUI = healthUIs[id].GetComponentInChildren<HealthHUD>();
         hUI.player = players[id];
+        hUI.ResetLife();
         players[id].GetComponent<CharacterSkin>().SetSkin(meshes[id], materials[id]);
         players[id].GetComponent<PlayerController>().SetUp(hUI.gameObject, id+1);
-        GenerateWeapons(players[id].GetComponent<PlayerController>().detector, id );
+        GenerateWeapons(players[id].GetComponent<PlayerController>().detector, id);
     }
 
     protected void GenerateWeapons(WeaponDetection wd, int index)
@@ -380,6 +380,14 @@ public abstract class GameController : MonoBehaviour
     }
     public virtual int NextLevel()
     {
+        StopAllCoroutines();
+        SaveWeapons();
+        print("Almost xD");
+        return 0;
+    }    
+    public virtual int BackToHubIndex()
+    {
+        StopAllCoroutines();
         SaveWeapons();
         print("Almost xD");
         return 0;

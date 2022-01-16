@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BasicEnemyController : CharacterClass
 {
+	[HideInInspector]
+	public bool isDead = false;
 	//Calcular Center of Mass con el arma
 
 	//-------------------------------------------------------------
@@ -84,6 +86,7 @@ public class BasicEnemyController : CharacterClass
 	public float ImpactForce = 10f;
 	public AudioClip[] Impacts;
 	public AudioClip[] Hits;
+	public AudioClip[] NoHits;
 	public AudioClip[] Steps;
 	public AudioSource SoundSource;
 	public AudioSource StepSource;
@@ -1133,7 +1136,7 @@ public class BasicEnemyController : CharacterClass
 			}
 			if (character.Equals(Characters.Enemy))
 			{
-				
+				isDead = true;
 				if (UnityEngine.Random.Range(0, 100) < 25) Destroy(Instantiate(healingOrb, Root.transform.position, Quaternion.identity), 20f);
 			}
 			yield return new WaitForSeconds(3f);

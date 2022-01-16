@@ -14,7 +14,6 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if ((enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO) || col.gameObject.CompareTag("ThrownWeapon"))
         {
-            print("Te pego");
             Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
@@ -49,21 +48,11 @@ public class EImpactContact : MonoBehaviour
 
             //SUSTITUIR ESTO POR MUERTE
 
-            if (enemyController.SoundSource != null)
-            {
-                if (!enemyController.SoundSource.isPlaying && enemyController.Hits != null)
-                {
-                    int i = Random.Range(0, enemyController.Hits.Length);
-                    enemyController.SoundSource.clip = enemyController.Hits[i];
-                    enemyController.SoundSource.Play();
-                }
-            }
             int damage = 1 * damageTaken;
             WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
             if (wp != null)
             {
                 from = wp.owner;
-                print(from);
                 switch (wp.kind)
                 {
                     case Weapons.Spear:
@@ -88,12 +77,31 @@ public class EImpactContact : MonoBehaviour
                 }
             }
             //Damage
-            if (enemyController.Damage(damage, from))
+            bool dead = enemyController.Damage(damage, from, .5f);
+            if (dead)
             {
                 enemyController.ActivateRagdoll();
             }
             GetComponent<Rigidbody>().AddForce(vel * 1.5f, ForceMode.Impulse);
 
+            if (enemyController.SoundSource != null)
+            {
+                if (!enemyController.SoundSource.isPlaying && enemyController.Hits != null)
+                {
+                    if(damage > 0)
+                    {
+                        int i = Random.Range(0, enemyController.Hits.Length);
+                        enemyController.SoundSource.clip = enemyController.Hits[i];
+                        enemyController.SoundSource.Play();
+                    }
+                    else if (enemyController.NoHits != null)
+                    {
+                        int i = Random.Range(0, enemyController.NoHits.Length);
+                        enemyController.SoundSource.clip = enemyController.NoHits[i];
+                        enemyController.SoundSource.Play();
+                    }
+                }
+            }
             if (enemyController.IsDead())
             {
                 //Debug.Log("Enemigo asesinado");

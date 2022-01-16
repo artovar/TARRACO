@@ -31,19 +31,6 @@ public class SkinSingleton : MonoBehaviour
             bools.Add(true);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void GetNextSkin(Material oldMat, out Mesh mesh, out Material mat, out RuntimeAnimatorController controller)
     {
         int f = materials.IndexOf(oldMat);
@@ -62,7 +49,6 @@ public class SkinSingleton : MonoBehaviour
         mesh = meshes[selected];
         mat = materials[selected];
         controller = controllers[selected];
-        print(f);
     }
     public void GetNewSkin(out Mesh mesh, out Material mat, out RuntimeAnimatorController controller)
     {

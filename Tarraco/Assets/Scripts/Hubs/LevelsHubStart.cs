@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelsHubStart : MonoBehaviour
 {
     private int players;
-    private float countDown = 3;
+    private float countDown = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class LevelsHubStart : MonoBehaviour
         }
         else
         {
-            countDown = 3;
+            countDown = 2;
         }
     }
 

@@ -234,6 +234,7 @@ MonoBehaviour:
   - {fileID: 2074078922}
   - {fileID: 2074078921}
   - {fileID: 2074078919}
+  pCount: 0
   inGame: 0
   weapons:
   - {fileID: 2177757887894105767, guid: e81e8647d68e6014bb214b58e1d35279, type: 3}

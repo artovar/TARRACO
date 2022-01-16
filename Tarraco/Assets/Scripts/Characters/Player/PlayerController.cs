@@ -577,7 +577,7 @@ public class PlayerController : CharacterClass
 		if(Input.GetButtonDown(dash) && !isRagdoll && dashCD <= -dashCDDef)
 		{
 			ActivateRagdoll();
-			invTime = invTimeDef;
+			SetInvencibleTime();
 			dashCD = dashCDDef;
 			Root.GetComponent<Rigidbody>().AddForce(Root.transform.forward * dashForce, ForceMode.Impulse);
 			Head.GetComponent<Rigidbody>().AddForce(Head.transform.forward * 1.5f * dashForce, ForceMode.Impulse);
@@ -618,7 +618,10 @@ public class PlayerController : CharacterClass
 			var lookPos = new Vector3(-pPos.x, 0.0f, pPos.y);
 			//new Vector3(-Input.GetAxis(leftRight), 0.0f, Input.GetAxis(forwardBackward)) * 5;
 			var rotation = Quaternion.identity;
-			if(lookPos != Vector3.zero) rotation = Quaternion.LookRotation(lookPos);
+			if (lookPos != Vector3.zero)
+			{
+				rotation = Quaternion.LookRotation(lookPos) * Quaternion.Euler(0,-cam.transform.rotation.eulerAngles.y,0);
+			}
 			//APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Slerp(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 			APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.RotateTowards(APR_Parts[0].GetComponent<ConfigurableJoint>().targetRotation, rotation, Time.deltaTime * turnSpeed);
 		}
@@ -908,7 +911,7 @@ public class PlayerController : CharacterClass
 				hitCoolDown = weapon.weaponCoolDown;
 				if (!metralletaCheat)
 				{
-					invTime = .1f;
+					//invTime = .1f;
 					weapon.Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), punchForce);
 				}
 				Vector3 lookPos;
@@ -1333,7 +1336,7 @@ public class PlayerController : CharacterClass
 		StartCoroutine(Kill());
 		IEnumerator Kill()
 		{
-			yield return new WaitForSeconds(4f);
+			yield return new WaitForSeconds(3f);
 			foreach (Collider c in GetComponentsInChildren<Collider>())
 			{
 				c.enabled = false;
@@ -1344,9 +1347,8 @@ public class PlayerController : CharacterClass
 				r.useGravity = false;
 				r.velocity = Vector3.down * 2;
 			}
-			print(life);
 			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(id);
-			yield return new WaitForSeconds(3f);
+			yield return new WaitForSeconds(2f);
 			print(life);
 			Destroy(this.gameObject);
 		}

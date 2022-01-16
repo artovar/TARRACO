@@ -112,5 +112,6 @@ public class OvationSingleton : MonoBehaviour
         {
             if(o != null) o.ResetBar();
         }
+        if (middleBar != null) middleBar.ResetBar();
     }
 }

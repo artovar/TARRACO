@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2908392517262575964}
   - component: {fileID: 5105375301743247867}
   - component: {fileID: 6353140013278363527}
+  - component: {fileID: 2614364229174293025}
   m_Layer: 0
   m_Name: Discobolus
   m_TagString: Weapon
@@ -73,6 +74,7 @@ MonoBehaviour:
   damageDealed: 1
   weaponCoolDown: 0.65
   forcePoint: {fileID: 865474410915194924}
+  onAirCollider: {fileID: 2614364229174293025}
 --- !u!65 &6353140013278363527
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85,6 +87,19 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.7835761, y: 0.30622798, z: 2.1430302}
+  m_Center: {x: 0.14, y: 0, z: 0.8}
+--- !u!65 &2614364229174293025
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4742979214783732596}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1.9601179, y: 0.30622798, z: 2.1430302}
   m_Center: {x: 0.14, y: 0, z: 0.8}
 --- !u!1 &5604694548711114516
 GameObject:

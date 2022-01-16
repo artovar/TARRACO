@@ -19,6 +19,9 @@ public class LevelGameController : GameController
     [SerializeField]
     private int creditsIndex;
 
+    [SerializeField]
+    public SpawnPoint spawn;
+
 
     private int currentLevel = 0;
     protected override void AdditionalStarto()
@@ -38,11 +41,22 @@ public class LevelGameController : GameController
         }
     }
 
+    public override int BackToHubIndex()
+    {
+        int index = SceneManager.GetActiveScene().buildIndex;
+        if (index >= level1Index && index < level1Index + totalLevels - 1)
+        {
+            currentLevel--;
+            return midHubIndex;
+        }
+        return -1;
+    }
+
     public override int NextLevel()
     {
+        StopAllCoroutines();
         SaveWeapons();
         int index = SceneManager.GetActiveScene().buildIndex;
-        print(index);
         if (index == baseHubIndex)
         {
             currentLevel = 1;
@@ -69,6 +83,6 @@ public class LevelGameController : GameController
 
     public void SpawnBoss()
     {
-        print("SpawningBoss");
+        spawn.SpawnBoss(currentLevel);
     }
 }

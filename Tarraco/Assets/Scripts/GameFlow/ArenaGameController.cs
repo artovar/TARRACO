@@ -17,6 +17,8 @@ public class ArenaGameController : GameController
     [SerializeField]
     private int creditsIndex;
 
+    public ChronoScript crono;
+
     [HideInInspector]
     public ModesEnum modeSelected;
     private int chosenArena = 1;
@@ -34,11 +36,19 @@ public class ArenaGameController : GameController
 
     protected override void AdditionalStarto()
     {
-        if (inGame) return;
+        if (inGame)
+        {
+            ChronoScript.SetClock(5, 0, 0);
+            crono.gameObject.SetActive(true);
+            crono.StartClock();
+            return;
+        }
         screen = GameObject.FindGameObjectWithTag("Heal").GetComponent<HubScreen>();
         screen.SetUP();
         screen.DisplayArena(chosenArena);
         screen.DisplayMode(modeSelected);
+        ChronoScript.ResetClock();
+        crono.gameObject.SetActive(false);
     }
 
     protected override void Update()
@@ -54,7 +64,6 @@ public class ArenaGameController : GameController
                 KOTHUpdate();
                 break;
         }
-
     }
     void FFAUpdate()
     {
@@ -65,7 +74,11 @@ public class ArenaGameController : GameController
             if ((players[i] != null))
             {
                 gameOv = gameOv && playerDeaths[i];
-                if(playerDeaths[i]) revivePlayers[i] = true;
+                if (playerDeaths[i])
+                {
+                    print("I want to revive player " + i);
+                    revivePlayers[i] = true;
+                }
             }
         }
         if (gameOv)
@@ -74,17 +87,18 @@ public class ArenaGameController : GameController
             //finished = true;
         }
 
-        for(int o = 0; o < revivePlayers.Length; o++)
+        for (int o = 0; o < revivePlayers.Length; o++)
         {
-            if(revivePlayers[o])
+            if (revivePlayers[o])
             {
                 revivePlayers[o] = false;
                 playerDeaths[o] = false;
                 StartCoroutine(Revive());
                 IEnumerator Revive()
                 {
-                    yield return new WaitForSeconds(10);
-                    RevivePlayer(o);
+                    int x = o;
+                    yield return new WaitForSeconds(6);
+                    RevivePlayer(x);
                 }
             }
         }
@@ -124,7 +138,11 @@ public class ArenaGameController : GameController
             if ((players[i] != null))
             {
                 gameOv = gameOv && playerDeaths[i];
-                if (playerDeaths[i]) revivePlayers[i] = true;
+                if (playerDeaths[i])
+                {
+                    print("I want to revive player " + i);
+                    revivePlayers[i] = true;
+                }
             }
         }
         if (gameOv)
@@ -142,8 +160,9 @@ public class ArenaGameController : GameController
                 StartCoroutine(Revive());
                 IEnumerator Revive()
                 {
-                    yield return new WaitForSeconds(10);
-                    RevivePlayer(o);
+                    int x = o;
+                    yield return new WaitForSeconds(6);
+                    RevivePlayer(x);
                 }
             }
         }
@@ -179,17 +198,24 @@ public class ArenaGameController : GameController
         modeSelected++;
         if (modeSelected > ModesEnum.AgainsAI) modeSelected = 0;
         screen.DisplayMode(modeSelected);
-        switch (modeSelected)
+        SelectMode(modeSelected);
+    }
+    private void SelectMode(ModesEnum selectedMode)
+    {
+        switch (selectedMode)
         {
             case ModesEnum.KingOfTheHill:
+                OvationSingleton.Instance.GetComponent<ArenaOvationSingleton>().SetReductionRate(0.1f);
                 OvationSingleton.Instance.pointsToWin = 1;
                 playersSpawnPoints = kothSpawnPoints;
                 break;
             case ModesEnum.FreeForAll:
+                OvationSingleton.Instance.GetComponent<ArenaOvationSingleton>().SetReductionRate(1.5f);
                 OvationSingleton.Instance.pointsToWin = 3;
                 playersSpawnPoints = arenaSpawnPoints;
                 break;
             case ModesEnum.AgainsAI:
+                OvationSingleton.Instance.GetComponent<ArenaOvationSingleton>().SetReductionRate(1.5f);
                 OvationSingleton.Instance.pointsToWin = 1;
                 playersSpawnPoints = arenaSpawnPoints;
                 break;
@@ -203,13 +229,23 @@ public class ArenaGameController : GameController
         screen.DisplayArena(chosenArena);
     }
 
+    public override int BackToHubIndex()
+    {
+        int index = SceneManager.GetActiveScene().buildIndex;
+        if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)
+        {
+            return midHubIndex;
+        }
+        return -1;
+    }
     public override int NextLevel()
     {
+        StopAllCoroutines();
         SaveWeapons();
         int index = SceneManager.GetActiveScene().buildIndex;
-        print(index);
         if (index == baseHubIndex || index == midHubIndex)
         {
+            SelectMode(modeSelected);
             return firstArenaIndex + chosenArena - 1;
         }
         else if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)

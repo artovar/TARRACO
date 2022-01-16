@@ -16,6 +16,15 @@ public class DiscobolusScript : WeaponScript
     private float anglesRotated = 0f;
 
     private float rotationSpeed = 10f;
+    private bool throwing;
+
+    [SerializeField]
+    private Collider onAirCollider;
+
+    public void PrepareThrowing()
+    {
+        throwing = true;
+    }
 
     public override void DropWeapon(Transform rHand)
     {
@@ -24,13 +33,21 @@ public class DiscobolusScript : WeaponScript
         rb.useGravity = true;
         transform.GetComponent<FixedJoint>().connectedBody = null;
         transform.GetComponent<FixedJoint>().breakForce = 0f;
-        
-        //SetOnFloorColliders();
-        //transform.tag = "Weapon";
-        //StartCoroutine(DestroyWeapon());
+
+        SetOnFloorColliders();
+        if(!throwing)
+        {
+            transform.GetComponent<Rigidbody>().useGravity = true;
+            transform.GetComponent<Rigidbody>().velocity = rHand.GetComponent<Rigidbody>().velocity;
+            transform.tag = "Weapon";
+            StartCoroutine(DestroyWeapon());
+        }
+        throwing = false;
     }
 
-    public override void SetOnHandColliders() {
+    public override void SetOnHandColliders()
+    {
+        onAirCollider.enabled = false;
         this.gameObject.layer = LayerMask.NameToLayer("Weapons");
 
         foreach (Transform g in GetComponentsInChildren<Transform>())
@@ -47,7 +64,9 @@ public class DiscobolusScript : WeaponScript
         }
     }
 
-    public override void SetOnFloorColliders() {
+    public override void SetOnFloorColliders()
+    {
+        onAirCollider.enabled = false;
         this.gameObject.layer = LayerMask.NameToLayer("Default");
 
         foreach (Transform g in GetComponentsInChildren<Transform>())
@@ -82,13 +101,15 @@ public class DiscobolusScript : WeaponScript
         return e < 0 ? -e : e;
     }
 
-    public override void MakeCurve(Vector3 direction) {
+    public override void MakeCurve(Vector3 direction)
+    {
+        transform.tag = "ThrownWeapon";
         rb.useGravity = false;
         thrown = true;
         //transform.rotation = Quaternion.identity;
         axisToRotate = transform.position + direction * 4;
         //rb.centerOfMass = axisToRotate;
-        transform.tag = "ThrownWeapon";
+        onAirCollider.enabled = true;
         
         rotacionEx = Mathf.Asin((transform.position - axisToRotate).normalized.x);
         if (axisToRotate.z >= transform.position.z) 
@@ -128,12 +149,15 @@ public class DiscobolusScript : WeaponScript
             rotated = true;
 
             //print(anglesRotated);
-            if(anglesRotated >= Mathf.PI*1.65f) {
+            if(anglesRotated >= Mathf.PI*1.65f)
+            {
+                rotated = false;
+                onAirCollider.enabled = false;
                 tag = "Weapon";
                 owner = Characters.None;
                 thrown = false;
                 rb.useGravity = true;
-                SetOnFloorColliders();
+                //SetOnFloorColliders();
                 //rb.velocity = (transform.position - auxPosition).normalized * 500;
                 GetComponent<Rigidbody>().AddForce((transform.position - auxPosition).normalized * 40, ForceMode.Impulse);
             }

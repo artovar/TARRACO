@@ -21,6 +21,7 @@ public class OvationBar : MonoBehaviour
     [SerializeField]
     private Animator animator;
     private int scoreInt = 0;
+    private float reductionRate = 1.5f;
 
     private bool coloring;
 
@@ -45,9 +46,14 @@ public class OvationBar : MonoBehaviour
             if(!coloring) meter.sizeDelta -= Vector2.right * meter.sizeDelta.x;
         }
     }
+    public void SetReductionRate(float red)
+    {
+        reductionRate = red;
+    }
 
     public void IncreaseMeter(float incrPerc)
     {
+        if (!gameObject.activeSelf) return;
         ovationMeter += (ovationMax) * (incrPerc/100f);
         if(ovationMeter >= ovationMax)
         {

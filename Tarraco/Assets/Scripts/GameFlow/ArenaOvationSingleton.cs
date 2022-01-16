@@ -56,4 +56,13 @@ public class ArenaOvationSingleton : OvationSingleton
                 break;
         }
     }
+
+    public void SetReductionRate(float red)
+    {
+        foreach(OvationBar b in bars)
+        {
+            if(b != null) b.SetReductionRate(red);
+        }
+        if (middleBar != null) middleBar.SetReductionRate(red);
+    }
 }

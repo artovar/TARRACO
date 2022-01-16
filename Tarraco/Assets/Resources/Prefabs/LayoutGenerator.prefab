@@ -45,8 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level1Layouts:
   - {fileID: 6414142595941168402, guid: b1f176a77e32a4f4b8353389476080f0, type: 3}
-  level2Layouts: []
-  arenaLayouts: []
+  level2Layouts:
+  - {fileID: 7963890902625541284, guid: c855e09de3614b648b5ae61e147cc916, type: 3}
+  arenaLayouts:
+  - {fileID: 7963890902625541284, guid: c855e09de3614b648b5ae61e147cc916, type: 3}
   kothLayouts:
   - {fileID: 5211562578020835369, guid: df059d4a3ec05fe4a9838b2065b837a4, type: 3}
   generation: 0

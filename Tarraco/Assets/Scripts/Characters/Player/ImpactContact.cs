@@ -9,7 +9,7 @@ public class ImpactContact : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         LayerMask layer = col.gameObject.layer;
-        if (APR_Player.IsRagdoll() || col.collider.CompareTag("Weapon") || layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
+        if (col.gameObject.CompareTag("Weapon") || layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
         //Knockout by impact
         bool also = col.gameObject.CompareTag("ThrownWeapon");
         if ((APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
