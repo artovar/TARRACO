@@ -4,22 +4,17 @@ using UnityEngine;
 using System;
 public class SpawnPoint : MonoBehaviour
 {
-    enum Mode
-    {
-        Level,
-        Arena
-    };
-
-    [SerializeField]
-    private Mode mode;
     private int numPlayers;
     private List<Transform> players = new List<Transform>();
 
     public GameObject[] enemyPrefabs;
+    public GameObject[] bossesPrefabs;
     public Material[] materialsForSpartan;
     public GameObject[] weaponPrefabs;
+    public GameObject[] healingPrefabs;
 
     public GameObject[] points;
+    public Transform[] audience;
     public int secondsSpawn = 5;
     private int deathCount = 0;
 
@@ -28,6 +23,8 @@ public class SpawnPoint : MonoBehaviour
     public int maxEnemies;
     private int maxDef;
 
+    private bool spawnedBoss;
+
     private List<EnemyController> enemies = new List<EnemyController>();
 
     // Start is called before the first frame update
@@ -35,55 +32,104 @@ public class SpawnPoint : MonoBehaviour
     {
         //players = GameObject.FindGameObjectsWithTag("Player");
         //numPlayers = players.Length;
+        ArenaGameController arena = GameController.Instance.GetComponent<ArenaGameController>();
 
         maxDef = maxEnemies;
-        switch(mode)
-        {
-            case Mode.Level:
-                coroutine = spawnEnemy(secondsSpawn);
-                break;
-            case Mode.Arena:
-                coroutine = arenaEnemies(secondsSpawn);
-                break;
-        }
-        StartCoroutine(coroutine);
-    }
 
-    private IEnumerator spawnEnemy (float time)  {
+        if(arena != null)
+        {
+            switch (arena.modeSelected)
+            {
+                case ModesEnum.AgainsAI:
+                    coroutine = ArenaEnemies(secondsSpawn);
+                    StartCoroutine(coroutine);
+                    break;
+                case ModesEnum.KingOfTheHill:
+                    coroutine = SpawnWeapons(3, 15);
+                    StartCoroutine(coroutine);
+                    coroutine = SpawnLife(7, 25);
+                    StartCoroutine(coroutine);
+                    break;
+                case ModesEnum.FreeForAll:
+                    coroutine = SpawnWeapons(3, 15);
+                    StartCoroutine(coroutine);
+                    coroutine = SpawnLife(7, 25);
+                    StartCoroutine(coroutine);
+                    break;
+            }
+        }
+        else
+        {
+            LevelGameController level = GameController.Instance.GetComponent<LevelGameController>();
+            level.spawn = this;
+            coroutine = SpawnEnemy(secondsSpawn);
+            StartCoroutine(coroutine);
+        }
+    }
+    private IEnumerator SpawnWeapons(float lowerLimit, float upperLimit)
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        while (true)
+        {
+            Transform single = audience[UnityEngine.Random.Range(0, audience.Length - 1)];
+            GameObject newWeapon = Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length - 1)],
+                 single.position, single.rotation);
+            newWeapon.GetComponent<Rigidbody>().AddForce(single.forward * 10 * newWeapon.GetComponent<Rigidbody>().mass, ForceMode.Impulse);
+            newWeapon.GetComponent<WeaponScript>().DestroyAfterSpawning();
+            yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        }
+    }
+    private IEnumerator SpawnLife(float lowerLimit, float upperLimit)
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        while (true)
+        {
+            Transform single = audience[UnityEngine.Random.Range(0, audience.Length - 1)];
+            GameObject heal = Instantiate(healingPrefabs[UnityEngine.Random.Range(0, healingPrefabs.Length - 1)],
+                single.position, single.rotation);
+            heal.GetComponent<Rigidbody>().AddForce(single.forward * 40, ForceMode.Impulse);
+            Destroy(heal, 20f);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
+        }
+    }
+    private IEnumerator SpawnEnemy(float time)  {
         while(true) {
-            int i = 0;
-            List<int> deadGuys = new List<int>();
-            foreach (EnemyController e in enemies)
+            if (!spawnedBoss)
             {
-                if (e.IsDead())
+                int i = 0;
+                List<int> deadGuys = new List<int>();
+                foreach (EnemyController e in enemies)
                 {
-                    deathCount++;
-                    deadGuys.Add(i); // ESTO PUEDE DAR PROBLEMAS SI EL TIEMPO DE MUERTE ES MENOR QUE EL INTERVALO DE SPAWN
+                    if (e.IsDead())
+                    {
+                        deathCount++;
+                        deadGuys.Add(i); // ESTO PUEDE DAR PROBLEMAS SI EL TIEMPO DE MUERTE ES MENOR QUE EL INTERVALO DE SPAWN
+                    }
+                    i++;
                 }
-                i++;
+                i = 0;
+                foreach(int d in deadGuys)
+                {
+                    enemies.RemoveAt(d - i);
+                    i++;
+                }
+                if(enemies.Count < maxEnemies)
+                {
+                    int e = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+                    GameObject enemy = enemyPrefabs[e];
+                    if(e == 0) enemy.GetComponentInChildren<SkinnedMeshRenderer>().material = materialsForSpartan[UnityEngine.Random.Range(0, materialsForSpartan.Length)];
+                    GameObject sp = BetterSP();
+                    //Instanciamos el prefab del enemido en el punto
+                    enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
+                    enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
+                    Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
+                }
+                maxEnemies = (int) (maxDef * Mathf.Log(1 + deathCount));
             }
-            i = 0;
-            foreach(int d in deadGuys)
-            {
-                enemies.RemoveAt(d - i);
-                i++;
-            }
-            if(enemies.Count < maxEnemies)
-            {
-                int e = UnityEngine.Random.Range(0, enemyPrefabs.Length);
-                GameObject enemy = enemyPrefabs[e];
-                if(e == 0) enemy.GetComponentInChildren<SkinnedMeshRenderer>().material = materialsForSpartan[UnityEngine.Random.Range(0, materialsForSpartan.Length)];
-                GameObject sp = BetterSP();
-                //Instanciamos el prefab del enemido en el punto
-                enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
-                enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
-                Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
-            }
-            maxEnemies = (int) (maxDef * Mathf.Log(1 + deathCount));
             yield return new WaitForSeconds(time);
         }
     }
-    private IEnumerator arenaEnemies(float time)  {
+    private IEnumerator ArenaEnemies(float time)  {
         while(true) {
             int i = 0;
             List<int> deadGuys = new List<int>();
@@ -156,5 +202,21 @@ public class SpawnPoint : MonoBehaviour
             }
         }
         return betterPoint;
+    }
+
+
+    public void SpawnBoss(int level)
+    {
+        spawnedBoss = true;
+        GameObject sp = BetterSP();
+        //Instanciamos el prefab del enemido en el punto
+        if (level > bossesPrefabs.Length)
+        {
+            print("Debes añadir un nuevo Boss a este nivel");
+            level = bossesPrefabs.Length;
+        }
+        EnemyController e = (Instantiate(bossesPrefabs[level - 1], sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
+        e.MoveTowardsInSpawn(sp.transform.forward);
+        Instantiate(weaponPrefabs[6], sp.transform.position, Quaternion.identity);
     }
 }

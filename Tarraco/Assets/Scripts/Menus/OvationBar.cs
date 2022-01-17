@@ -21,6 +21,7 @@ public class OvationBar : MonoBehaviour
     [SerializeField]
     private Animator animator;
     private int scoreInt = 0;
+    private float reductionRate = 1.5f;
 
     private bool coloring;
 
@@ -45,9 +46,14 @@ public class OvationBar : MonoBehaviour
             if(!coloring) meter.sizeDelta -= Vector2.right * meter.sizeDelta.x;
         }
     }
+    public void SetReductionRate(float red)
+    {
+        reductionRate = red;
+    }
 
     public void IncreaseMeter(float incrPerc)
     {
+        if (!gameObject.activeSelf) return;
         ovationMeter += (ovationMax) * (incrPerc/100f);
         if(ovationMeter >= ovationMax)
         {
@@ -62,6 +68,28 @@ public class OvationBar : MonoBehaviour
             scoreInt++;
             score.text = "" + scoreInt;
             ovationMeter = 0;
+        }
+    }
+    public void IncreaseScore(int scorePoints)
+    {
+        if (!gameObject.activeSelf) return;
+        for(int i = 1; i <= scorePoints; i++)
+        {
+            ovationMeter += (ovationMax);
+            if (ovationMeter >= ovationMax)
+            {
+                ovationMeter = ovationMax;
+                meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta.y;
+                foreach (Image im in GetComponentsInChildren<Image>())
+                {
+                    if (!im.gameObject.Equals(this.gameObject)) im.color = Color.yellow;
+                }
+                coloring = true;
+                StartCoroutine(PrepareColor());
+                scoreInt++;
+                score.text = "" + scoreInt;
+                ovationMeter = 0;
+            }
         }
     }
     private IEnumerator PrepareColor()
@@ -99,5 +127,18 @@ public class OvationBar : MonoBehaviour
     public TextMeshProUGUI GetText()
     {
         return score;
+    }
+
+    public float GetValue()
+    {
+        return meter.sizeDelta.x;
+    }
+    public float GetMax()
+    {
+        return ovationMax;
+    }
+    public int GetScore()
+    {
+        return scoreInt;
     }
 }

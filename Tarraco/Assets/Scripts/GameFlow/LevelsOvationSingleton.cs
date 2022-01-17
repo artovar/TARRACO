@@ -38,4 +38,16 @@ public class LevelsOvationSingleton : OvationSingleton
         GameController.Instance.GetComponent<LevelGameController>().SpawnBoss();
         middleBar.DisableBar();
     }
+    public float GetMiddleBarValue()
+    {
+        if(middleBar.isActiveAndEnabled)
+        {
+            return middleBar.GetValue();
+        }
+        return -1;
+    }
+    public float GetMiddleBarMax()
+    {
+        return middleBar.GetMax();
+    }
 }

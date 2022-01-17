@@ -31,6 +31,11 @@ public class OvationSingleton : MonoBehaviour
 
     }
 
+    public OvationBar[] GetBars()
+    {
+        return bars;
+    }
+
     private void Update()
     {
         if(!winned) time += Time.deltaTime;
@@ -112,5 +117,6 @@ public class OvationSingleton : MonoBehaviour
         {
             if(o != null) o.ResetBar();
         }
+        if (middleBar != null) middleBar.ResetBar();
     }
 }

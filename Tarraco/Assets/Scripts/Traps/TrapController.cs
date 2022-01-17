@@ -12,8 +12,6 @@ public class TrapController : MonoBehaviour
     }
     public trapType type;
 
-    private float originalSpeed = 0;
-
     private IEnumerator coroutine;
 
 
@@ -28,11 +26,6 @@ public class TrapController : MonoBehaviour
         if (other.gameObject.CompareTag("Foot"))
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
-            if (originalSpeed == 0)
-            {
-                originalSpeed = playerController.moveSpeed; //Guarda la velocidad original para devolversela al salir
-            }
-
 
             switch (type)
             {
@@ -71,14 +64,14 @@ public class TrapController : MonoBehaviour
         if (other.gameObject.CompareTag("Foot"))
         {
             CharacterClass playerController = other.GetComponentInParent<CharacterClass>();
-            if (type == trapType.MUD) playerController.moveSpeed *= 1.4f;
+            if (type == trapType.MUD) playerController.FootOut(.7f);
             
         }
     }
 
     private void IsMud(CharacterClass playerController)
     {
-        playerController.moveSpeed /= 1.4f;
+        playerController.FootIn(.7f);
     }
 
     private void IsIce(CharacterClass playerController)
@@ -88,7 +81,7 @@ public class TrapController : MonoBehaviour
 
     private void IsSpikes(CharacterClass controller)
     {
-        controller.Damage(1, Characters.Enemy);
+        controller.Damage(1, Characters.Enemy, .5f);
         Rigidbody rootRigidbody;
         switch(controller.character) {
             case Characters.None:

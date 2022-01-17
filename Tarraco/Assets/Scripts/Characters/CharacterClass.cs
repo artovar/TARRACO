@@ -12,24 +12,29 @@ public abstract class CharacterClass : MonoBehaviour
     public int maxLife;
     public float moveSpeed;
     [SerializeField]
-    public float invTimeDef = .7f;
+    const float invTimeDef = .7f;
     protected float invTime = 0;
     public event EventHandler YoureDead;
     private bool alreadyDead;
 
+    private int feetInTrap;
+
     protected float chargingTime = .1f;
 
-    public bool Damage(int amount, Characters from) {
+    public bool Damage(int amount, Characters from, float invT = invTimeDef) {
         if (invTime > 0)
         {
             return false;
         }
-        if(amount != 0) invTime = invTimeDef;
+        SetInvencibleTime();
         life -= amount;
         if (life < 0) life = 0;
         if (IsDead())
         {
-            if(!alreadyDead) OvationSingleton.Instance.IncreaseMeter(8f, from);
+            if (!alreadyDead)
+            {
+                OvationSingleton.Instance.IncreaseMeter(8f, from);
+            }
             alreadyDead = true;
             YoureDead(this, EventArgs.Empty);
         }
@@ -51,11 +56,42 @@ public abstract class CharacterClass : MonoBehaviour
 
     public void Heal(int amount) {
         life += amount;
-        invTime = invTimeDef / 2;
+        SetInvencibleTime(.3f);
         if (life > maxLife) life = maxLife;
     }
 
     public bool IsDead() {
         return life <= 0;
+    }
+
+    public void SetSpeed(float perc)
+    {
+        moveSpeed *= perc;
+    }
+
+    public void FootIn(float percPerFoot)
+    {
+        if (feetInTrap >= 2) return;
+        feetInTrap++;
+        moveSpeed *= percPerFoot;
+    }    
+    public void FootOut(float percPerFoot)
+    {
+        if (feetInTrap <= 0) return;
+        feetInTrap--;
+        moveSpeed /= percPerFoot;
+    }
+
+    public void Slow(float perc)
+    {
+        moveSpeed *= perc;
+    }
+    public void Speed(float perc)
+    {
+        moveSpeed /= perc;
+    }
+    public void SetInvencibleTime(float time = invTimeDef)
+    {
+        invTime = time;
     }
 }

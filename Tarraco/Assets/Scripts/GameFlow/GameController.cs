@@ -25,6 +25,7 @@ public abstract class GameController : MonoBehaviour
     protected GameObject[] players = new GameObject[4];
     protected bool[] p = { false, false, false, false };
     protected bool[] playerDeaths= {false, false, false, false};
+    [SerializeField]
     protected int pCount;
 
     [HideInInspector]
@@ -37,7 +38,9 @@ public abstract class GameController : MonoBehaviour
         { { Weapons.None, Weapons.None }, { Weapons.None, Weapons.None }, 
           { Weapons.None, Weapons.None }, { Weapons.None, Weapons.None } };
 
-    protected Vector3[] playersSpawnPoints = { new Vector3(-.5f,0f,-.5f), new Vector3(-.5f,0f,.5f), new Vector3(.5f, 0f, .5f), new Vector3(.5f, 0f, -5f) };
+    protected Vector3[] playersSpawnPoints = 
+        { new Vector3(-.75f,0f,-.2f), new Vector3(-.25f,0f,.2f), 
+          new Vector3(.25f, 0f, .2f), new Vector3(.75f, 0f, -2f) };
 
     protected Camera cam;
 
@@ -68,7 +71,8 @@ public abstract class GameController : MonoBehaviour
         pCount = 0;
         if (!p[0])
         {
-            SkinSingleton.Instance.GetNewSkin(out meshes[0], out materials[0]);
+            RuntimeAnimatorController cont;
+            SkinSingleton.Instance.GetNewSkin(out meshes[0], out materials[0], out cont);
             p[0] = true;
         }
         foreach (bool pl in p)
@@ -124,8 +128,10 @@ public abstract class GameController : MonoBehaviour
         }
         if(i != -1)
         {
-            SkinSingleton.Instance.GetNextSkin(materials[i], out meshes[i], out materials[i]);
+            RuntimeAnimatorController cont;
+            SkinSingleton.Instance.GetNextSkin(materials[i], out meshes[i], out materials[i], out cont);
             players[i].GetComponent<CharacterSkin>().SetSkin(meshes[i], materials[i]);
+            healthUIs[i].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
         }
     }
 
@@ -151,18 +157,24 @@ public abstract class GameController : MonoBehaviour
         {
             if (!p[1] && Input.GetButtonDown("Jump2"))
             {
-                SkinSingleton.Instance.GetNewSkin(out meshes[1], out materials[1]);
+                RuntimeAnimatorController cont;
+                SkinSingleton.Instance.GetNewSkin(out meshes[1], out materials[1], out cont);
                 SpawnPlayer();
+                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
             if (!p[2] && Input.GetButtonDown("Jump3"))
             {
-                SkinSingleton.Instance.GetNewSkin(out meshes[2], out materials[2]);
+                RuntimeAnimatorController cont;
+                SkinSingleton.Instance.GetNewSkin(out meshes[2], out materials[2], out cont);
                 SpawnPlayer();
+                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
             if (!p[3] && Input.GetButtonDown("Jump4"))
             {
-                SkinSingleton.Instance.GetNewSkin(out meshes[3], out materials[3]);
+                RuntimeAnimatorController cont;
+                SkinSingleton.Instance.GetNewSkin(out meshes[3], out materials[3], out cont);
                 SpawnPlayer();
+                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
         }
     }
@@ -181,6 +193,20 @@ public abstract class GameController : MonoBehaviour
         players[pCount - 1].GetComponent<CharacterSkin>().SetSkin(meshes[pCount-1], materials[pCount-1]);
         players[pCount-1].GetComponent<PlayerController>().SetUp(hUI.gameObject, pCount);
         GenerateWeapons(players[pCount-1].GetComponent<PlayerController>().detector, pCount -1);
+    }    
+    
+    protected virtual void RevivePlayer(int id)
+    {
+        players[id] = Instantiate(playerPrefab, BestSP(), Quaternion.identity);
+        cam.GetComponent<CameraControl>().AddPlayer(players[id].GetComponent<PlayerController>().Root.transform, id+1);
+        p[id] = true;
+        healthUIs[id].SetActive(true);
+        HealthHUD hUI = healthUIs[id].GetComponentInChildren<HealthHUD>();
+        hUI.player = players[id];
+        hUI.ResetLife();
+        players[id].GetComponent<CharacterSkin>().SetSkin(meshes[id], materials[id]);
+        players[id].GetComponent<PlayerController>().SetUp(hUI.gameObject, id+1);
+        GenerateWeapons(players[id].GetComponent<PlayerController>().detector, id);
     }
 
     protected void GenerateWeapons(WeaponDetection wd, int index)
@@ -218,7 +244,7 @@ public abstract class GameController : MonoBehaviour
                 return null;
                 break;
             case Weapons.Discobolus:
-                return null;
+                weaponIndex = 6;
                 break;
             case Weapons.Garrote:
                 weaponIndex = 2;
@@ -245,7 +271,7 @@ public abstract class GameController : MonoBehaviour
         return Instantiate(weapons[weaponIndex]);
     }
 
-    protected Vector3 BestSP()
+    protected virtual Vector3 BestSP()
     {
         float betterDistance = 0;
         Vector3 betterPoint = Vector3.zero;
@@ -354,6 +380,14 @@ public abstract class GameController : MonoBehaviour
     }
     public virtual int NextLevel()
     {
+        StopAllCoroutines();
+        SaveWeapons();
+        print("Almost xD");
+        return 0;
+    }    
+    public virtual int BackToHubIndex()
+    {
+        StopAllCoroutines();
         SaveWeapons();
         print("Almost xD");
         return 0;

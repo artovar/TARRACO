@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -6,13 +7,14 @@ public class EImpactContact : MonoBehaviour
     public BasicEnemyController enemyController;
     [SerializeField]
     private int damageTaken;
+    public GameObject attachedPart;
 
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
         if (!Object.ReferenceEquals(enemyController.weapon, null) && (col.transform.IsChildOf(enemyController.transform) || col.transform.IsChildOf(enemyController.weapon.transform))) return;
         //Knockout by impact
-        if (enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO)
+        if ((enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO) || col.gameObject.CompareTag("ThrownWeapon"))
         {
             Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
@@ -48,15 +50,6 @@ public class EImpactContact : MonoBehaviour
 
             //SUSTITUIR ESTO POR MUERTE
 
-            if (enemyController.SoundSource != null)
-            {
-                if (!enemyController.SoundSource.isPlaying && enemyController.Hits != null)
-                {
-                    int i = Random.Range(0, enemyController.Hits.Length);
-                    enemyController.SoundSource.clip = enemyController.Hits[i];
-                    enemyController.SoundSource.Play();
-                }
-            }
             int damage = 1 * damageTaken;
             WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
             if (wp != null)
@@ -86,15 +79,48 @@ public class EImpactContact : MonoBehaviour
                 }
             }
             //Damage
-            if (enemyController.Damage(damage, from))
+            bool dead = enemyController.Damage(damage, from, .5f);
+            if (dead)
             {
                 enemyController.ActivateRagdoll();
+                print("You killed me");
             }
             GetComponent<Rigidbody>().AddForce(vel * 1.5f, ForceMode.Impulse);
 
+            if (enemyController.SoundSource != null)
+            {
+                if (!enemyController.SoundSource.isPlaying && enemyController.Hits != null)
+                {
+                    if (damage > 0)
+                    {
+                        int i = Random.Range(0, enemyController.Hits.Length);
+                        enemyController.SoundSource.clip = enemyController.Hits[i];
+                        enemyController.SoundSource.Play();
+                    }
+                    else if (enemyController.NoHits != null)
+                    {
+                        int i = Random.Range(0, enemyController.NoHits.Length);
+                        enemyController.SoundSource.clip = enemyController.NoHits[i];
+                        enemyController.SoundSource.Play();
+                    }
+                }
+            }
             if (enemyController.IsDead())
             {
-                //Debug.Log("Enemigo asesinado");
+                if (!enemyController.alreadyDead)
+                {
+                    enemyController.alreadyDead = true;
+                    StartCoroutine(PlayEngineSound());
+                }
+            }
+            if(attachedPart != null)
+            {
+                damageTaken++;
+                attachedPart.transform.parent = null;
+                attachedPart.AddComponent<Rigidbody>();
+                attachedPart.GetComponent<Rigidbody>().AddForce(vel.normalized * 5 + Vector3.up*2, ForceMode.Impulse);
+                Destroy(attachedPart, 3f);
+                attachedPart = null;
             }
         }
 
@@ -112,5 +138,11 @@ public class EImpactContact : MonoBehaviour
                 }
             }
         }
+    }
+    IEnumerator PlayEngineSound()
+    {
+        yield return new WaitForSeconds(enemyController.SoundSource.clip.length);
+        enemyController.SoundSource.clip = enemyController.DeathSound;
+        enemyController.SoundSource.Play();
     }
 }
