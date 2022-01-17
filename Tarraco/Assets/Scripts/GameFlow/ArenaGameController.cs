@@ -17,6 +17,12 @@ public class ArenaGameController : GameController
     [SerializeField]
     private int creditsIndex;
 
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip musicHub;
+    [SerializeField]
+    private AudioClip[] musicArenaModes;
+    [SerializeField]
     public ChronoScript crono;
 
     [HideInInspector]
@@ -52,6 +58,10 @@ public class ArenaGameController : GameController
         screen.DisplayMode(modeSelected);
         ChronoScript.ResetClock();
         crono.gameObject.SetActive(false);
+    }
+
+    private void Start() {
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected override void Update()
@@ -247,20 +257,27 @@ public class ArenaGameController : GameController
         StopAllCoroutines();
         SaveWeapons();
         int index = SceneManager.GetActiveScene().buildIndex;
+
+        int nextLevel = 0;
         if (index == baseHubIndex || index == midHubIndex)
         {
             SelectMode(modeSelected);
-            return firstArenaIndex + chosenArena - 1;
+            nextLevel = firstArenaIndex + chosenArena - 1;
         }
         else if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)
         {
             playersSpawnPoints = arenaSpawnPoints;
-            return midHubIndex;
+            nextLevel = midHubIndex;
         }
-        else
-        {
-            return 0;
+        if (nextLevel == midHubIndex) {
+           audioSource.clip = musicHub;
+        } else if (nextLevel >= firstArenaIndex && nextLevel <= firstArenaIndex + totalArenas - 1) {
+            audioSource.clip = musicArenaModes[chosenArena-1];
+            print("Arena: "+chosenArena);
         }
+        audioSource.Play();
+        audioSource.loop = true;
+        return nextLevel;
     }
     protected override Vector3 BestSP()
     {

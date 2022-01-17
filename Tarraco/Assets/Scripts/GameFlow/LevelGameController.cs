@@ -19,6 +19,13 @@ public class LevelGameController : GameController
     [SerializeField]
     private int creditsIndex;
 
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip musicHub;
+    [SerializeField]
+    private AudioClip[] musicLevels;
+    [SerializeField]
+    private AudioClip musicBoss;
     [SerializeField]
     public SpawnPoint spawn;
 
@@ -29,6 +36,10 @@ public class LevelGameController : GameController
         mainBar.transform.parent.gameObject.SetActive(true);
         mainBar.gameObject.SetActive(true);
         mainBar.EnableBar();
+    }
+
+    private void Start() {
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected override void Update()
@@ -57,32 +68,45 @@ public class LevelGameController : GameController
         StopAllCoroutines();
         SaveWeapons();
         int index = SceneManager.GetActiveScene().buildIndex;
+        int nextLevel = 0;
         if (index == baseHubIndex)
         {
             currentLevel = 1;
-            return level1Index;
+            nextLevel = level1Index;
+            //return level1Index;
         }
         else if (index == midHubIndex)
         {
             currentLevel++;
-            return level1Index + currentLevel - 1;
+            nextLevel = level1Index + currentLevel - 1;
+            //return level1Index + currentLevel - 1;
         }
         else if (index >= level1Index && index < level1Index + totalLevels - 1)
         {
-            return midHubIndex;
+            nextLevel = midHubIndex;
+            //return midHubIndex;
         }
         else if (index == level1Index + totalLevels - 1)
         {
-            return -creditsIndex;
+            nextLevel = -creditsIndex;
         }
-        else 
-        {
-            return 0;
+        if (nextLevel == midHubIndex) {
+            audioSource.clip = musicHub;
+        } else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1) {
+            print("Musica del nivel: "+currentLevel);
+            audioSource.clip = musicLevels[currentLevel - 1];
         }
+        audioSource.Play();
+        audioSource.loop = true;
+        return nextLevel;
     }
 
     public void SpawnBoss()
     {
+        audioSource.clip = musicBoss;
+        audioSource.Play();
+        audioSource.loop = true;
+        print("SpawningBoss");
         spawn.SpawnBoss(currentLevel);
     }
 }
