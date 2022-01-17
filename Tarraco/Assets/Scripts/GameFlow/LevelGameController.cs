@@ -26,8 +26,6 @@ public class LevelGameController : GameController
     private AudioClip[] musicLevels;
     [SerializeField]
     private AudioClip musicBoss;
-    [SerializeField]
-    private AudioClip musicCredits;
 
     private int currentLevel = 0;
     protected override void AdditionalStarto()
@@ -84,9 +82,7 @@ public class LevelGameController : GameController
             return 0;
         }*/
         if (nextLevel == midHubIndex) {
-            audioSource.clip = musicHub;            
-        } else if (nextLevel == creditsIndex) {
-            audioSource.clip = musicCredits;
+            audioSource.clip = musicHub;
         } else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1) {
             print("Musica del nivel: "+currentLevel);
             audioSource.clip = musicLevels[currentLevel - 1];
