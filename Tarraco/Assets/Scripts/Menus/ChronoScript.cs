@@ -11,6 +11,7 @@ public class ChronoScript : MonoBehaviour
     static private int chronoMillis;
 
     static private bool startClock = false;
+    static private bool subbing = false;
 
     [SerializeField]
     private TextMeshProUGUI crMin;
@@ -30,19 +31,28 @@ public class ChronoScript : MonoBehaviour
     void Update()
     {
         if (!startClock) return;
-        chronoTime -= Time.deltaTime * 100;
-        int aux = (int)(chronoTime);
-        chronoMillis = aux % 100;
-        aux /= 100;
-        chronoSeconds = aux % 60;
-        aux /= 60;
-        chronoMinutes = aux % 60;
-        DisplayClock();
+        if(subbing)
+        {
+            chronoTime -= Time.deltaTime;
+            int aux = (int)(chronoTime * 100);
+            chronoMillis = aux % 100;
+            aux /= 100;
+            chronoSeconds = aux % 60;
+            aux /= 60;
+            chronoMinutes = aux % 60;
+            DisplayClock();
+        }
+        if(chronoTime <= 0)
+        {
+            subbing = false;
+            startClock = false;
+            GameController.Instance.GetComponent<ArenaGameController>().CalculateFFAWinner();
+        }
     }
 
     static public void SetClock(int minutes, int seconds, int millis)
     {
-        chronoTime = millis + seconds * 60 + minutes * 3600;
+        chronoTime = (millis)/100f + seconds + minutes * 60;
         chronoMinutes = minutes;
         chronoSeconds = seconds;
         chronoMillis = millis;
@@ -57,6 +67,7 @@ public class ChronoScript : MonoBehaviour
     public void StartClock()
     {
         startClock = true;
+        subbing = true;
     }
 
     static public void ResetClock()

@@ -78,4 +78,9 @@ public class HealthHUD : MonoBehaviour
     {
         animator.runtimeAnimatorController = cont;
     }
+    
+    public int GetLife()
+    {
+        return life;
+    }
 }

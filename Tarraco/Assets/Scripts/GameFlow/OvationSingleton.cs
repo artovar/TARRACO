@@ -31,6 +31,11 @@ public class OvationSingleton : MonoBehaviour
 
     }
 
+    public OvationBar[] GetBars()
+    {
+        return bars;
+    }
+
     private void Update()
     {
         if(!winned) time += Time.deltaTime;

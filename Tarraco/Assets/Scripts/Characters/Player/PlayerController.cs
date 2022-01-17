@@ -98,6 +98,7 @@ public class PlayerController : CharacterClass
 	public AudioClip[] Hits;
 	public AudioClip[] Steps;
 	public AudioClip[] Jummy;
+	public AudioClip DeathSound;
 	public AudioSource SoundSource;
 	public AudioSource StepSource;
 

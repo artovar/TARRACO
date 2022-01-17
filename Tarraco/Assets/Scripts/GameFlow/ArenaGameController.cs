@@ -38,9 +38,12 @@ public class ArenaGameController : GameController
     {
         if (inGame)
         {
-            ChronoScript.SetClock(5, 0, 0);
-            crono.gameObject.SetActive(true);
-            crono.StartClock();
+            if(modeSelected == ModesEnum.FreeForAll)
+            {
+                ChronoScript.SetClock(5, 0, 0);
+                crono.gameObject.SetActive(true);
+                crono.StartClock();
+            }
             return;
         }
         screen = GameObject.FindGameObjectWithTag("Heal").GetComponent<HubScreen>();
@@ -211,7 +214,7 @@ public class ArenaGameController : GameController
                 break;
             case ModesEnum.FreeForAll:
                 OvationSingleton.Instance.GetComponent<ArenaOvationSingleton>().SetReductionRate(1.5f);
-                OvationSingleton.Instance.pointsToWin = 3;
+                OvationSingleton.Instance.pointsToWin = 100;
                 playersSpawnPoints = arenaSpawnPoints;
                 break;
             case ModesEnum.AgainsAI:
@@ -234,6 +237,7 @@ public class ArenaGameController : GameController
         int index = SceneManager.GetActiveScene().buildIndex;
         if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)
         {
+            playersSpawnPoints = arenaSpawnPoints;
             return midHubIndex;
         }
         return -1;
@@ -284,5 +288,57 @@ public class ArenaGameController : GameController
             }
         }
         return betterPoint;
+    }
+
+    public void CalculateFFAWinner()
+    {
+        int highest = 0;
+        int current = 0;
+        int id = 0;
+        int finalid = 0;
+        foreach (OvationBar o in OvationSingleton.Instance.GetBars())
+        {
+            id++;
+            if (o == null) continue;
+            current = o.GetScore();
+            if (current > highest)
+            {
+                finalid = id;
+                highest = current;
+            }
+        }
+        if(finalid != 0)
+        {
+            OvationSingleton.Instance.Win(Characters.Player1 + finalid - 1, OvationSingleton.Instance.GetBars()[finalid - 1].GetText());
+            return;
+        }
+
+        highest = 0;
+        current = 0;
+        id = 0;
+        finalid = 0;
+        foreach(GameObject g in healthUIs)
+        {
+            id++;
+            if (!g.activeSelf)
+            {
+                continue;
+            }
+            current = g.GetComponentInChildren<HealthHUD>().GetLife();
+            if(current > highest)
+            {
+                finalid = id;
+                highest = current;
+            }
+        }
+        if (finalid != 0)
+        {
+            OvationSingleton.Instance.Win(Characters.Player1 + finalid - 1, OvationSingleton.Instance.GetBars()[finalid - 1].GetText());
+            return;
+        }
+        else
+        {
+            print("Empate");
+        }
     }
 }

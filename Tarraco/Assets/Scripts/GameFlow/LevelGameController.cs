@@ -73,7 +73,7 @@ public class LevelGameController : GameController
         }
         else if (index == level1Index + totalLevels - 1)
         {
-            return creditsIndex;
+            return -creditsIndex;
         }
         else 
         {

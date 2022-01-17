@@ -1519,7 +1519,6 @@ MonoBehaviour:
   life: 0
   maxLife: 3
   moveSpeed: 12
-  invTimeDef: 0.7
   id: 1
   weapon: {fileID: 0}
   detector: {fileID: 1811510105900677850}
@@ -1583,6 +1582,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c4a11a79e4f82c64ca401704d3d95ade, type: 3}
   Jummy:
   - {fileID: 8300000, guid: b1532791ae2f48a43ad5ce485075093a, type: 3}
+  DeathSound: {fileID: 8300000, guid: cb3a820b57a8e414dba5e9d3b647e85b, type: 3}
   SoundSource: {fileID: 1130477657655846893}
   StepSource: {fileID: 6535610657714270112}
   usingController: 0

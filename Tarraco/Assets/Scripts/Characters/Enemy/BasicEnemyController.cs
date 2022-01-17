@@ -6,6 +6,8 @@ public class BasicEnemyController : CharacterClass
 {
 	[HideInInspector]
 	public bool isDead = false;
+	[HideInInspector]
+	public bool alreadyDead = false;
 	//Calcular Center of Mass con el arma
 
 	//-------------------------------------------------------------
@@ -88,6 +90,7 @@ public class BasicEnemyController : CharacterClass
 	public AudioClip[] Hits;
 	public AudioClip[] NoHits;
 	public AudioClip[] Steps;
+	public AudioClip DeathSound;
 	public AudioSource SoundSource;
 	public AudioSource StepSource;
 

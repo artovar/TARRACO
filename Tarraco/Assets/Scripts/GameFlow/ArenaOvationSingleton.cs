@@ -17,6 +17,21 @@ public class ArenaOvationSingleton : OvationSingleton
             case ModesEnum.KingOfTheHill:
                 break;
             case ModesEnum.FreeForAll:
+                switch (character)
+                {
+                    case Characters.Player1:
+                        bars[0].GetComponent<OvationBar>().IncreaseScore(1);
+                        break;
+                    case Characters.Player2:
+                        bars[1].GetComponent<OvationBar>().IncreaseScore(1);
+                        break;
+                    case Characters.Player3:
+                        bars[2].GetComponent<OvationBar>().IncreaseScore(1);
+                        break;
+                    case Characters.Player4:
+                        bars[3].GetComponent<OvationBar>().IncreaseScore(1);
+                        break;
+                }
                 break;
             case ModesEnum.AgainsAI:
                 switch (character)
