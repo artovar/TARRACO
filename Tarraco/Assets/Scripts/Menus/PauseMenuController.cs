@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -34,8 +36,10 @@ public class PauseMenuController : MonoBehaviour
         {
             pauseMenu.SetActive(true);
             background.SetActive(true);
+            EventSystem eventSystem = EventSystem.current;
+            Button[] select = pauseMenu.GetComponentsInChildren<Button>();
+            eventSystem.SetSelectedGameObject(select[0].gameObject);
             Time.timeScale = 0f;
-            //Taco.GetComponent<PlayerController>().enabled = false;
 
         }
         else
@@ -59,7 +63,29 @@ public class PauseMenuController : MonoBehaviour
     {
         StopAllCoroutines();
         Time.timeScale = 1f;
-        SceneManager.LoadScene(GameController.Instance.NextLevel());
+        int scene = GameController.Instance.NextLevel();
+        if(scene < 0)
+        {
+            GameController.Instance.Exit();
+            SceneManager.LoadScene(-scene);
+        }
+        else
+        {
+            SceneManager.LoadScene(scene);
+            GameController.Instance.ResetStats();
+        }
+    }
+
+    public void BackToHub()
+    {
+        StopAllCoroutines();
+        Pause();
+        int scene = GameController.Instance.BackToHubIndex();
+        if (scene < 0) 
+        {
+            return;
+        }
+        SceneManager.LoadScene(scene);
         GameController.Instance.ResetStats();
     }
 

@@ -10,6 +10,9 @@ public class HealthHUD : MonoBehaviour
     private Animator animator;
     public List<GameObject> heartList = new List<GameObject>();
 
+    [SerializeField]
+    private RuntimeAnimatorController test;
+
     private int life;
 
 
@@ -25,12 +28,6 @@ public class HealthHUD : MonoBehaviour
         }*/
 
         life = player.GetComponent<CharacterClass>().life;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void HealHUD(int bonus)
@@ -75,5 +72,15 @@ public class HealthHUD : MonoBehaviour
         {
             heartList[i].SetActive(true);
         }
+    }
+
+    public void ChangeSkin(RuntimeAnimatorController cont)
+    {
+        animator.runtimeAnimatorController = cont;
+    }
+    
+    public int GetLife()
+    {
+        return life;
     }
 }

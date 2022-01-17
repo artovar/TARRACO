@@ -21,13 +21,17 @@ public class WeaponDetection : MonoBehaviour
 
     private string interact = "Interact"; 
     private string drop = "Drop"; 
-    private string change = "Change"; 
+    private string change = "Change";
+
+    private bool overSomething;
+    [SerializeField]
+    private ButtonHelp help;
+    private float stillHelp = .1f;
 
     public bool IsOneOfMine(Transform t)
     {
         return ((weaponsStored > 0 && t.IsChildOf(mainWeapon)) || (weaponsStored > 1 && t.IsChildOf(backWeapon)));
     }
-
     public void SetUp()
     {
         if (controller.id != 1)
@@ -41,6 +45,17 @@ public class WeaponDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        stillHelp -= Time.deltaTime;
+        if (!GameController.Instance.inGame && overSomething)
+        {
+            help.Show(controller.usingController);
+            overSomething = false;
+        }
+        else if(stillHelp <= 0)
+        {
+            help.Hide();
+        }
+
         if (Input.GetButtonDown(interact))
         {
             picking = true;
@@ -80,8 +95,10 @@ public class WeaponDetection : MonoBehaviour
     }
     private void OnTriggerStay(Collider col)
     {
-        if(col.CompareTag("Finish"))
+        if(col.CompareTag("Interact"))
         {
+            overSomething = true;
+            stillHelp = .1f;
             if (!picking)
             {
                 return;
@@ -95,8 +112,10 @@ public class WeaponDetection : MonoBehaviour
             }
             GameController.Instance.ChangeSkin(controller.character);
         }
-        else if (col.CompareTag("Weapon"))
+        else if (col.CompareTag("Weapon") || col.CompareTag("ThrownWeapon"))
         {
+            overSomething = true;
+            stillHelp = .1f;
             if (!picking)
             {
                 return;
@@ -314,7 +333,7 @@ public class WeaponDetection : MonoBehaviour
         {
             //Throw(mainWeapon);
             DiscobolusScript disco = mainWeapon.gameObject.GetComponent<DiscobolusScript>();
-
+            disco.PrepareThrowing();
             Drop(mainWeapon);
             //disco.transform.rotation = Quaternion.identity;
             disco.MakeCurve(direction);

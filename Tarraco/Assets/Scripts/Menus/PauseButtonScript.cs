@@ -18,6 +18,11 @@ public class PauseButtonScript : MonoBehaviour
         eventSystem.Pause();
     }
 
+    public void ToHub()
+    {
+        eventSystem.BackToHub();
+    }
+
     public void Exit()
     {
         Time.timeScale = 1f;

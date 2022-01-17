@@ -13,7 +13,9 @@ public class SkinSingleton : MonoBehaviour
     [SerializeField]
     private List<Mesh> meshes;
     private List<Boolean> bools = new List<Boolean>();
-    
+
+    public RuntimeAnimatorController[] controllers;
+
 
     private void Awake()
     {
@@ -29,20 +31,7 @@ public class SkinSingleton : MonoBehaviour
             bools.Add(true);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void GetNextSkin(Material oldMat, out Mesh mesh, out Material mat)
+    public void GetNextSkin(Material oldMat, out Mesh mesh, out Material mat, out RuntimeAnimatorController controller)
     {
         int f = materials.IndexOf(oldMat);
         int selected = f;
@@ -59,9 +48,9 @@ public class SkinSingleton : MonoBehaviour
         bools[f] = true;
         mesh = meshes[selected];
         mat = materials[selected];
-        print(f);
+        controller = controllers[selected];
     }
-    public void GetNewSkin(out Mesh mesh, out Material mat)
+    public void GetNewSkin(out Mesh mesh, out Material mat, out RuntimeAnimatorController controller)
     {
         int i = 0;
         for(i = 0; i < bools.Count; i++)
@@ -74,5 +63,6 @@ public class SkinSingleton : MonoBehaviour
         }
         mesh = meshes[i];
         mat = materials[i];
+        controller = controllers[i];
     }
 }

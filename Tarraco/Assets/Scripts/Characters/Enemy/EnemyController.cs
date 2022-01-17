@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public bool isBoss;
     public BasicEnemyController enemyScript;
     public GameObject player;
     Transform playerTransform;
@@ -12,6 +13,9 @@ public class EnemyController : MonoBehaviour
     
     private float attackCD;
     private float originalSpeed;
+
+    private bool slowed;
+    private bool alreadyDead;
 
     [HideInInspector]
     public int estado; //de momento no se usa, pero usa 1 si está atacando, 2 si acaba de atacar y 3 si está herido. 0 de lo contrario (buscando)
@@ -44,7 +48,15 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(enemyScript.IsDead()) return;
+        if (enemyScript.IsDead())
+        {
+            if(!alreadyDead && isBoss && enemyScript.isDead)
+            {
+                alreadyDead = true;
+                GameController.Instance.Win();
+            }
+            return;
+        }
         if (IsRagdoll())
         {
             attackCD -= Time.deltaTime;
@@ -61,18 +73,27 @@ public class EnemyController : MonoBehaviour
         }
 
         attackCD -= Time.deltaTime;
-        if (enemyScript.moveSpeed == originalSpeed * .1f) enemyScript.moveSpeed = originalSpeed;
 
         if (player == null) return;
 
-        if(!Object.ReferenceEquals(enemyScript.weapon, null) 
+        if (enemyScript.attack && !slowed)
+        {
+            enemyScript.Slow(.1f);
+            slowed = true;
+        }
+        else if (!enemyScript.attack && slowed)
+        {
+            enemyScript.Speed(.1f);
+            slowed = false;
+        }
+
+        if (!Object.ReferenceEquals(enemyScript.weapon, null) 
             && enemyScript.weapon.kind.Equals(Weapons.Bow)
             && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 12f)
         {
             Vector3 direction;
             if(enemyScript.attack)
             {
-                enemyScript.moveSpeed = originalSpeed * .1f;
                 direction = (playerTransform.position - enemyScript.Root.transform.position);
             }
             else
@@ -93,7 +114,6 @@ public class EnemyController : MonoBehaviour
         }
         else if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 4f)
         {
-            enemyScript.moveSpeed = originalSpeed * .1f;
             //Atacar
             if (attackCD <= 0 && !enemyScript.IsRagdoll())
             {

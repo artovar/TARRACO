@@ -10,24 +10,44 @@ public class DiscobolusScript : WeaponScript
     private bool thrown = false;
     private Vector3 dir;
 
+    private bool rotated;
     private float rotacion = 0f;
     private float rotacionEx = 0f;
     private float anglesRotated = 0f;
 
+    private float rotationSpeed = 10f;
+    private bool throwing;
+
+    [SerializeField]
+    private Collider onAirCollider;
+
+    public void PrepareThrowing()
+    {
+        throwing = true;
+    }
+
     public override void DropWeapon(Transform rHand)
     {
         transform.position = rHand.position + rHand.right * .2f;
-        
+
+        rb.useGravity = true;
         transform.GetComponent<FixedJoint>().connectedBody = null;
         transform.GetComponent<FixedJoint>().breakForce = 0f;
-        rb.useGravity = true;
-        
-        //SetOnFloorColliders();
-        //transform.tag = "Weapon";
-        //StartCoroutine(DestroyWeapon());
+
+        SetOnFloorColliders();
+        if(!throwing)
+        {
+            transform.GetComponent<Rigidbody>().useGravity = true;
+            transform.GetComponent<Rigidbody>().velocity = rHand.GetComponent<Rigidbody>().velocity;
+            transform.tag = "Weapon";
+            StartCoroutine(DestroyWeapon());
+        }
+        throwing = false;
     }
 
-    public override void SetOnHandColliders() {
+    public override void SetOnHandColliders()
+    {
+        onAirCollider.enabled = false;
         this.gameObject.layer = LayerMask.NameToLayer("Weapons");
 
         foreach (Transform g in GetComponentsInChildren<Transform>())
@@ -44,7 +64,9 @@ public class DiscobolusScript : WeaponScript
         }
     }
 
-    public override void SetOnFloorColliders() {
+    public override void SetOnFloorColliders()
+    {
+        onAirCollider.enabled = false;
         this.gameObject.layer = LayerMask.NameToLayer("Default");
 
         foreach (Transform g in GetComponentsInChildren<Transform>())
@@ -74,26 +96,34 @@ public class DiscobolusScript : WeaponScript
 
     }
 
-    public override void MakeCurve(Vector3 direction) {
+    float Abs(float e)
+    {
+        return e < 0 ? -e : e;
+    }
+
+    public override void MakeCurve(Vector3 direction)
+    {
+        transform.tag = "ThrownWeapon";
         rb.useGravity = false;
         thrown = true;
         //transform.rotation = Quaternion.identity;
         axisToRotate = transform.position + direction * 4;
         //rb.centerOfMass = axisToRotate;
-        transform.tag = "ThrownWeapon";
+        onAirCollider.enabled = true;
         
         rotacionEx = Mathf.Asin((transform.position - axisToRotate).normalized.x);
-        print("dir: "+direction);
-        if (direction.x >= 0.55f) { //Derecha
-            rotacionEx = 1f;
+        if (axisToRotate.z >= transform.position.z) 
+        {
+            if(rotacionEx >= 0)
+            {
+                rotacionEx = Mathf.PI - rotacionEx;
+            }
+            else
+            {
+                rotacionEx = Mathf.PI - rotacionEx;
+            }
         }
-        if (direction.x <= -0.55f) { //Izquierda
-            rotacionEx = 11f;
-        }
-        if (direction.z <= -0.55f) { //Abajo
-            rotacionEx = 3f;
-        }
-        //rotacionEx = 0;
+        rotacionEx += Mathf.PI;
         anglesRotated = 0;
     }
 
@@ -103,8 +133,8 @@ public class DiscobolusScript : WeaponScript
 
     private void FixedUpdate() {
         if (thrown) {
-            anglesRotated += Time.fixedDeltaTime * 6;
-            rotacionEx -= Time.fixedDeltaTime * 6;
+            anglesRotated += Time.fixedDeltaTime * rotationSpeed;
+            rotacionEx -= Time.fixedDeltaTime * rotationSpeed;
             float x = axisToRotate.x - Mathf.Sin(rotacionEx) * 4;
             float y = axisToRotate.y;
             float z = axisToRotate.z - Mathf.Cos(rotacionEx) * 4;
@@ -114,28 +144,38 @@ public class DiscobolusScript : WeaponScript
 
             //transform.RotateAround(axisToRotate, -Vector3.up, 300 * Time.fixedDeltaTime);
             //rb.MoveRotation(transform.rotation * Quaternion.Euler(0, 180 * Time.fixedDeltaTime, 0));
-            rb.MovePosition(new Vector3(x,y,z));
-            
-            //transform.position = new Vector3(transform.position.x, axisToRotate.y, transform.position.z);
-            //GetComponent<Rigidbody>().MovePosition(new Vector3(transform.position.x, axisToRotate.y, transform.position.z));
-            //transform.Rotate(new Vector3(0, -100 * Time.deltaTime, 0), Space.Self);
-            rotacion -= 200*Time.deltaTime;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, rotacion, 0), 360 * Time.fixedDeltaTime);
+            transform.position += new Vector3(x,y,z) - transform.position;
+
+            rotated = true;
 
             //print(anglesRotated);
-            if(anglesRotated >= Mathf.PI*1.5f) {
+            if(anglesRotated >= Mathf.PI*1.65f)
+            {
+                rotated = false;
+                onAirCollider.enabled = false;
                 tag = "Weapon";
+                owner = Characters.None;
                 thrown = false;
                 rb.useGravity = true;
-                SetOnFloorColliders();
-
+                //SetOnFloorColliders();
                 //rb.velocity = (transform.position - auxPosition).normalized * 500;
-                rb.AddForce((transform.position - auxPosition).normalized * 500, ForceMode.Impulse);
+                GetComponent<Rigidbody>().AddForce((transform.position - auxPosition).normalized * 40, ForceMode.Impulse);
             }
         }
+        if(rotated)
+        {
+            rotacion += 360 * Time.fixedDeltaTime * 2;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, rotacion, 0), 360 * Time.fixedDeltaTime * 2);
+        }
+        //GetComponent<Rigidbody>().AddForce(Vector3.up * 50);
     }
 
     private void OnCollisionEnter(Collision other) {
+
+        if(anglesRotated > .5f)
+        {
+            rotated = false;
+        }
         PlayerController p = other.gameObject.GetComponentInParent<PlayerController>();
 
         if(p != null && this.gameObject.CompareTag("ThrownWeapon")) {

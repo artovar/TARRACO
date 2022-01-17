@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Switcher : MonoBehaviour
 {
-    [SerializeField]
     ArenaGameController controller;
 
     public enum ButtonKind

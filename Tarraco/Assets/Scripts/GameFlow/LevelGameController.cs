@@ -26,6 +26,9 @@ public class LevelGameController : GameController
     private AudioClip[] musicLevels;
     [SerializeField]
     private AudioClip musicBoss;
+    [SerializeField]
+    public SpawnPoint spawn;
+
 
     private int currentLevel = 0;
     protected override void AdditionalStarto()
@@ -49,11 +52,22 @@ public class LevelGameController : GameController
         }
     }
 
+    public override int BackToHubIndex()
+    {
+        int index = SceneManager.GetActiveScene().buildIndex;
+        if (index >= level1Index && index < level1Index + totalLevels - 1)
+        {
+            currentLevel--;
+            return midHubIndex;
+        }
+        return -1;
+    }
+
     public override int NextLevel()
     {
+        StopAllCoroutines();
         SaveWeapons();
         int index = SceneManager.GetActiveScene().buildIndex;
-        //print(index);
         int nextLevel = 0;
         if (index == baseHubIndex)
         {
@@ -74,13 +88,8 @@ public class LevelGameController : GameController
         }
         else if (index == level1Index + totalLevels - 1)
         {
-            nextLevel = creditsIndex;
-            //return creditsIndex;
+            nextLevel = -creditsIndex;
         }
-        /*else 
-        {
-            return 0;
-        }*/
         if (nextLevel == midHubIndex) {
             audioSource.clip = musicHub;
         } else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1) {
@@ -98,5 +107,6 @@ public class LevelGameController : GameController
         audioSource.Play();
         audioSource.loop = true;
         print("SpawningBoss");
+        spawn.SpawnBoss(currentLevel);
     }
 }

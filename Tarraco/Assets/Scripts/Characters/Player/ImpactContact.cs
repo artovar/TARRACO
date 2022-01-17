@@ -1,17 +1,20 @@
+using System.Collections;
 using UnityEngine;
 
 
 public class ImpactContact : MonoBehaviour
 {
     public PlayerController APR_Player;
+    private bool alreadyDead;
 
     //Alert APR Player when collision enters with specified force amount
     void OnCollisionEnter(Collision col)
     {
         LayerMask layer = col.gameObject.layer;
-        if (APR_Player.IsRagdoll() || col.collider.CompareTag("Weapon") || layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
+        if (col.gameObject.CompareTag("Weapon") || layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
         //Knockout by impact
-        if (APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO)
+        bool also = col.gameObject.CompareTag("ThrownWeapon");
+        if ((APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
         {
             Characters from = Characters.Enemy;
             if (layer >= 16 && layer <= 19 && col.collider.enabled)
@@ -38,6 +41,11 @@ public class ImpactContact : MonoBehaviour
 
             APR_Player.ActivateRagdoll();
 
+            //Damage
+            bool dead = false;
+            if (GameController.Instance.inGame) dead = APR_Player.Damage(1, from);
+            //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
+
             if (APR_Player.SoundSource != null)
             {
                 if (!APR_Player.SoundSource.isPlaying && APR_Player.Hits != null)
@@ -47,18 +55,17 @@ public class ImpactContact : MonoBehaviour
                     APR_Player.SoundSource.Play();
                 }
             }
-
-            //Damage
-            if (GameController.Instance.inGame) APR_Player.Damage(1, from);
-            //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
             if (APR_Player.IsDead())
             {
-                //Debug.Log("Estas muerto");
+                if(!alreadyDead)
+                {
+                    alreadyDead = true;
+                    StartCoroutine(PlayEngineSound());
+                }
             }
         }
-
         //Sound on impact & normal impact
-        if (col.relativeVelocity.magnitude > APR_Player.ImpactForce)
+        if ((col.relativeVelocity.magnitude > APR_Player.ImpactForce) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
         {
             //Sound
             if (APR_Player.SoundSource != null)
@@ -75,5 +82,11 @@ public class ImpactContact : MonoBehaviour
             {
             }
         }
+    }
+    IEnumerator PlayEngineSound()
+    {
+        yield return new WaitForSeconds(APR_Player.SoundSource.clip.length);
+        APR_Player.SoundSource.clip = APR_Player.DeathSound;
+        APR_Player.SoundSource.Play();
     }
 }
