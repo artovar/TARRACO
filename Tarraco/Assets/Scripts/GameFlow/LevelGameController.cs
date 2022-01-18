@@ -55,9 +55,10 @@ public class LevelGameController : GameController
     public override int BackToHubIndex()
     {
         int index = SceneManager.GetActiveScene().buildIndex;
-        if (index >= level1Index && index < level1Index + totalLevels - 1)
+        if (index >= level1Index && index <= level1Index + totalLevels - 1)
         {
             currentLevel--;
+            PlayMusic(midHubIndex);
             return midHubIndex;
         }
         return -1;
@@ -90,15 +91,23 @@ public class LevelGameController : GameController
         {
             nextLevel = -creditsIndex;
         }
-        if (nextLevel == midHubIndex) {
+        PlayMusic(nextLevel);
+        return nextLevel;
+    }
+
+    private void PlayMusic(int nextLevel)
+    {
+        if (nextLevel == midHubIndex)
+        {
             audioSource.clip = musicHub;
-        } else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1) {
-            print("Musica del nivel: "+currentLevel);
+        }
+        else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1)
+        {
+            print("Musica del nivel: " + currentLevel);
             audioSource.clip = musicLevels[currentLevel - 1];
         }
         audioSource.Play();
         audioSource.loop = true;
-        return nextLevel;
     }
 
     public void SpawnBoss()

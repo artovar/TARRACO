@@ -714,6 +714,10 @@ public class BasicEnemyController : CharacterClass
 						weapon.Shoot(lookPos.normalized, Characters.Enemy, chargingTime);
 						chargingTime = .45f;
 						break;
+					case Weapons.Discobolus:
+						lookPos = new Vector3(Root.transform.forward.x, 0, Root.transform.forward.z);
+						GetComponentInChildren<EWeaponDetection>().ThrowDisco(lookPos);
+						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);

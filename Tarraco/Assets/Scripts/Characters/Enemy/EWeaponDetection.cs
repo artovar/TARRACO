@@ -157,4 +157,16 @@ public class EWeaponDetection : MonoBehaviour
     {
         weapon.GetComponent<WeaponScript>().BringFromBack(rHandTransform, lHandTransform);
     }
+    public void ThrowDisco(Vector3 direction)
+    {
+        if (weaponsStored > 0 && mainWeapon.GetComponent<WeaponScript>().kind.Equals(Weapons.Discobolus))
+        {
+            //Throw(mainWeapon);
+            DiscobolusScript disco = mainWeapon.gameObject.GetComponent<DiscobolusScript>();
+            disco.PrepareThrowing();
+            Drop(mainWeapon);
+            //disco.transform.rotation = Quaternion.identity;
+            disco.MakeCurve(direction);
+        }
+    }
 }

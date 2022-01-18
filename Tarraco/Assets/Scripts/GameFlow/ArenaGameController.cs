@@ -248,6 +248,7 @@ public class ArenaGameController : GameController
         if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)
         {
             playersSpawnPoints = arenaSpawnPoints;
+            PlayMusic(midHubIndex);
             return midHubIndex;
         }
         return -1;
@@ -269,16 +270,25 @@ public class ArenaGameController : GameController
             playersSpawnPoints = arenaSpawnPoints;
             nextLevel = midHubIndex;
         }
-        if (nextLevel == midHubIndex) {
-           audioSource.clip = musicHub;
-        } else if (nextLevel >= firstArenaIndex && nextLevel <= firstArenaIndex + totalArenas - 1) {
-            audioSource.clip = musicArenaModes[chosenArena-1];
-            print("Arena: "+chosenArena);
+        PlayMusic(nextLevel);
+        return nextLevel;
+    }
+
+    private void PlayMusic(int nextLevel)
+    {
+        if (nextLevel == midHubIndex)
+        {
+            audioSource.clip = musicHub;
+        }
+        else if (nextLevel >= firstArenaIndex && nextLevel <= firstArenaIndex + totalArenas - 1)
+        {
+            audioSource.clip = musicArenaModes[chosenArena - 1];
+            print("Arena: " + chosenArena);
         }
         audioSource.Play();
         audioSource.loop = true;
-        return nextLevel;
     }
+
     protected override Vector3 BestSP()
     {
         float betterDistance = 0;

@@ -877,9 +877,9 @@ public class PlayerController : CharacterClass
 	}
 	//---Player Punch---//
 	/////////////////////
-	private IEnumerator JustDid()
+	private IEnumerator JustDid(float tts)
     {
-		yield return new WaitForSeconds(.15f);
+		yield return new WaitForSeconds(tts);
 		ableToStop = true;
     }
 	void PlayerPunch()
@@ -889,11 +889,12 @@ public class PlayerController : CharacterClass
 		if (ableToStop && !attacking && !inAir && !isRagdoll && (Input.GetButton(attack) || Input.GetAxis(attack) > 0) && hitCoolDown <= 0)
 		{
 			ableToStop = false;
-			StartCoroutine(JustDid());
 			attacking = true;
+			float timeToStart = .15f;
 			if (!Object.ReferenceEquals(weapon, null))
 			{
 				PrepareHit();
+				timeToStart = weapon.timeToHit;
 			}
 			else
 			{
@@ -902,6 +903,7 @@ public class PlayerController : CharacterClass
 				APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
 				APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);
 			}
+			StartCoroutine(JustDid(timeToStart));
 		}
 
 		if (ableToStop && attacking && ((!Input.GetButton(attack) && Input.GetAxis(attack) == 0) || (metralletaCheat && ((Input.GetButton(attack) || Input.GetAxis(attack) > 0)))))

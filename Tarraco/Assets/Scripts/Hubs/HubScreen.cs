@@ -36,6 +36,9 @@ public class HubScreen : MonoBehaviour
                 image.color = Color.white;
                 break;
             case 2:
+                image.color = Color.black + Color.yellow + Color.red;
+                break;
+            case 3:
                 image.color = Color.black;
                 break;
         }

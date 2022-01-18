@@ -379,6 +379,7 @@ MonoBehaviour:
   owner: 0
   damageDealed: 1
   weaponCoolDown: 0.5
+  timeToHit: 0.2
   forcePoint: {fileID: 6017559285807721532}
   sword: {fileID: 3747745831672171243}
   shield: {fileID: 8866114414172161546}

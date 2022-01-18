@@ -13,6 +13,7 @@ public abstract class WeaponScript : MonoBehaviour
     public Characters owner;
     public int damageDealed;
     public float weaponCoolDown;
+    public float timeToHit;
     public Transform forcePoint;
     protected List<bool> dropQueue = new List<bool>();
     protected bool destroyed;
