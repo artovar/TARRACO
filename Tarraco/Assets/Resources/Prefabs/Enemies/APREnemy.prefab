@@ -1518,7 +1518,7 @@ MonoBehaviour:
   maxLife: 1
   moveSpeed: 3.4
   isDead: 0
-  alreadyDead: 0
+  alreadyDied: 0
   weapon: {fileID: 0}
   healingOrb: {fileID: 3769096260543673073, guid: a30bc10baee8f334a976138cc6ecefd8, type: 3}
   Root: {fileID: 6806997512440848740}

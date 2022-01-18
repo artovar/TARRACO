@@ -8,6 +8,7 @@ public class DiscobolusScript : WeaponScript
   
     private Vector3 axisToRotate;
     private bool thrown = false;
+    private bool stop = false;
     private Vector3 dir;
 
     private bool rotated;
@@ -152,9 +153,10 @@ public class DiscobolusScript : WeaponScript
             rotated = true;
 
             //print(anglesRotated);
-            if(anglesRotated >= Mathf.PI*1.65f)
+            if(anglesRotated >= Mathf.PI*1.65f || stop)
             {
                 rotated = false;
+                stop = false;
                 onAirCollider.enabled = false;
                 tag = "Weapon";
                 owner = Characters.None;
@@ -181,6 +183,11 @@ public class DiscobolusScript : WeaponScript
             rotated = false;
         }
         PlayerController p = other.gameObject.GetComponentInParent<PlayerController>();
+
+        if(other.gameObject.GetComponent<ShieldDetector>() != null && thrown)
+        {
+            stop = true;
+        }
 
         if(p != null && this.gameObject.CompareTag("ThrownWeapon")) {
             if(p.waitForDisco) {

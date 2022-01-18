@@ -93,6 +93,7 @@ public class EWeaponDetection : MonoBehaviour
                 break;
         }
         controller.weapon = mainWeapon.GetComponent<WeaponScript>();
+        weapon.localScale = controller.transform.localScale;
     }
 
     void Drop(Transform weapon)
@@ -135,6 +136,7 @@ public class EWeaponDetection : MonoBehaviour
         {
             controller.weapon = mainWeapon.GetComponent<WeaponScript>();
         }
+        weapon.localScale = Vector3.one;
     }
 
 

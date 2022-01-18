@@ -29,13 +29,21 @@ public class LevelGameController : GameController
     [SerializeField]
     public SpawnPoint spawn;
 
+    private HubScreen screen;
 
-    private int currentLevel = 0;
+    [HideInInspector]
+    public int currentLevel = 0;
     protected override void AdditionalStarto()
     {
         mainBar.transform.parent.gameObject.SetActive(true);
         mainBar.gameObject.SetActive(true);
         mainBar.EnableBar();
+        if(!inGame)
+        {
+            screen = GameObject.FindGameObjectWithTag("Heal").GetComponent<HubScreen>();
+            screen.SetUP();
+            screen.DisplayLevel(currentLevel + 1);
+        }
     }
 
     private void Start() {
@@ -116,6 +124,6 @@ public class LevelGameController : GameController
         audioSource.Play();
         audioSource.loop = true;
         print("SpawningBoss");
-        spawn.SpawnBoss(currentLevel);
+        cam.GetComponent<CameraControl>().ChangeToBoss(spawn.SpawnBoss(currentLevel));
     }
 }

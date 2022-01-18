@@ -22,7 +22,7 @@ public abstract class CharacterClass : MonoBehaviour
     protected float chargingTime = .1f;
 
     public bool Damage(int amount, Characters from, float invT = invTimeDef) {
-        if (invTime > 0)
+        if (invTime > 0 || Time.timeScale != 1)
         {
             return false;
         }

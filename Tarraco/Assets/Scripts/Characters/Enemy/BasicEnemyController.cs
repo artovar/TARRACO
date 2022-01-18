@@ -7,7 +7,7 @@ public class BasicEnemyController : CharacterClass
 	[HideInInspector]
 	public bool isDead = false;
 	[HideInInspector]
-	public bool alreadyDead = false;
+	public bool alreadyDied = false;
 	//Calcular Center of Mass con el arma
 
 	//-------------------------------------------------------------
