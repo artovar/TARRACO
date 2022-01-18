@@ -205,7 +205,7 @@ public class SpawnPoint : MonoBehaviour
     }
 
 
-    public void SpawnBoss(int level)
+    public Transform SpawnBoss(int level)
     {
         spawnedBoss = true;
         GameObject sp = BetterSP();
@@ -218,5 +218,6 @@ public class SpawnPoint : MonoBehaviour
         EnemyController e = (Instantiate(bossesPrefabs[level - 1], sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
         e.MoveTowardsInSpawn(sp.transform.forward);
         Instantiate(weaponPrefabs[6], sp.transform.position, Quaternion.identity);
+        return e.enemyScript.Root.transform;
     }
 }

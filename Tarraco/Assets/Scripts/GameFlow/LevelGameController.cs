@@ -29,13 +29,21 @@ public class LevelGameController : GameController
     [SerializeField]
     public SpawnPoint spawn;
 
+    private HubScreen screen;
 
-    private int currentLevel = 0;
+    [HideInInspector]
+    public int currentLevel = 0;
     protected override void AdditionalStarto()
     {
         mainBar.transform.parent.gameObject.SetActive(true);
         mainBar.gameObject.SetActive(true);
         mainBar.EnableBar();
+        if(!inGame)
+        {
+            screen = GameObject.FindGameObjectWithTag("Heal").GetComponent<HubScreen>();
+            screen.SetUP();
+            screen.DisplayLevel(currentLevel + 1);
+        }
     }
 
     private void Start() {
@@ -55,9 +63,10 @@ public class LevelGameController : GameController
     public override int BackToHubIndex()
     {
         int index = SceneManager.GetActiveScene().buildIndex;
-        if (index >= level1Index && index < level1Index + totalLevels - 1)
+        if (index >= level1Index && index <= level1Index + totalLevels - 1)
         {
             currentLevel--;
+            PlayMusic(midHubIndex);
             return midHubIndex;
         }
         return -1;
@@ -90,15 +99,23 @@ public class LevelGameController : GameController
         {
             nextLevel = -creditsIndex;
         }
-        if (nextLevel == midHubIndex) {
+        PlayMusic(nextLevel);
+        return nextLevel;
+    }
+
+    private void PlayMusic(int nextLevel)
+    {
+        if (nextLevel == midHubIndex)
+        {
             audioSource.clip = musicHub;
-        } else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1) {
-            print("Musica del nivel: "+currentLevel);
+        }
+        else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1)
+        {
+            print("Musica del nivel: " + currentLevel);
             audioSource.clip = musicLevels[currentLevel - 1];
         }
         audioSource.Play();
         audioSource.loop = true;
-        return nextLevel;
     }
 
     public void SpawnBoss()
@@ -107,6 +124,6 @@ public class LevelGameController : GameController
         audioSource.Play();
         audioSource.loop = true;
         print("SpawningBoss");
-        spawn.SpawnBoss(currentLevel);
+        cam.GetComponent<CameraControl>().ChangeToBoss(spawn.SpawnBoss(currentLevel));
     }
 }

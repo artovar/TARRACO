@@ -10,7 +10,9 @@ public class HubScreen : MonoBehaviour
     private Image image;
     [SerializeField]
     private TextMeshProUGUI text;
-    
+    [SerializeField]
+    private Sprite[] arenaSprites;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,15 +32,28 @@ public class HubScreen : MonoBehaviour
 
     public void DisplayArena(int chosenOne)
     {
+        if(chosenOne <= arenaSprites.Length)
+        {
+            image.sprite = arenaSprites[chosenOne-1];
+        }
+        /*
         switch(chosenOne)
         {
             case 1:
                 image.color = Color.white;
                 break;
             case 2:
+                image.color = Color.black + Color.yellow + Color.red;
+                break;
+            case 3:
                 image.color = Color.black;
                 break;
-        }
+        }*/
+    }
+
+    public void DisplayLevel(int level)
+    {
+        text.text = "Level " + level;
     }
     public void DisplayMode(ModesEnum chosenOne)
     {

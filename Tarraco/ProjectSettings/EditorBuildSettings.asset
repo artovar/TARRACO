@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Arena/ArenaWater.unity
     guid: 1390965d7ae229247aa9db2446c8712d
+  - enabled: 1
+    path: Assets/Scenes/Arena/ArenaDark.unity
+    guid: 97dcebd565ee5aa49991d697b6d95ede
   m_configObjects: {}

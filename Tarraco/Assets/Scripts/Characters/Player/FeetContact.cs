@@ -72,9 +72,9 @@ public class FeetContact : MonoBehaviour
 
         //Direccion de la huella
         //spritePrint.normalDirection = ;
-        theFoot.position = transform.position; //- Vector3.up * 0.6f;
+        theFoot.position = transform.position;
         //theFoot.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-        main.startRotationY = APR_Player.Root.transform.rotation.eulerAngles.y;
+        main.startRotationY = APR_Player.Head.transform.rotation.eulerAngles.y;
 
         system.Emit(1);
     }

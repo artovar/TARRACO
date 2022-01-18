@@ -27,7 +27,8 @@ public class PublicoOvaciones : MonoBehaviour
             float v = ovationSingleton.GetMiddleBarValue();
             if (v >= 0)
             {
-                source.volume = (v / max) * .4f;
+                v = (v * v) / (max * max);
+                source.volume = v * .4f;
             }
         }
     }

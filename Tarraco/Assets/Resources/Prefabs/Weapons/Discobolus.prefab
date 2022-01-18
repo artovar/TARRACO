@@ -73,6 +73,7 @@ MonoBehaviour:
   owner: 0
   damageDealed: 1
   weaponCoolDown: 0.65
+  timeToHit: 0.15
   forcePoint: {fileID: 865474410915194924}
   onAirCollider: {fileID: 2614364229174293025}
 --- !u!65 &6353140013278363527

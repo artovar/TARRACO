@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LevelsOvationSingleton : OvationSingleton
 {
+    private int playersIn;
+    private LevelGameController controller;
 
     public override void AddBar(OvationBar bar, Characters character)
     {
@@ -14,9 +16,14 @@ public class LevelsOvationSingleton : OvationSingleton
             case Characters.Player2:
             case Characters.Player3:
             case Characters.Player4:
+                if(bar.isActiveAndEnabled)
+                {
+                    playersIn++;
+                }
                 bar.DisableBar();
                 break;
             case Characters.None:
+                controller = GameController.Instance.GetComponent<LevelGameController>();
                 middleBar = bar;
                 break;
         }
@@ -29,7 +36,7 @@ public class LevelsOvationSingleton : OvationSingleton
             case Characters.Player2:
             case Characters.Player3:
             case Characters.Player4:
-                middleBar.IncreaseMeter(incr);
+                middleBar.IncreaseMeter(incr * .2f + (incr/playersIn) * .5f + (incr/controller.currentLevel) * .3f);
                 break;
         }
     }

@@ -1,10 +1,13 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraControl : MonoBehaviour
 {
     [Header("Player To Follow")]
     //Player root
     public Transform[] Roots = new Transform[4];
+    private Transform currentBoss;
 
     [Header("Follow Properties")]
     //Follow values
@@ -23,10 +26,13 @@ public class CameraControl : MonoBehaviour
     private Vector3 dir;
     private Vector3 offset;
     private Vector3 originalOffset;
+    private Vector3 bossOffset = Vector3.zero;
+    private bool bossing = false;
 
     private enum CAMMODE{
         Hub,
-        InGame
+        InGame,
+        LookingAtBoss
     };
     CAMMODE mode = CAMMODE.Hub;
 
@@ -56,6 +62,29 @@ public class CameraControl : MonoBehaviour
         cam = Camera.main;
         Start();
         mode = CAMMODE.InGame;
+    }
+
+    public void ChangeToBoss(Transform boss)
+    {
+        print("Looking At Boss");
+        currentBoss = boss;
+        StartCoroutine(LookAtBoss());
+    }
+
+    IEnumerator LookAtBoss()
+    {
+        bossing = true;
+        transform.position = Vector3.up * 6;
+        transform.LookAt(currentBoss.position);
+        bossOffset = transform.position - currentBoss.position;
+        mode = CAMMODE.LookingAtBoss;
+        int sc = SceneManager.GetActiveScene().buildIndex;
+        yield return new WaitForSeconds(2);
+        bossing = false;
+        if(sc == SceneManager.GetActiveScene().buildIndex)
+        {
+            mode = CAMMODE.InGame;
+        }
     }
 
     public void AddPlayer(Transform p, int pNumber)
@@ -88,6 +117,9 @@ public class CameraControl : MonoBehaviour
                 break;
             case CAMMODE.InGame:
                 MoveInGame();
+                break;
+            case CAMMODE.LookingAtBoss:
+                if(bossing) MoveToBoss();
                 break;
         }
     }
@@ -170,6 +202,13 @@ public class CameraControl : MonoBehaviour
         distance = originalDistance + mag;
         cam.transform.position = Vector3.Lerp(cam.transform.position, point + offset * (((distance) / originalDistance) / 1.2f), smoothness);
         var targetRotation = Quaternion.LookRotation(point - cam.transform.position);
+        cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness * 2f);
+    }
+
+    private void MoveToBoss()
+    {
+        cam.transform.position = Vector3.Lerp(cam.transform.position, currentBoss.position + bossOffset, smoothness);
+        var targetRotation = Quaternion.LookRotation(currentBoss.position - cam.transform.position);
         cam.transform.rotation = Quaternion.Slerp(cam.transform.rotation, targetRotation, smoothness * 2f);
     }
 }

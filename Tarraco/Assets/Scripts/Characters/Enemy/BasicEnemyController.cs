@@ -7,7 +7,7 @@ public class BasicEnemyController : CharacterClass
 	[HideInInspector]
 	public bool isDead = false;
 	[HideInInspector]
-	public bool alreadyDead = false;
+	public bool alreadyDied = false;
 	//Calcular Center of Mass con el arma
 
 	//-------------------------------------------------------------
@@ -713,6 +713,10 @@ public class BasicEnemyController : CharacterClass
 						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
 						weapon.Shoot(lookPos.normalized, Characters.Enemy, chargingTime);
 						chargingTime = .45f;
+						break;
+					case Weapons.Discobolus:
+						lookPos = new Vector3(Root.transform.forward.x, 0, Root.transform.forward.z);
+						GetComponentInChildren<EWeaponDetection>().ThrowDisco(lookPos);
 						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);

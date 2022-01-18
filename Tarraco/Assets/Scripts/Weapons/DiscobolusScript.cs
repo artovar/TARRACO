@@ -8,6 +8,7 @@ public class DiscobolusScript : WeaponScript
   
     private Vector3 axisToRotate;
     private bool thrown = false;
+    private bool stop = false;
     private Vector3 dir;
 
     private bool rotated;
@@ -83,6 +84,14 @@ public class DiscobolusScript : WeaponScript
         }
     }
 
+    public override void SendToBack(Transform back)
+    {
+        transform.position = back.position;
+        //shield.position = back.position + back.forward / 2f;
+        transform.rotation = back.rotation * Quaternion.Euler(0, 0, 90);
+        transform.GetComponent<FixedJoint>().connectedBody = back.GetComponent<Rigidbody>();
+    }
+
     public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c) {
         a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
         b.targetRotation = new Quaternion(-0.360000014f, -0.939999998f, 0.560000002f, 1.38f);
@@ -94,11 +103,6 @@ public class DiscobolusScript : WeaponScript
         b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
         c.targetRotation = new Quaternion(-0.7f, 0.5f, 0.8f, 1f);
 
-    }
-
-    float Abs(float e)
-    {
-        return e < 0 ? -e : e;
     }
 
     public override void MakeCurve(Vector3 direction)
@@ -149,9 +153,10 @@ public class DiscobolusScript : WeaponScript
             rotated = true;
 
             //print(anglesRotated);
-            if(anglesRotated >= Mathf.PI*1.65f)
+            if(anglesRotated >= Mathf.PI*1.65f || stop)
             {
                 rotated = false;
+                stop = false;
                 onAirCollider.enabled = false;
                 tag = "Weapon";
                 owner = Characters.None;
@@ -160,6 +165,7 @@ public class DiscobolusScript : WeaponScript
                 //SetOnFloorColliders();
                 //rb.velocity = (transform.position - auxPosition).normalized * 500;
                 GetComponent<Rigidbody>().AddForce((transform.position - auxPosition).normalized * 40, ForceMode.Impulse);
+                DestroyAfterSpawning();
             }
         }
         if(rotated)
@@ -177,6 +183,11 @@ public class DiscobolusScript : WeaponScript
             rotated = false;
         }
         PlayerController p = other.gameObject.GetComponentInParent<PlayerController>();
+
+        if(other.gameObject.GetComponent<ShieldDetector>() != null && thrown)
+        {
+            stop = true;
+        }
 
         if(p != null && this.gameObject.CompareTag("ThrownWeapon")) {
             if(p.waitForDisco) {

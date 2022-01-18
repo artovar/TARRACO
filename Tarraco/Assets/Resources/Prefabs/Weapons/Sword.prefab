@@ -87,6 +87,7 @@ MonoBehaviour:
   owner: 0
   damageDealed: 1
   weaponCoolDown: 0.5
+  timeToHit: 0.2
   forcePoint: {fileID: 4435941406284680647}
 --- !u!1 &680089056451318971
 GameObject:

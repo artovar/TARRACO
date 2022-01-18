@@ -93,6 +93,7 @@ public class EWeaponDetection : MonoBehaviour
                 break;
         }
         controller.weapon = mainWeapon.GetComponent<WeaponScript>();
+        weapon.localScale = controller.transform.localScale;
     }
 
     void Drop(Transform weapon)
@@ -135,6 +136,7 @@ public class EWeaponDetection : MonoBehaviour
         {
             controller.weapon = mainWeapon.GetComponent<WeaponScript>();
         }
+        weapon.localScale = Vector3.one;
     }
 
 
@@ -156,5 +158,17 @@ public class EWeaponDetection : MonoBehaviour
     void BringFromBack(Transform weapon)
     {
         weapon.GetComponent<WeaponScript>().BringFromBack(rHandTransform, lHandTransform);
+    }
+    public void ThrowDisco(Vector3 direction)
+    {
+        if (weaponsStored > 0 && mainWeapon.GetComponent<WeaponScript>().kind.Equals(Weapons.Discobolus))
+        {
+            //Throw(mainWeapon);
+            DiscobolusScript disco = mainWeapon.gameObject.GetComponent<DiscobolusScript>();
+            disco.PrepareThrowing();
+            Drop(mainWeapon);
+            //disco.transform.rotation = Quaternion.identity;
+            disco.MakeCurve(direction);
+        }
     }
 }

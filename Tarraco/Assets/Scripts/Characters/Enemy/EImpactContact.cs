@@ -107,9 +107,9 @@ public class EImpactContact : MonoBehaviour
             }
             if (enemyController.IsDead())
             {
-                if (!enemyController.alreadyDead)
+                if (!enemyController.alreadyDied)
                 {
-                    enemyController.alreadyDead = true;
+                    enemyController.alreadyDied = true;
                     StartCoroutine(PlayEngineSound());
                 }
             }

@@ -114,7 +114,8 @@ MonoBehaviour:
   kind: 11
   owner: 0
   damageDealed: 1
-  weaponCoolDown: 0.6
+  weaponCoolDown: 0.35
+  timeToHit: 0.2
   forcePoint: {fileID: 5005624509908464381}
   spear: {fileID: 8864452272712476130}
 --- !u!1 &5005624509908465536
