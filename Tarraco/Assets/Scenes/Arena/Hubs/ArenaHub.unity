@@ -2518,6 +2518,7 @@ MonoBehaviour:
   musicArenaModes:
   - {fileID: 8300000, guid: e67fef027a5b4434fb476217fc80c0a2, type: 3}
   - {fileID: 8300000, guid: bc41da57990f9214d8aac09148c085ca, type: 3}
+  - {fileID: 8300000, guid: 200303a162c244d4cabbf2689abbebd8, type: 3}
   crono: {fileID: 1555417163}
   modeSelected: 0
 --- !u!4 &1993758166
