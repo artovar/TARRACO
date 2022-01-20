@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,6 +17,8 @@ public abstract class GameController : MonoBehaviour
     protected Mesh[] meshes;
     [SerializeField]
     protected Material[] materials;
+    [SerializeField]
+    protected RuntimeAnimatorController[] animators;
 
     public GameObject gameOver;
     public GameObject gameWin;
@@ -24,6 +27,7 @@ public abstract class GameController : MonoBehaviour
     public GameObject[] healthUIs;
     protected GameObject[] players = new GameObject[4];
     protected bool[] p = { false, false, false, false };
+    protected int[] ids = {-1,-1,-1,-1};
     protected bool[] playerDeaths= {false, false, false, false};
     [SerializeField]
     protected int pCount;
@@ -71,13 +75,13 @@ public abstract class GameController : MonoBehaviour
         pCount = 0;
         if (!p[0])
         {
-            RuntimeAnimatorController cont;
-            SkinSingleton.Instance.GetNewSkin(out meshes[0], out materials[0], out cont);
+            SkinSingleton.Instance.GetNewSkin(out meshes[0], out materials[0], out animators[0]);
             p[0] = true;
+            ids[0] = 1;
         }
-        foreach (bool pl in p)
+        for(int pR = 0; pR < p.Length; pR++)
         {
-            if (pl)
+            if (ids[pR] != -1 && p[ids[pR]-1])
             {
                 SpawnPlayer();
             }
@@ -128,10 +132,9 @@ public abstract class GameController : MonoBehaviour
         }
         if(i != -1)
         {
-            RuntimeAnimatorController cont;
-            SkinSingleton.Instance.GetNextSkin(materials[i], out meshes[i], out materials[i], out cont);
+            SkinSingleton.Instance.GetNextSkin(materials[i], out meshes[i], out materials[i], out animators[i]);
             players[i].GetComponent<CharacterSkin>().SetSkin(meshes[i], materials[i]);
-            healthUIs[i].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
+            healthUIs[i].GetComponentInChildren<HealthHUD>().ChangeSkin(animators[i]);
         }
     }
 
@@ -157,24 +160,26 @@ public abstract class GameController : MonoBehaviour
         {
             if (!p[1] && Input.GetButtonDown("Jump2"))
             {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[1], out materials[1], out cont);
+                ids[pCount] = 2;
+                print(ids[pCount]);
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
                 SpawnPlayer();
-                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
+                print(pCount - 1);
+                p[1] = true;
             }
             if (!p[2] && Input.GetButtonDown("Jump3"))
             {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[2], out materials[2], out cont);
+                ids[pCount] = 3;
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
                 SpawnPlayer();
-                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
+                p[2] = true;
             }
             if (!p[3] && Input.GetButtonDown("Jump4"))
             {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[3], out materials[3], out cont);
+                ids[pCount] = 4;
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
                 SpawnPlayer();
-                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
+                p[3] = true;
             }
         }
     }
@@ -183,30 +188,28 @@ public abstract class GameController : MonoBehaviour
 
     protected virtual void SpawnPlayer()
     {
+        players[pCount] = Instantiate(playerPrefab, BestSP(), Quaternion.identity);
+        cam.GetComponent<CameraControl>().AddPlayer(players[pCount].GetComponent<PlayerController>().Root.transform, pCount+1);
+        healthUIs[pCount].SetActive(true);
+        healthUIs[pCount].GetComponentInChildren<HealthHUD>().ChangeSkin(animators[pCount]);
+        HealthHUD hUI = healthUIs[pCount].GetComponentInChildren<HealthHUD>();
+        hUI.AssignPlayer(players[pCount]);
+        players[pCount].GetComponent<CharacterSkin>().SetSkin(meshes[pCount], materials[pCount]);
+        players[pCount].GetComponent<PlayerController>().SetUp(hUI.gameObject, ids[pCount], pCount);
+        GenerateWeapons(players[pCount].GetComponent<PlayerController>().detector, pCount);
         pCount++;
-        players[pCount-1] = Instantiate(playerPrefab, BestSP(), Quaternion.identity);
-        cam.GetComponent<CameraControl>().AddPlayer(players[pCount-1].GetComponent<PlayerController>().Root.transform, pCount);
-        p[pCount-1] = true;
-        healthUIs[pCount-1].SetActive(true);
-        HealthHUD hUI = healthUIs[pCount-1].GetComponentInChildren<HealthHUD>();
-        hUI.player = players[pCount-1];
-        players[pCount - 1].GetComponent<CharacterSkin>().SetSkin(meshes[pCount-1], materials[pCount-1]);
-        players[pCount-1].GetComponent<PlayerController>().SetUp(hUI.gameObject, pCount);
-        GenerateWeapons(players[pCount-1].GetComponent<PlayerController>().detector, pCount -1);
-    }    
+    }
     
     protected virtual void RevivePlayer(int id)
     {
         players[id] = Instantiate(playerPrefab, BestSP(), Quaternion.identity);
-        cam.GetComponent<CameraControl>().AddPlayer(players[id].GetComponent<PlayerController>().Root.transform, id+1);
-        p[id] = true;
-        healthUIs[id].SetActive(true);
+        cam.GetComponent<CameraControl>().AddPlayer(players[id].GetComponent<PlayerController>().Root.transform, id + 1);
+        healthUIs[id].GetComponentInChildren<HealthHUD>().ChangeSkin(animators[id]);
         HealthHUD hUI = healthUIs[id].GetComponentInChildren<HealthHUD>();
         hUI.player = players[id];
         hUI.ResetLife();
         players[id].GetComponent<CharacterSkin>().SetSkin(meshes[id], materials[id]);
-        players[id].GetComponent<PlayerController>().SetUp(hUI.gameObject, id+1);
-        GenerateWeapons(players[id].GetComponent<PlayerController>().detector, id);
+        players[id].GetComponent<PlayerController>().SetUp(hUI.gameObject, ids[id], id);
     }
 
     protected void GenerateWeapons(WeaponDetection wd, int index)
@@ -377,6 +380,11 @@ public abstract class GameController : MonoBehaviour
             g.GetComponentInChildren<HealthHUD>().ResetLife();
         }
         OvationSingleton.Instance.ResetBars();
+        ResetMusic();
+    }
+    public virtual void ResetMusic()
+    {
+
     }
     public virtual int NextLevel()
     {

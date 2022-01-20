@@ -8,6 +8,8 @@ public class ButtonHelp : MonoBehaviour
     public Transform canvas;
     [SerializeField]
     private Image image;
+    [SerializeField]
+    private Image imageBack;
     public Sprite[] imagesToShow;
     private WeaponDetection wp;
     private Transform cam;
@@ -29,17 +31,21 @@ public class ButtonHelp : MonoBehaviour
     public void Show(bool usingController)
     {
         image.enabled = true;
+        imageBack.enabled = true;
         if (usingController)
         {
             image.sprite = imagesToShow[0];
-        }
+            imageBack.sprite = imagesToShow[0];
+}
         else
         {
             image.sprite = imagesToShow[1];
+            imageBack.sprite = imagesToShow[1];
         }
     }
     public void Hide()
     {
         image.enabled = false;
+        imageBack.enabled = false;
     }
 }

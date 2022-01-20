@@ -1462,7 +1462,7 @@ AudioSource:
   m_GameObject: {fileID: 535573018164911623}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8259940131765533417, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1950,6 +1950,7 @@ MonoBehaviour:
   maxLife: 2
   moveSpeed: 3.4
   isDead: 0
+  alreadyDied: 0
   weapon: {fileID: 0}
   healingOrb: {fileID: 3769096260543673073, guid: a30bc10baee8f334a976138cc6ecefd8, type: 3}
   Root: {fileID: 535573018164911621}
@@ -3194,7 +3195,7 @@ AudioSource:
   m_GameObject: {fileID: 2871340220989995951}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8259940131765533417, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

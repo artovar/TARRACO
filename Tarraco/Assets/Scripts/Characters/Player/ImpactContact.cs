@@ -38,6 +38,11 @@ public class ImpactContact : MonoBehaviour
                 col.rigidbody.velocity = Vector3.zero;
                 col.collider.enabled = false;
             }
+            WeaponScript wp = col.gameObject.GetComponent<WeaponScript>();
+            if(from.Equals(Characters.Enemy) && wp != null)
+            {
+                from = wp.owner;
+            }
 
             APR_Player.ActivateRagdoll();
 

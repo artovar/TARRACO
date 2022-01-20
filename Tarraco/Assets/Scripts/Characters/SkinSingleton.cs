@@ -61,6 +61,7 @@ public class SkinSingleton : MonoBehaviour
                 break;
             }
         }
+        if (i == bools.Count) i = 0;
         mesh = meshes[i];
         mat = materials[i];
         controller = controllers[i];

@@ -5,7 +5,7 @@ using UnityEngine;
 public class KOTHStand : MonoBehaviour
 {
     private int pCount = 0;
-    List<Characters> players = new List<Characters>();
+    List<Collider> players = new List<Collider>();
     ArenaOvationSingleton ovationS;
     [SerializeField]
     private ParticleSystem particles;
@@ -20,9 +20,20 @@ public class KOTHStand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (pCount == 1)
+        for(int f = 0; f < 4; f++)
         {
-            ovationS.AccumulatePoints(Time.deltaTime * 4, players[0]);
+            if(players.Count > 0 && players[0] == null)
+            {
+                players.RemoveAt(0);
+            }
+        }
+        if (players.Count == 1)
+        {
+            PlayerController player = players[0].GetComponentInParent<PlayerController>();
+            if(player != null && player.character != Characters.Enemy && player.character != Characters.None)
+            {
+                ovationS.AccumulatePoints(Time.deltaTime * 4, player.character);
+            }
             if (!emmiting)
             {
                 particles.Play();
@@ -42,24 +53,14 @@ public class KOTHStand : MonoBehaviour
     {
         if(other.CompareTag("PlayerChest"))
         {
-            PlayerController player = other.GetComponentInParent<PlayerController>();
-            if(player != null)
-            {
-                players.Add(player.character);
-                pCount++;
-            }
+            players.Add(other);
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("PlayerChest"))
         {
-            PlayerController player = other.GetComponentInParent<PlayerController>();
-            if (player != null)
-            {
-                players.Remove(player.character);
-                pCount--;
-            }
+            players.Remove(other);
         }
     }
 }

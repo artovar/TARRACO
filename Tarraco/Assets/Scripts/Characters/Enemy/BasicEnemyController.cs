@@ -718,6 +718,11 @@ public class BasicEnemyController : CharacterClass
 						lookPos = new Vector3(Root.transform.forward.x, 0, Root.transform.forward.z);
 						GetComponentInChildren<EWeaponDetection>().ThrowDisco(lookPos);
 						break;
+					case Weapons.Spear:
+						lookPos = new Vector3(Root.transform.forward.x, 0, Root.transform.forward.z);
+						weapon.GetComponent<SpearScript>().Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), APR_Parts[3].GetComponent<ConfigurableJoint>(), 
+							APR_Parts[4].GetComponent<ConfigurableJoint>(), lookPos, punchForce);
+						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);

@@ -46,7 +46,7 @@ public class ArenaGameController : GameController
         {
             if(modeSelected == ModesEnum.FreeForAll)
             {
-                ChronoScript.SetClock(5, 0, 0);
+                ChronoScript.SetClock(3, 0, 0);
                 crono.gameObject.SetActive(true);
                 crono.StartClock();
             }
@@ -68,7 +68,7 @@ public class ArenaGameController : GameController
     {
         switch(modeSelected) {
             case ModesEnum.AgainsAI:
-                base.Update();
+                AAIUpdate();
                 break;
             case ModesEnum.FreeForAll:
                 FFAUpdate();
@@ -76,6 +76,30 @@ public class ArenaGameController : GameController
             case ModesEnum.KingOfTheHill:
                 KOTHUpdate();
                 break;
+        }
+        if (!inGame)
+        {
+            if (!p[1] && Input.GetButtonDown("Jump2"))
+            {
+                ids[pCount] = 2;
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
+                SpawnPlayer();
+                p[1] = true;
+            }
+            if (!p[2] && Input.GetButtonDown("Jump3"))
+            {
+                ids[pCount] = 3;
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
+                SpawnPlayer();
+                p[2] = true;
+            }
+            if (!p[3] && Input.GetButtonDown("Jump4"))
+            {
+                ids[pCount] = 4;
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
+                SpawnPlayer();
+                p[3] = true;
+            }
         }
     }
     void FFAUpdate()
@@ -113,32 +137,6 @@ public class ArenaGameController : GameController
                     yield return new WaitForSeconds(6);
                     RevivePlayer(x);
                 }
-            }
-        }
-
-
-        if (!inGame)
-        {
-            if (!p[1] && Input.GetButtonDown("Jump2"))
-            {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[1], out materials[1], out cont);
-                SpawnPlayer();
-                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
-            }
-            if (!p[2] && Input.GetButtonDown("Jump3"))
-            {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[2], out materials[2], out cont);
-                SpawnPlayer();
-                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
-            }
-            if (!p[3] && Input.GetButtonDown("Jump4"))
-            {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[3], out materials[3], out cont);
-                SpawnPlayer();
-                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
             }
         }
     }
@@ -179,29 +177,42 @@ public class ArenaGameController : GameController
                 }
             }
         }
-
-        if (!inGame)
+    }
+    void AAIUpdate()
+    {
+        if (finished) return;
+        bool gameOv = true;
+        for (int i = 0; i < playerDeaths.Length; i++)
         {
-            if (!p[1] && Input.GetButtonDown("Jump2"))
+            if ((players[i] != null))
             {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[1], out materials[1], out cont);
-                SpawnPlayer();
-                healthUIs[1].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
+                gameOv = gameOv && playerDeaths[i];
+                if (playerDeaths[i])
+                {
+                    print("I want to revive player " + i);
+                    revivePlayers[i] = true;
+                }
             }
-            if (!p[2] && Input.GetButtonDown("Jump3"))
+        }
+        if (gameOv)
+        {
+            //Win();
+            //finished = true;
+        }
+
+        for (int o = 0; o < revivePlayers.Length; o++)
+        {
+            if (revivePlayers[o])
             {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[2], out materials[2], out cont);
-                SpawnPlayer();
-                healthUIs[2].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
-            }
-            if (!p[3] && Input.GetButtonDown("Jump4"))
-            {
-                RuntimeAnimatorController cont;
-                SkinSingleton.Instance.GetNewSkin(out meshes[3], out materials[3], out cont);
-                SpawnPlayer();
-                healthUIs[3].GetComponentInChildren<HealthHUD>().ChangeSkin(cont);
+                revivePlayers[o] = false;
+                playerDeaths[o] = false;
+                StartCoroutine(Revive());
+                IEnumerator Revive()
+                {
+                    int x = o;
+                    yield return new WaitForSeconds(6);
+                    RevivePlayer(x);
+                }
             }
         }
     }
@@ -229,7 +240,7 @@ public class ArenaGameController : GameController
                 break;
             case ModesEnum.AgainsAI:
                 OvationSingleton.Instance.GetComponent<ArenaOvationSingleton>().SetReductionRate(1.5f);
-                OvationSingleton.Instance.pointsToWin = 1;
+                OvationSingleton.Instance.pointsToWin = 3;
                 playersSpawnPoints = arenaSpawnPoints;
                 break;
         }
@@ -244,6 +255,7 @@ public class ArenaGameController : GameController
 
     public override int BackToHubIndex()
     {
+        StopAllCoroutines();
         int index = SceneManager.GetActiveScene().buildIndex;
         if (index >= firstArenaIndex && index <= firstArenaIndex + totalArenas - 1)
         {
@@ -272,6 +284,11 @@ public class ArenaGameController : GameController
         }
         PlayMusic(nextLevel);
         return nextLevel;
+    }
+
+    public override void ResetMusic()
+    {
+        PlayMusic(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void PlayMusic(int nextLevel)

@@ -17,10 +17,13 @@ public class SpearScript : WeaponScript
     }
     public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force)
     {
+    }
+    public void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, Vector3 dir, float force)
+    {
         a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
         b.targetRotation = new Quaternion(.12f, -1.36f, .46f, 1f);
         c.targetRotation = new Quaternion(-.66f, .43f, .48f, 1f);
-        GetComponent<Rigidbody>().AddForceAtPosition((forcePoint.right + Vector3.up) * 1.2f * force, forcePoint.position, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForceAtPosition((dir + Vector3.up) * 1.2f * force, forcePoint.position, ForceMode.Impulse);
         spear.position += spear.forward;
     }
 

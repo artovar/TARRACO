@@ -215,9 +215,12 @@ public class SpawnPoint : MonoBehaviour
             print("Debes añadir un nuevo Boss a este nivel");
             level = bossesPrefabs.Length;
         }
-        EnemyController e = (Instantiate(bossesPrefabs[level - 1], sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
+        BossController e = (Instantiate(bossesPrefabs[level - 1], sp.transform.position, Quaternion.identity).GetComponent<BossController>());
         e.MoveTowardsInSpawn(sp.transform.forward);
-        Instantiate(weaponPrefabs[6], sp.transform.position, Quaternion.identity);
+        GameObject garrote = Instantiate(weaponPrefabs[6], sp.transform.position, Quaternion.identity);
+        GameObject bow = Instantiate(weaponPrefabs[3], sp.transform.position, Quaternion.identity);
+        e.GetBow(bow.transform);
+        e.GetGarrote(garrote.transform);
         return e.enemyScript.Root.transform;
     }
 }

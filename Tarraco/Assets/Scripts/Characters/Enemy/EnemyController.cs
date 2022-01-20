@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
         estado = -1; //"Haciendo el tonto"
     }
 
-    public void Detect(GameObject jugador)
+    public virtual void Detect(GameObject jugador)
     {
         foundSomeone = true;
         player = jugador;
@@ -39,7 +39,7 @@ public class EnemyController : MonoBehaviour
         estado = 0; //"Buscando"
     }
 
-    public void MoveTowardsInSpawn(Vector3 dir)
+    public virtual void MoveTowardsInSpawn(Vector3 dir)
     {
         enemyScript.forwardBackward = dir.x;
         enemyScript.leftRight = dir.z;

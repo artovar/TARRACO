@@ -930,7 +930,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7d7d901fbc8e75458957082a78a841b, type: 2}
+  - {fileID: 2100000, guid: 5e19a348a0fd5474e9c4f33aef91c706, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3570,7 +3570,7 @@ AudioSource:
   m_GameObject: {fileID: 6806997512440848742}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8259940131765533417, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -4028,7 +4028,7 @@ AudioSource:
   m_GameObject: {fileID: 9133546650229769422}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8259940131765533417, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

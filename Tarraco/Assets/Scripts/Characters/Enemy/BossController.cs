@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossController : MonoBehaviour
+public class BossController : EnemyController
 {
-    public bool isBoss;
-    public BasicEnemyController enemyScript;
-    public GameObject player;
+    public EWeaponDetection detector;
     Transform playerTransform;
 
     private bool foundSomeone;
@@ -17,20 +15,16 @@ public class BossController : MonoBehaviour
     private bool slowed;
     private bool alreadyDead;
 
-    [HideInInspector]
-    public int estado; //de momento no se usa, pero usa 1 si está atacando, 2 si acaba de atacar y 3 si está herido. 0 de lo contrario (buscando)
-
     // Start is called before the first frame update
     void Start()
     {
         foundSomeone = false;
         attackCD = 0;
         originalSpeed = enemyScript.moveSpeed;
-
         estado = -1; //"Haciendo el tonto"
     }
 
-    public void Detect(GameObject jugador)
+    public override void Detect(GameObject jugador)
     {
         foundSomeone = true;
         player = jugador;
@@ -39,7 +33,7 @@ public class BossController : MonoBehaviour
         estado = 0; //"Buscando"
     }
 
-    public void MoveTowardsInSpawn(Vector3 dir)
+    public override void MoveTowardsInSpawn(Vector3 dir)
     {
         enemyScript.forwardBackward = dir.x;
         enemyScript.leftRight = dir.z;
@@ -87,19 +81,15 @@ public class BossController : MonoBehaviour
             slowed = false;
         }
 
-        if (!Object.ReferenceEquals(enemyScript.weapon, null)
-            && enemyScript.weapon.kind.Equals(Weapons.Bow)
-            && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 12f)
+        float dist = Vector3.Distance(player.transform.position, enemyScript.Root.transform.position);
+        if (!enemyScript.attack && dist > 9f)
         {
+            if (detector.GetBackWeaponType().Equals(Weapons.Bow))
+            {
+                detector.SwitchWeapon();
+            }
             Vector3 direction;
-            if (enemyScript.attack)
-            {
-                direction = (playerTransform.position - enemyScript.Root.transform.position);
-            }
-            else
-            {
-                direction = ((playerTransform.position + (enemyScript.Root.transform.position - playerTransform.position).normalized * 7) - enemyScript.Root.transform.position);
-            }
+            direction = (playerTransform.position - enemyScript.Root.transform.position);
             Vector2 dir = new Vector2(direction.x, direction.z).normalized;
             enemyScript.forwardBackward = dir.y;
             enemyScript.leftRight = dir.x;
@@ -112,8 +102,12 @@ public class BossController : MonoBehaviour
 
             estado = 1; //"Atacando"
         }
-        else if (!enemyScript.attack && Vector3.Distance(player.transform.position, enemyScript.Root.transform.position) < 4f)
+        else if (!enemyScript.attack && dist <= 4f)
         {
+            if (detector.GetMainWeaponType().Equals(Weapons.Bow))
+            {
+                detector.SwitchWeapon();
+            }
             //Atacar
             if (attackCD <= 0 && !enemyScript.IsRagdoll())
             {
@@ -135,12 +129,12 @@ public class BossController : MonoBehaviour
             enemyScript.leftRight = 0;
         }
     }
-    public bool IsRagdoll()
+    public void GetBow(Transform bow)
     {
-        return enemyScript.IsRagdoll();
+        detector.PickBow(bow);
     }
-    public bool IsDead()
+    public void GetGarrote(Transform garrote)
     {
-        return enemyScript.IsDead();
+        detector.PickGarrote(garrote);
     }
 }
