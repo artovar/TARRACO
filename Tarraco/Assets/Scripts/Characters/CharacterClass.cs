@@ -26,10 +26,18 @@ public abstract class CharacterClass : MonoBehaviour
         {
             return false;
         }
-        SetInvencibleTime(.9f);
+        switch(character)
+        {
+            case Characters.Enemy:
+                SetInvencibleTime(.4f);
+                break;
+            default:
+                SetInvencibleTime(.9f);
+                break;
+        }
         life -= amount;
         if (life < 0) life = 0;
-        if (!alreadyDead)
+        if (life == 0 && !alreadyDead)
         {
             OvationSingleton.Instance.IncreaseMeter(8f, from);
             alreadyDead = true;

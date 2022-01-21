@@ -378,8 +378,8 @@ MonoBehaviour:
   kind: 13
   owner: 0
   damageDealed: 1
-  weaponCoolDown: 0.5
-  timeToHit: 0.2
+  weaponCoolDown: 0.45
+  timeToHit: 0.25
   forcePoint: {fileID: 6017559285807721532}
   sword: {fileID: 3747745831672171243}
   shield: {fileID: 8866114414172161546}
@@ -563,7 +563,7 @@ AudioSource:
   m_GameObject: {fileID: 4782441809917613197}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 5089226726052038800, guid: a4ffd64fe8c70c043a426479853e8a22, type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

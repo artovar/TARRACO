@@ -129,4 +129,9 @@ public class LevelGameController : GameController
         audioSource.loop = true;
         cam.GetComponent<CameraControl>().ChangeToBoss(spawn.SpawnBoss(currentLevel));
     }
+
+    public int GetTotalLevels()
+    {
+        return totalLevels;
+    }
 }

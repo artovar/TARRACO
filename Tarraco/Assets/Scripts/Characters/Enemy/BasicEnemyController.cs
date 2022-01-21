@@ -8,6 +8,8 @@ public class BasicEnemyController : CharacterClass
 	public bool isDead = false;
 	[HideInInspector]
 	public bool alreadyDied = false;
+	[HideInInspector]
+	public float bowAccuracy = 0f;
 	//Calcular Center of Mass con el arma
 
 	//-------------------------------------------------------------
@@ -710,8 +712,10 @@ public class BasicEnemyController : CharacterClass
 				{
 					case Weapons.Bow:
 						//var lookPos = new Vector3(Root.transform.forward.x, 0.0f, Root.transform.forward.z);
+						float xAdded = UnityEngine.Random.Range(-100f, 100f) * .002f;
+						float zAdded = UnityEngine.Random.Range(-100f, 100f) * .002f;
 						Vector3 lookPos = new Vector3(Root.transform.forward.x, 0f, Root.transform.forward.z);
-						weapon.Shoot(lookPos.normalized, Characters.Enemy, chargingTime);
+						weapon.Shoot(lookPos.normalized + new Vector3(xAdded, 0f, zAdded)*(1 - bowAccuracy), Characters.Enemy, chargingTime * .7f);
 						chargingTime = .45f;
 						break;
 					case Weapons.Discobolus:

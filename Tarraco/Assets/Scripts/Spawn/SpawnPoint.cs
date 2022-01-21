@@ -93,6 +93,7 @@ public class SpawnPoint : MonoBehaviour
         }
     }
     private IEnumerator SpawnEnemy(float time)  {
+        LevelGameController controller = GameController.Instance.GetComponent<LevelGameController>();
         while(true) {
             if (!spawnedBoss)
             {
@@ -122,6 +123,7 @@ public class SpawnPoint : MonoBehaviour
                     //Instanciamos el prefab del enemido en el punto
                     enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
                     enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
+                    enemies[enemies.Count - 1].SetAccuracy(controller.currentLevel/controller.GetTotalLevels());
                     Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
                 }
                 maxEnemies = (int) (maxDef * Mathf.Log(1 + deathCount));
@@ -159,6 +161,7 @@ public class SpawnPoint : MonoBehaviour
                 //Instanciamos el prefab del enemido en el punto
                 enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
                 enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
+                enemies[enemies.Count - 1].SetAccuracy(1 - time);
                 Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
             }
             maxEnemies = (int) (maxDef + Mathf.Sqrt(deathCount) / 2);

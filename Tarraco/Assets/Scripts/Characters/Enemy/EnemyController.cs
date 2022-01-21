@@ -143,4 +143,11 @@ public class EnemyController : MonoBehaviour
     {
         return enemyScript.IsDead();
     }
+    //ACC  between 0 and 1
+    public void SetAccuracy(float acc)
+    {
+        if (acc > 1) acc = 1;
+        else if (acc < 0) acc = 0;
+        enemyScript.bowAccuracy = acc;
+    }
 }

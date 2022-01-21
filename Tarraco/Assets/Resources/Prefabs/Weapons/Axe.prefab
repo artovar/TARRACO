@@ -104,7 +104,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2177757887894105767}
   serializedVersion: 2
-  m_Mass: 3
+  m_Mass: 2.3
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -134,7 +134,7 @@ MonoBehaviour:
   owner: 0
   damageDealed: 2
   weaponCoolDown: 0.35
-  timeToHit: 0.45
+  timeToHit: 0.5
   forcePoint: {fileID: 6046163114138738175}
 --- !u!65 &6662037992095331947
 BoxCollider:

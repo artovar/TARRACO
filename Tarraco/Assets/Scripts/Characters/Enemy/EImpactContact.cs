@@ -16,11 +16,15 @@ public class EImpactContact : MonoBehaviour
         //Knockout by impact
         if ((enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO) || col.gameObject.CompareTag("ThrownWeapon"))
         {
+            bool usingArrow = false;
+            bool fromPlayer = false;
             Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
             if (layer >= 16 && layer <= 19)
             {
+                fromPlayer = true;
+                usingArrow = true;
                 switch(layer)
                 {
                     case 16:
@@ -34,6 +38,9 @@ public class EImpactContact : MonoBehaviour
                         break;
                     case 19:
                         from = Characters.Player4;
+                        break;
+                    default:
+                        fromPlayer = false;
                         break;
                 }
                 if (damageTaken != 0)
@@ -55,6 +62,7 @@ public class EImpactContact : MonoBehaviour
             if (wp != null)
             {
                 from = wp.owner;
+                fromPlayer = true;
                 switch (wp.kind)
                 {
                     case Weapons.Spear:
@@ -75,8 +83,15 @@ public class EImpactContact : MonoBehaviour
                     case 13:
                         from = col.gameObject.GetComponentInParent<CharacterClass>().character;
                         damage = damageTaken;
+                        fromPlayer = true;
                         break;
                 }
+            }
+            if (!usingArrow && fromPlayer) print((int)vel.magnitude);
+            if (vel.magnitude > 61 && !usingArrow && fromPlayer)
+            {
+                print("Too much");
+                damage *= 2;
             }
             //Damage
             bool dead = enemyController.Damage(damage, from, .5f);
