@@ -26,16 +26,24 @@ public abstract class CharacterClass : MonoBehaviour
         {
             return false;
         }
-        SetInvencibleTime();
+        switch(character)
+        {
+            case Characters.Enemy:
+                SetInvencibleTime(.4f);
+                break;
+            default:
+                SetInvencibleTime(.9f);
+                break;
+        }
         life -= amount;
         if (life < 0) life = 0;
+        if (life == 0 && !alreadyDead)
+        {
+            OvationSingleton.Instance.IncreaseMeter(8f, from);
+            alreadyDead = true;
+        }
         if (IsDead())
         {
-            if (!alreadyDead)
-            {
-                OvationSingleton.Instance.IncreaseMeter(8f, from);
-            }
-            alreadyDead = true;
             YoureDead(this, EventArgs.Empty);
         }
         if (!character.Equals(Characters.Enemy))

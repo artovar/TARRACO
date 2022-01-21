@@ -17,7 +17,7 @@ public class ImpactContact : MonoBehaviour
         if ((APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
         {
             Characters from = Characters.Enemy;
-            if (layer >= 16 && layer <= 19 && col.collider.enabled)
+            if (layer >= 16 && layer <= 20 && col.collider.enabled)
             {
                 switch (layer)
                 {
@@ -39,11 +39,19 @@ public class ImpactContact : MonoBehaviour
                 col.collider.enabled = false;
             }
 
-            APR_Player.ActivateRagdoll();
-
             //Damage
             bool dead = false;
-            if (GameController.Instance.inGame) dead = APR_Player.Damage(1, from);
+            if (GameController.Instance.inGame)
+            {
+                WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
+                if (from.Equals(Characters.Enemy) && wp != null)
+                {
+                    from = wp.owner;
+                }
+
+                APR_Player.ActivateRagdoll();
+                dead = APR_Player.Damage(1, from);
+            }
             //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
 
             if (APR_Player.SoundSource != null)

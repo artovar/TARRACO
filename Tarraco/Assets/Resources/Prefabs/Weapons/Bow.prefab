@@ -102,8 +102,8 @@ MonoBehaviour:
   kind: 4
   owner: 0
   damageDealed: 0
-  weaponCoolDown: 0.35
-  timeToHit: 0.15
+  weaponCoolDown: 0.55
+  timeToHit: 0.2
   forcePoint: {fileID: 6286584307737056277}
   arrowForce: 50
   arrows:

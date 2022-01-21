@@ -20,13 +20,17 @@ public class HealthHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
         /*foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
             heartList.Add(child.gameObject);
         }*/
 
+    }
+
+    public void AssignPlayer(GameObject p)
+    {
+        player = p;
         life = player.GetComponent<CharacterClass>().life;
     }
 
@@ -76,6 +80,7 @@ public class HealthHUD : MonoBehaviour
 
     public void ChangeSkin(RuntimeAnimatorController cont)
     {
+        animator = GetComponent<Animator>();
         animator.runtimeAnimatorController = cont;
     }
     

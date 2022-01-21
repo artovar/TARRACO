@@ -66,7 +66,6 @@ public class CameraControl : MonoBehaviour
 
     public void ChangeToBoss(Transform boss)
     {
-        print("Looking At Boss");
         currentBoss = boss;
         StartCoroutine(LookAtBoss());
     }
@@ -74,9 +73,7 @@ public class CameraControl : MonoBehaviour
     IEnumerator LookAtBoss()
     {
         bossing = true;
-        transform.position = Vector3.up * 6;
-        transform.LookAt(currentBoss.position);
-        bossOffset = transform.position - currentBoss.position;
+        bossOffset = (Vector3.up * 6) + (transform.position - Vector3.up * 6)/2 - currentBoss.position;
         mode = CAMMODE.LookingAtBoss;
         int sc = SceneManager.GetActiveScene().buildIndex;
         yield return new WaitForSeconds(2);
@@ -89,11 +86,27 @@ public class CameraControl : MonoBehaviour
 
     public void AddPlayer(Transform p, int pNumber)
     {
-        Roots[pNumber-1] = p;
+        Roots[pNumber - 1] = p;
     }
-    public void RemovePlayer(int pNumber)
+    public void RemovePlayer(Characters pNumber)
     {
-        Roots[pNumber - 1] = null;
+        int index = -1;
+        switch(pNumber)
+        {
+            case Characters.Player1:
+                index = 0;
+                break;
+            case Characters.Player2:
+                index = 1;
+                break;
+            case Characters.Player3:
+                index = 2;
+                break;
+            case Characters.Player4:
+                index = 3;
+                break;
+        }
+        Roots[index] = null;
     }
 
 

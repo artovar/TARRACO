@@ -60,13 +60,13 @@ public class HubScreen : MonoBehaviour
         switch(chosenOne)
         {
             case ModesEnum.FreeForAll:
-                text.text = "FFA";
+                text.text = "Free For All";
                 break;
             case ModesEnum.KingOfTheHill:
-                text.text = "KOTH";
+                text.text = "King Of The Hill";
                 break;
             case ModesEnum.AgainsAI:
-                text.text = "AAI";
+                text.text = "Against AI";
                 break;
         }
     }

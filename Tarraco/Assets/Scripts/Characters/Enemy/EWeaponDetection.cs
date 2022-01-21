@@ -69,6 +69,26 @@ public class EWeaponDetection : MonoBehaviour
         }
     }
 
+    public void SwitchWeapon()
+    {
+        if (weaponsStored < 2) return;
+        SendToBack(mainWeapon);
+        BringFromBack(backWeapon);
+        Transform aux = mainWeapon;
+        mainWeapon = backWeapon;
+        backWeapon = aux;
+        controller.weapon = mainWeapon.GetComponent<WeaponScript>();
+    }
+    public Weapons GetBackWeaponType()
+    {
+        if (weaponsStored < 2) return Weapons.None;
+        else return backWeapon.GetComponent<WeaponScript>().kind;
+    }
+    public Weapons GetMainWeaponType()
+    {
+        if (weaponsStored < 1) return Weapons.None;
+        else return mainWeapon.GetComponent<WeaponScript>().kind;
+    }
     void Pick(Transform weapon)
     {
         if (weapon == null) return;
@@ -170,5 +190,15 @@ public class EWeaponDetection : MonoBehaviour
             //disco.transform.rotation = Quaternion.identity;
             disco.MakeCurve(direction);
         }
+    }
+    public void PickBow(Transform weapon)
+    {
+        if (!weapon.GetComponent<WeaponScript>().kind.Equals(Weapons.Bow)) return;
+        Pick(weapon);
+    }
+    public void PickGarrote(Transform weapon)
+    {
+        if (!weapon.GetComponent<WeaponScript>().kind.Equals(Weapons.Garrote)) return;
+        Pick(weapon);
     }
 }

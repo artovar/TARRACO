@@ -55,13 +55,13 @@ public class LevelGameController : GameController
         base.Update();
         if(Input.GetKeyDown(KeyCode.B))
         {
-            print("Killed Boss");
-            OvationSingleton.Instance.Win(Characters.None, mainBar.GetText());
+            SpawnBoss();
         }
     }
 
     public override int BackToHubIndex()
     {
+        StopAllCoroutines();
         int index = SceneManager.GetActiveScene().buildIndex;
         if (index >= level1Index && index <= level1Index + totalLevels - 1)
         {
@@ -111,11 +111,15 @@ public class LevelGameController : GameController
         }
         else if (nextLevel >= level1Index && nextLevel < level1Index + totalLevels - 1)
         {
-            print("Musica del nivel: " + currentLevel);
             audioSource.clip = musicLevels[currentLevel - 1];
         }
         audioSource.Play();
         audioSource.loop = true;
+    }
+
+    public override void ResetMusic()
+    {
+        PlayMusic(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void SpawnBoss()
@@ -123,7 +127,11 @@ public class LevelGameController : GameController
         audioSource.clip = musicBoss;
         audioSource.Play();
         audioSource.loop = true;
-        print("SpawningBoss");
         cam.GetComponent<CameraControl>().ChangeToBoss(spawn.SpawnBoss(currentLevel));
+    }
+
+    public int GetTotalLevels()
+    {
+        return totalLevels;
     }
 }

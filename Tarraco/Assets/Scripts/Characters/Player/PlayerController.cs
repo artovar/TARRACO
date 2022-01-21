@@ -188,7 +188,7 @@ public class PlayerController : CharacterClass
 		}
 		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
     }
-    public void SetUp(GameObject hUI, int i)
+    public void SetUp(GameObject hUI, int i, int playerN)
 	{
 		id = i;
 		if (id != 1)
@@ -203,20 +203,20 @@ public class PlayerController : CharacterClass
 			lookX += id;
 			lookY += id;
 			dash += id;
-			detector.SetUp();
 			usingController = true;
-			LayerMask layer = 0;
-			switch (i)
+			LayerMask layer = 10;
+			print(id);
+			switch (playerN)
 			{
-				case 2:
+				case 1:
 					character = Characters.Player2;
 					layer = 11;
 					break;
-				case 3:
+				case 2:
 					character = Characters.Player3;
 					layer = 12;
 					break;
-				case 4:
+				case 3:
 					character = Characters.Player4;
 					layer = 13;
 					break;
@@ -225,6 +225,7 @@ public class PlayerController : CharacterClass
 			{
 				g.gameObject.layer = layer;
 			}
+			detector.SetUp();
 		}
 		hUD = hUI.GetComponent<HealthHUD>();
 		detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
@@ -944,6 +945,11 @@ public class PlayerController : CharacterClass
 						detector.ThrowDisco(lookPos);
 						waitForDisco = true;
 						break;
+					case Weapons.Spear:
+						lookPos = new Vector3(Root.transform.forward.x, 0, Root.transform.forward.z);
+						weapon.GetComponent<SpearScript>().Hit(APR_Parts[1].GetComponent<ConfigurableJoint>(), 
+							APR_Parts[3].GetComponent<ConfigurableJoint>(), APR_Parts[4].GetComponent<ConfigurableJoint>(), lookPos, punchForce);
+						break;
 					default:
 						RightHand.AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
 						APR_Parts[1].GetComponent<Rigidbody>().AddForce(APR_Parts[0].transform.forward * punchForce, ForceMode.Impulse);
@@ -1350,7 +1356,7 @@ public class PlayerController : CharacterClass
 				r.useGravity = false;
 				r.velocity = Vector3.down * 2;
 			}
-			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(id);
+			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(character);
 			yield return new WaitForSeconds(2f);
 			print(life);
 			Destroy(this.gameObject);

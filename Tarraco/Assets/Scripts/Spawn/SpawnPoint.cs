@@ -93,6 +93,7 @@ public class SpawnPoint : MonoBehaviour
         }
     }
     private IEnumerator SpawnEnemy(float time)  {
+        LevelGameController controller = GameController.Instance.GetComponent<LevelGameController>();
         while(true) {
             if (!spawnedBoss)
             {
@@ -122,6 +123,7 @@ public class SpawnPoint : MonoBehaviour
                     //Instanciamos el prefab del enemido en el punto
                     enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
                     enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
+                    enemies[enemies.Count - 1].SetAccuracy(controller.currentLevel/controller.GetTotalLevels());
                     Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
                 }
                 maxEnemies = (int) (maxDef * Mathf.Log(1 + deathCount));
@@ -159,6 +161,7 @@ public class SpawnPoint : MonoBehaviour
                 //Instanciamos el prefab del enemido en el punto
                 enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
                 enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
+                enemies[enemies.Count - 1].SetAccuracy(1 - time);
                 Instantiate(weaponPrefabs[UnityEngine.Random.Range(0, weaponPrefabs.Length)], sp.transform.position, Quaternion.identity);
             }
             maxEnemies = (int) (maxDef + Mathf.Sqrt(deathCount) / 2);
@@ -215,9 +218,12 @@ public class SpawnPoint : MonoBehaviour
             print("Debes añadir un nuevo Boss a este nivel");
             level = bossesPrefabs.Length;
         }
-        EnemyController e = (Instantiate(bossesPrefabs[level - 1], sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
+        BossController e = (Instantiate(bossesPrefabs[level - 1], sp.transform.position, Quaternion.identity).GetComponent<BossController>());
         e.MoveTowardsInSpawn(sp.transform.forward);
-        Instantiate(weaponPrefabs[6], sp.transform.position, Quaternion.identity);
+        GameObject garrote = Instantiate(weaponPrefabs[6], sp.transform.position, Quaternion.identity);
+        GameObject bow = Instantiate(weaponPrefabs[3], sp.transform.position, Quaternion.identity);
+        e.GetBow(bow.transform);
+        e.GetGarrote(garrote.transform);
         return e.enemyScript.Root.transform;
     }
 }

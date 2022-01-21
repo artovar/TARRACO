@@ -46,10 +46,10 @@ public class SwordAndShield : WeaponScript
         switch(owner)
         {
             case Characters.Enemy:
-                shield.GetComponentInChildren<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer_E");
+                shield.GetComponent<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer_E");
                 break;
             default:
-                shield.GetComponentInChildren<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer");
+                shield.GetComponent<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer");
                 break;
         }
         foreach (Collider c in onHandCol)

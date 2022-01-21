@@ -360,7 +360,7 @@ AudioSource:
   m_GameObject: {fileID: 48649134}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7856645191755881168, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 15f8d115f7d01404cb3dc69faed81153, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.3
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 621793872}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.54103494
+  m_Size: 0.3607803
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1017,7 +1017,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21, y: 240}
+  m_AnchoredPosition: {x: -38, y: 416.00003}
   m_SizeDelta: {x: 258.4099, y: 40.1226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &647563052
@@ -1257,7 +1257,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21, y: 75}
+  m_AnchoredPosition: {x: -38, y: 251.00003}
   m_SizeDelta: {x: 258.4099, y: 40.1226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &799601560
@@ -1329,15 +1329,15 @@ RectTransform:
   m_GameObject: {fileID: 908022710}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 48649138}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 260}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 271}
+  m_SizeDelta: {x: 852.075, y: 116.025}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &908022712
 MonoBehaviour:
@@ -1359,7 +1359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: aa0310d6bb6a4024bbd6d54dd748d30e, type: 3}
+  m_Texture: {fileID: 2800000, guid: 9cf0c36792ae3ee4680a8b78f3c57e26, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1728,8 +1728,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 129.21, y: -95}
-  m_SizeDelta: {x: 258.41, y: 142.8126}
+  m_AnchoredPosition: {x: 192.97235, y: -315.0069}
+  m_SizeDelta: {x: 385.9346, y: 582.8263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1288191598
 MonoBehaviour:
@@ -1764,7 +1764,50 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Andr\xE9s G\xF3mez Alonso\nCarlos Royuela Torres"
+  m_Text: '"Unrelenting" Kevin MacLeod (incompetech.com)
+
+    Licensed under Creative
+    Commons: By Attribution 4.0 License
+
+
+    "Trouble with Tribals" Kevin MacLeod
+    (incompetech.com)
+
+    Licensed under Creative Commons: By Attribution 4.0 License
+
+
+    "Truth
+    of the Legend" Kevin MacLeod (incompetech.com)
+
+    Licensed under Creative Commons:
+    By Attribution 4.0 License
+
+
+    "Achilles" Kevin MacLeod (incompetech.com)
+
+    Licensed
+    under Creative Commons: By Attribution 4.0 License
+
+
+    "Death and Axes" Kevin
+    MacLeod (incompetech.com)
+
+    Licensed under Creative Commons: By Attribution
+    4.0 License
+
+
+    "Firebrand" Kevin MacLeod (incompetech.com)
+
+    Licensed under
+    Creative Commons: By Attribution 4.0 License
+
+
+    "New Hero in Town" Kevin MacLeod
+    (incompetech.com)
+
+    Licensed under Creative Commons: By Attribution 4.0 License
+
+    http://creativecommons.org/licenses/by/4.0/'
 --- !u!222 &1288191599
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1808,7 +1851,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -21, y: -61}
+  m_AnchoredPosition: {x: -38, y: 115}
   m_SizeDelta: {x: 258.4099, y: 40.1226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344170830
@@ -1890,7 +1933,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.0000355565}
-  m_SizeDelta: {x: 0, y: 639.8132}
+  m_SizeDelta: {x: 0, y: 959.4794}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1508226527
 GameObject:
@@ -2146,7 +2189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1843467145
 RectTransform:
   m_ObjectHideFlags: 0

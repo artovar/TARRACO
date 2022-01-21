@@ -75,21 +75,11 @@ public class OvationBar : MonoBehaviour
         if (!gameObject.activeSelf) return;
         for(int i = 1; i <= scorePoints; i++)
         {
-            ovationMeter += (ovationMax);
-            if (ovationMeter >= ovationMax)
-            {
-                ovationMeter = ovationMax;
-                meter.sizeDelta = Vector2.right * ovationMeter + Vector2.up * meter.sizeDelta.y;
-                foreach (Image im in GetComponentsInChildren<Image>())
-                {
-                    if (!im.gameObject.Equals(this.gameObject)) im.color = Color.yellow;
-                }
-                coloring = true;
-                StartCoroutine(PrepareColor());
-                scoreInt++;
-                score.text = "" + scoreInt;
-                ovationMeter = 0;
-            }
+            coloring = true;
+            StartCoroutine(PrepareColor());
+            scoreInt++;
+            score.text = "" + scoreInt;
+            ovationMeter = 0;
         }
     }
     private IEnumerator PrepareColor()

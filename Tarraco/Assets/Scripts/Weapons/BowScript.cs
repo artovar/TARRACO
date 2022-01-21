@@ -87,15 +87,6 @@ public class BowScript : WeaponScript
                 arrowClone = Instantiate(arrows[3], transform.position, Quaternion.LookRotation(direction, Vector3.up));
                 break;
             default:
-                float desviation = Random.Range(-0.1f, 0.1f);
-                if (desviation > 0)
-                {
-                    direction += Vector3.right * desviation;
-                }
-                else
-                {
-                    direction += Vector3.forward * desviation;
-                }
                 arrowClone = Instantiate(arrows[4], transform.position, Quaternion.LookRotation(direction, Vector3.up));
                 break;
         };

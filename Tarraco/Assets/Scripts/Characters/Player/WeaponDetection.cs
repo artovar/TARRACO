@@ -59,6 +59,7 @@ public class WeaponDetection : MonoBehaviour
         if (Input.GetButtonDown(interact))
         {
             picking = true;
+            pickingCoyoteTime = 0f;
         }
         if (picking)
         {
