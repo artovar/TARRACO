@@ -69,11 +69,11 @@ MonoBehaviour:
   - {fileID: 4558571559650145343}
   onFloorCol:
   - {fileID: 6353140013278363527}
-  kind: 6
+  kind: 7
   owner: 0
   damageDealed: 1
-  weaponCoolDown: 1
-  timeToHit: 0.35
+  weaponCoolDown: 0.6
+  timeToHit: 0.4
   forcePoint: {fileID: 865474410915194924}
   onAirCollider: {fileID: 2614364229174293025}
 --- !u!65 &6353140013278363527

@@ -153,6 +153,7 @@ public class BasicEnemyController : CharacterClass
 		PlayerSetup();
 		YoureDead += OnDead;
 		life = maxLife;
+		system = Instantiate(particleObj).GetComponent<ParticleSystem>();
 	}
 
 

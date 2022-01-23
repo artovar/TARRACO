@@ -155,6 +155,7 @@ public class PlayerController : CharacterClass
 	public bool waitForDisco = false;
 	
 	private bool metralletaCheat = false;
+	private bool lockedKeyb = false;
 
 
 
@@ -182,30 +183,69 @@ public class PlayerController : CharacterClass
 
     private void Start()
     {
+		system = Instantiate(particleObj).GetComponent<ParticleSystem>();
 		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Respawn"))
         {
 			g.GetComponent<SpawnPoint>().AddPlayer(Root.transform);
 		}
 		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
     }
-    public void SetUp(GameObject hUI, int i, int playerN)
+    public void SetUp(GameObject hUI, int i, int playerN, bool lockedKeyboard = false)
 	{
 		id = i;
-		if (id != 1)
+		bool addSetup = false;
+		string added = "";
+		if(lockedKeyboard)
 		{
-			forwardBackward += id;
-			leftRight += id;
-			jump += id;
-			left += id;
-			attack += id;
-			drop += id;
-			interact += id;
-			lookX += id;
-			lookY += id;
-			dash += id;
+			lockedKeyb = true;
+			if (id == 1)
+			{
+				added = "0";
+				forwardBackward += added;
+				leftRight += added;
+				jump += added;
+				left += added;
+				attack += added;
+				drop += added;
+				interact += added;
+				dash += added;
+				detector.SetUp(added);
+			}
+			else if (id == 5)
+			{
+				addSetup = true;
+				added = "1";
+				forwardBackward += added;
+				leftRight += added;
+				jump += added;
+				left += added;
+				attack += added;
+				drop += added;
+				interact += added;
+				lookX += added;
+				lookY += added;
+				dash += added;
+			}
+		}
+		if (id > 1 && id < 5)
+		{
+			addSetup = true;
+			added = "" + id;
+			forwardBackward += added;
+			leftRight += added;
+			jump += added;
+			left += added;
+			attack += added;
+			drop += added;
+			interact += added;
+			lookX += added;
+			lookY += added;
+			dash += added;
+		}
+		if(addSetup)
+        {
 			usingController = true;
 			LayerMask layer = 10;
-			print(id);
 			switch (playerN)
 			{
 				case 1:
@@ -225,7 +265,7 @@ public class PlayerController : CharacterClass
 			{
 				g.gameObject.layer = layer;
 			}
-			detector.SetUp();
+			detector.SetUp(added);
 		}
 		hUD = hUI.GetComponent<HealthHUD>();
 		detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
@@ -532,7 +572,7 @@ public class PlayerController : CharacterClass
 		float y = Input.GetAxis(forwardBackward);
 		float cX = Input.GetAxis(lookY);
 		float cY = -Input.GetAxis(lookX);*/
-		if (!usingController && (Input.GetAxis("Horizontal1") != 0 || Input.GetAxis("Vertical1") != 0)) usingController = true;
+		if (!usingController && !lockedKeyb && (Input.GetAxis("Horizontal1") != 0 || Input.GetAxis("Vertical1") != 0)) usingController = true;
 		if(!isRagdoll)
 		{
 			Direction = new Vector3(x, 0.0f, y).normalized;
@@ -592,7 +632,7 @@ public class PlayerController : CharacterClass
 	////////////////////////
 	void PlayerRotation()
 	{
-		if (usingController || Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0)
+		if (usingController || !lockedKeyb && (Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0))
         {
 			if(Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0)
             {

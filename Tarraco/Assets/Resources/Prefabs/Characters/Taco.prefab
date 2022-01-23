@@ -1515,6 +1515,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34bf2e365faa1ea4c87e01484faf9728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleObj: {fileID: 2018041976435277923, guid: aceb42bd52541d243baac7ecf65a658e, type: 3}
+  system: {fileID: 0}
   character: 1
   hUD: {fileID: 0}
   life: 0

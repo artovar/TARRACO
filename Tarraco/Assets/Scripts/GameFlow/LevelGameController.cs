@@ -119,7 +119,12 @@ public class LevelGameController : GameController
 
     public override void ResetMusic()
     {
-        PlayMusic(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(Music());
+        IEnumerator Music()
+        {
+            yield return new WaitForSeconds(.1f);
+            PlayMusic(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     public void SpawnBoss()

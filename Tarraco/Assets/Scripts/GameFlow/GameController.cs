@@ -26,8 +26,8 @@ public abstract class GameController : MonoBehaviour
 
     public GameObject[] healthUIs;
     protected GameObject[] players = new GameObject[4];
-    protected bool[] p = { false, false, false, false };
-    protected int[] ids = {-1,-1,-1,-1};
+    protected bool[] p = { false, false, false, false, false};
+    protected int[] ids = {-1,-1,-1,-1, -1};
     protected bool[] playerDeaths= {false, false, false, false};
     [SerializeField]
     protected int pCount;
@@ -48,6 +48,7 @@ public abstract class GameController : MonoBehaviour
 
     protected Camera cam;
 
+    protected bool lockedKeyboard = false;
 
     private void Awake()
     {
@@ -69,6 +70,7 @@ public abstract class GameController : MonoBehaviour
     // Start is called before the first frame update
     public void Starto()
     {
+        lockedKeyboard = AudioValuesSingleton.Instance.lockKeyboard;
         gameOver.SetActive(false);
         gameWin.SetActive(false);
         cam = Camera.main;
@@ -156,15 +158,22 @@ public abstract class GameController : MonoBehaviour
             finished = true;
         }
 
-        if(!inGame)
+        if(!inGame && pCount < 4)
         {
+            if(lockedKeyboard && !p[4] && Input.GetButtonDown("Jump1"))
+            {
+                ids[pCount] = 5;
+                print(ids[pCount]);
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
+                SpawnPlayer();
+                p[4] = true;
+            }
             if (!p[1] && Input.GetButtonDown("Jump2"))
             {
                 ids[pCount] = 2;
                 print(ids[pCount]);
                 SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
                 SpawnPlayer();
-                print(pCount - 1);
                 p[1] = true;
             }
             if (!p[2] && Input.GetButtonDown("Jump3"))
@@ -195,7 +204,7 @@ public abstract class GameController : MonoBehaviour
         HealthHUD hUI = healthUIs[pCount].GetComponentInChildren<HealthHUD>();
         hUI.AssignPlayer(players[pCount]);
         players[pCount].GetComponent<CharacterSkin>().SetSkin(meshes[pCount], materials[pCount]);
-        players[pCount].GetComponent<PlayerController>().SetUp(hUI.gameObject, ids[pCount], pCount);
+        players[pCount].GetComponent<PlayerController>().SetUp(hUI.gameObject, ids[pCount], pCount, AudioValuesSingleton.Instance.lockKeyboard);
         GenerateWeapons(players[pCount].GetComponent<PlayerController>().detector, pCount);
         pCount++;
     }

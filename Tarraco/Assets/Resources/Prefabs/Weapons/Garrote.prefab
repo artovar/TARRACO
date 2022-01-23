@@ -175,7 +175,7 @@ MonoBehaviour:
   onFloorCol:
   - {fileID: 5605154853071694228}
   - {fileID: 7526740844660588440}
-  kind: 7
+  kind: 8
   owner: 0
   damageDealed: 1
   weaponCoolDown: 0.4

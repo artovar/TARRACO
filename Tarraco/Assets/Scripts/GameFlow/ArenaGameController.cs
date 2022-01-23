@@ -79,6 +79,14 @@ public class ArenaGameController : GameController
         }
         if (!inGame)
         {
+            if (lockedKeyboard && !p[4] && Input.GetButtonDown("Jump1"))
+            {
+                ids[pCount] = 5;
+                print(ids[pCount]);
+                SkinSingleton.Instance.GetNewSkin(out meshes[pCount], out materials[pCount], out animators[pCount]);
+                SpawnPlayer();
+                p[4] = true;
+            }
             if (!p[1] && Input.GetButtonDown("Jump2"))
             {
                 ids[pCount] = 2;
@@ -134,7 +142,7 @@ public class ArenaGameController : GameController
                 IEnumerator Revive()
                 {
                     int x = o;
-                    yield return new WaitForSeconds(6);
+                    yield return new WaitForSeconds(5.2f);
                     RevivePlayer(x);
                 }
             }
@@ -172,7 +180,7 @@ public class ArenaGameController : GameController
                 IEnumerator Revive()
                 {
                     int x = o;
-                    yield return new WaitForSeconds(6);
+                    yield return new WaitForSeconds(5.2f);
                     RevivePlayer(x);
                 }
             }
@@ -210,7 +218,7 @@ public class ArenaGameController : GameController
                 IEnumerator Revive()
                 {
                     int x = o;
-                    yield return new WaitForSeconds(6);
+                    yield return new WaitForSeconds(5.2f);
                     RevivePlayer(x);
                 }
             }

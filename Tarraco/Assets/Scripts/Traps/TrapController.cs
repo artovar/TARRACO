@@ -81,7 +81,7 @@ public class TrapController : MonoBehaviour
 
     private void IsSpikes(CharacterClass controller)
     {
-        controller.Damage(1, Characters.Enemy, .5f);
+        controller.Damage(1, Characters.Enemy, transform.position, .5f);
         Rigidbody rootRigidbody;
         switch(controller.character) {
             case Characters.None:

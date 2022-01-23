@@ -5,6 +5,9 @@ using System;
 
 public abstract class CharacterClass : MonoBehaviour
 {
+    public GameObject particleObj;
+    [HideInInspector]
+    public ParticleSystem system;
     public Characters character;
     public HealthHUD hUD;
     [HideInInspector]
@@ -21,10 +24,23 @@ public abstract class CharacterClass : MonoBehaviour
 
     protected float chargingTime = .1f;
 
-    public bool Damage(int amount, Characters from, float invT = invTimeDef) {
+    public bool Damage(int amount, Characters from, Vector3 point, float invT = invTimeDef) {
         if (invTime > 0 || Time.timeScale != 1)
         {
             return false;
+        }
+        var sMain = system.main;
+        if (amount < 1)
+        {
+            sMain.startColor = Color.grey + Color.white;
+            system.transform.position = point;
+            system.Emit(13);
+        }
+        else
+        {
+            sMain.startColor = new Color(.5f, 0f, 0f);
+            system.transform.position = point;
+            system.Emit(13);
         }
         switch(character)
         {

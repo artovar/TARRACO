@@ -87,14 +87,14 @@ public class EImpactContact : MonoBehaviour
                         break;
                 }
             }
-            if (!usingArrow && fromPlayer) print((int)vel.magnitude);
-            if (vel.magnitude > 61 && !usingArrow && fromPlayer)
+            /*if (vel.magnitude > 70 && !usingArrow && fromPlayer)
             {
                 print("Too much");
                 damage *= 2;
-            }
+            }*/
             //Damage
-            bool dead = enemyController.Damage(damage, from, .5f);
+            bool dead = enemyController.Damage(damage, from, col.contacts[0].point, .5f);
+
             if (dead)
             {
                 enemyController.ActivateRagdoll();

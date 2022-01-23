@@ -32,14 +32,11 @@ public class WeaponDetection : MonoBehaviour
     {
         return ((weaponsStored > 0 && t.IsChildOf(mainWeapon)) || (weaponsStored > 1 && t.IsChildOf(backWeapon)));
     }
-    public void SetUp()
+    public void SetUp(string added)
     {
-        if (controller.id != 1)
-        {
-            interact = "Interact" + controller.id;
-            drop = "Drop" + controller.id;
-            change = "Change" + controller.id;
-        }
+        interact = "Interact" + added;
+        drop = "Drop" + added;
+        change = "Change" + added;
     }
 
     // Update is called once per frame

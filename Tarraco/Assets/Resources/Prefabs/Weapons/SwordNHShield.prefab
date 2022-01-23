@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 2758997493542017622}
   m_Layer: 0
   m_Name: Sword
-  m_TagString: Weapon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -593,7 +593,7 @@ MonoBehaviour:
   onFloorCol:
   - {fileID: 2758997493542016627}
   - {fileID: 2758997493542016678}
-  kind: 13
+  kind: 14
   owner: 0
   damageDealed: 1
   weaponCoolDown: 0.45
