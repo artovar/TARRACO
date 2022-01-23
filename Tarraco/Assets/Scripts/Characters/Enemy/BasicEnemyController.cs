@@ -1156,6 +1156,7 @@ public class BasicEnemyController : CharacterClass
 				isDead = true;
 				if (UnityEngine.Random.Range(0, 100) < 25) Destroy(Instantiate(healingOrb, Root.transform.position, Quaternion.identity), 20f);
 			}
+			Destroy(system);
 			yield return new WaitForSeconds(3f);
 			Destroy(this.gameObject);
 		}

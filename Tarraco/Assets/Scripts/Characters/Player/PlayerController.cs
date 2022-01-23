@@ -1422,6 +1422,7 @@ public class PlayerController : CharacterClass
 				r.velocity = Vector3.down * 2;
 			}
 			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(character);
+			Destroy(system);
 			yield return new WaitForSeconds(2f);
 			Destroy(this.gameObject);
 		}
