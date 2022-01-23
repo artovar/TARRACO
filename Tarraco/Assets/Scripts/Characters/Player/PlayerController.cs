@@ -276,11 +276,27 @@ public class PlayerController : CharacterClass
 		detector.GetWeapons(out w1, out w2);
     }
 
+	void ChangeControls()
+    {
+		if(!lockedKeyb)
+        {
+			float toControl = Input.GetAxis("Horizontal1") + Input.GetAxis("Vertical1") + Input.GetAxis(lookX) + Input.GetAxis(lookY);
+			if (usingController && (Abs(Input.GetAxis("Mouse X")) + Abs(Input.GetAxis("Mouse Y")) != 0))
+            {
+				usingController = false;
+            }
+			else if(!usingController && (toControl != 0))
+            {
+				usingController = true;
+			}
+        }
+    }
 
 	//---Updates---//
 	////////////////
 	void Update()
 	{
+		ChangeControls();
 		if (IsDead())
 		{
 			detector.DropAllWeapons();
@@ -291,8 +307,17 @@ public class PlayerController : CharacterClass
 		if (attacking && !Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.Bow)) chargingTime += Time.deltaTime * 1.4f;
 		x = Input.GetAxis(leftRight);
 		y = Input.GetAxis(forwardBackward);
-		cX = Input.GetAxis(lookY);
-		cY = -Input.GetAxis(lookX);
+		if(usingController)
+        {
+			cX = Input.GetAxis(lookY);
+			cY = -Input.GetAxis(lookX);
+		}
+		else
+		{
+			Vector3 dir = pPos.normalized;
+			cX = dir.x;
+			cY = dir.y;
+		}
 		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
@@ -572,7 +597,7 @@ public class PlayerController : CharacterClass
 		float y = Input.GetAxis(forwardBackward);
 		float cX = Input.GetAxis(lookY);
 		float cY = -Input.GetAxis(lookX);*/
-		if (!usingController && !lockedKeyb && (Input.GetAxis("Horizontal1") != 0 || Input.GetAxis("Vertical1") != 0)) usingController = true;
+		
 		if(!isRagdoll)
 		{
 			Direction = new Vector3(x, 0.0f, y).normalized;
@@ -632,7 +657,7 @@ public class PlayerController : CharacterClass
 	////////////////////////
 	void PlayerRotation()
 	{
-		if (usingController || !lockedKeyb && (Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0))
+		if (usingController)
         {
 			if(Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0)
             {
@@ -1398,7 +1423,6 @@ public class PlayerController : CharacterClass
 			}
 			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(character);
 			yield return new WaitForSeconds(2f);
-			print(life);
 			Destroy(this.gameObject);
 		}
 	}
