@@ -7,15 +7,15 @@ public class EnemyController : MonoBehaviour
     public bool isBoss;
     public BasicEnemyController enemyScript;
     public GameObject player;
-    Transform playerTransform;
+    protected Transform playerTransform;
 
-    private bool foundSomeone;
-    
-    private float attackCD;
-    private float originalSpeed;
+    protected bool foundSomeone;
 
-    private bool slowed;
-    private bool alreadyDead;
+    protected float attackCD;
+    protected float originalSpeed;
+
+    protected bool slowed;
+    protected bool alreadyDead;
 
     [HideInInspector]
     public int estado; //de momento no se usa, pero usa 1 si está atacando, 2 si acaba de atacar y 3 si está herido. 0 de lo contrario (buscando)

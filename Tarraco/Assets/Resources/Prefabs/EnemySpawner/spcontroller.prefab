@@ -366,9 +366,9 @@ MonoBehaviour:
   bossesPrefabs:
   - {fileID: 3427173354746802392, guid: 1a3dd1fa9af061c40b919df093c1869e, type: 3}
   materialsForSpartan:
-  - {fileID: 2100000, guid: cb05cb03fc53a9f4b964ab0969fa8131, type: 2}
-  - {fileID: 2100000, guid: 5e19a348a0fd5474e9c4f33aef91c706, type: 2}
-  - {fileID: 2100000, guid: e7d7d901fbc8e75458957082a78a841b, type: 2}
+  - {fileID: 2100000, guid: aa9ae75f4ada7454aa07495bf6a0eeee, type: 2}
+  - {fileID: 2100000, guid: 611d12eafaecb674198fa594b266b5d0, type: 2}
+  - {fileID: 2100000, guid: eec9c173de0f65247a5773ace5282273, type: 2}
   weaponPrefabs:
   - {fileID: 2177757887894105767, guid: e81e8647d68e6014bb214b58e1d35279, type: 3}
   - {fileID: 2177757887894105767, guid: e81e8647d68e6014bb214b58e1d35279, type: 3}

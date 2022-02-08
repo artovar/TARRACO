@@ -290,7 +290,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 2463ea4a204c20247871c773fa931554, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 53b175bb8e934d540973c40b3cf14624, type: 2}
+      objectReference: {fileID: 2100000, guid: 78c9381c16c7c4a4c910fdaf3d22f3f3, type: 2}
     - target: {fileID: 919132149155446097, guid: 2463ea4a204c20247871c773fa931554, type: 3}
       propertyPath: m_Name
       value: Hacha

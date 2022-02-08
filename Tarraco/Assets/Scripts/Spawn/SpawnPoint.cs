@@ -114,12 +114,14 @@ public class SpawnPoint : MonoBehaviour
                 {
                     print("Im reading " + element + " element");
                     if (spawnedBoss) break;
+                    while (WaitForSpace(time) > 0)
+                    {
+                        print("Waiting");
+                        yield return new WaitForSeconds(.5f);
+                    }
                     switch (node.Name.LocalName)
                     {
                         case "spawn":
-                            while(WaitForSpace(time) > 0) {
-                                yield return new WaitForSeconds(.5f);
-                            }
                             LevelSpawn(controller, node.Attribute("kind").Value, node.Attribute("wp").Value);
                             yield return new WaitForSeconds(time);
                             break;

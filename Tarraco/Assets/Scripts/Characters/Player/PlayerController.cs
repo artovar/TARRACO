@@ -1111,12 +1111,16 @@ public class PlayerController : CharacterClass
 	{
 		if (!inAir && balanced)
 		{
+			float local11z = APR_Parts[11].transform.localPosition.z;
+			float local12z = APR_Parts[12].transform.localPosition.z;
+			float local11x = APR_Parts[11].transform.localPosition.x;
+			float local12x = APR_Parts[12].transform.localPosition.x;
 			if (WalkForward)
 			{
 				Alert_Leg_Left = false;
 				Alert_Leg_Right = false;
 				//right leg
-				if (APR_Parts[11].transform.localPosition.z < APR_Parts[12].transform.localPosition.z && !StepLeft && !Alert_Leg_Right)
+				if ((local11z < local12z || local11x > 0) && !StepLeft && !Alert_Leg_Right)
 				{
 					StepRight = true;
 					Alert_Leg_Right = true;
@@ -1124,7 +1128,7 @@ public class PlayerController : CharacterClass
 				}
 
 				//left leg
-				if (APR_Parts[11].transform.localPosition.z > APR_Parts[12].transform.localPosition.z && !StepRight && !Alert_Leg_Left)
+				if ((local11z > local12z || local12x < 0) && !StepRight && !Alert_Leg_Left)
 				{
 					StepLeft = true;
 					Alert_Leg_Left = true;
@@ -1135,7 +1139,7 @@ public class PlayerController : CharacterClass
 			if (WalkBackward)
 			{
 				//right leg
-				if (APR_Parts[11].transform.position.z > APR_Parts[12].transform.position.z && !StepLeft && !Alert_Leg_Right)
+				if ((local11z > local12z || local11x > 0) && !StepLeft && !Alert_Leg_Right)
 				{
 					StepRight = true;
 					Alert_Leg_Right = true;
@@ -1143,7 +1147,7 @@ public class PlayerController : CharacterClass
 				}
 
 				//left leg
-				if (APR_Parts[11].transform.position.z < APR_Parts[12].transform.position.z && !StepRight && !Alert_Leg_Left)
+				if ((local11z < local12z || local12x < 0) && !StepRight && !Alert_Leg_Left)
 				{
 					StepLeft = true;
 					Alert_Leg_Left = true;
