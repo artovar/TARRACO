@@ -70,6 +70,7 @@ public class WeaponDetection : MonoBehaviour
         if (Input.GetButtonDown(drop))
         {
             Drop(mainWeapon);
+            ArmsControl(); // Reset poses when PICKING
         }
         else if (Input.GetButtonDown(change)) //Switch between Weapons
         {
@@ -80,15 +81,7 @@ public class WeaponDetection : MonoBehaviour
             mainWeapon = backWeapon;
             backWeapon = aux;
             controller.weapon = mainWeapon.GetComponent<WeaponScript>();
-            if (controller.attacking)
-            {
-                controller.PrepareHit();
-                if (backWeapon.GetComponent<WeaponScript>().kind == Weapons.Bow)
-                {
-                    controller.ResetLeftArm();
-                    backWeapon.GetComponent<BowScript>().StopShooting();
-                }
-            }
+            ArmsControl(); // Reset poses when CHANGING
         }
     }
     private void OnTriggerStay(Collider col)
@@ -121,15 +114,7 @@ public class WeaponDetection : MonoBehaviour
             picking = false;
             pickingCoyoteTime = 0;
             Pick(col.transform);
-            if (controller.attacking)
-            {
-                controller.PrepareHit();
-                /*if (backWeapon.GetComponent<WeaponScript>().kind == Weapons.Bow)
-                {
-                    controller.ResetLeftArm();
-                    backWeapon.GetComponent<BowScript>().StopShooting();
-                }*/
-            }
+            ArmsControl(); // Reset poses when PICKING
         }
         else if (col.CompareTag("Heal") && controller.life < controller.maxLife && !controller.IsDead())
         {
@@ -339,5 +324,42 @@ public class WeaponDetection : MonoBehaviour
     }
     public void PickDisco(Transform weapon) {
         Pick(weapon);
+    }
+
+
+    public void ArmsControl()
+    {
+        if (controller.attacking)
+        {
+            switch (weaponsStored)
+            {
+                case 0:
+                    controller.ResetLeftArm();
+                    controller.StopPreparingHit();
+                    break;
+                case 1:
+                    Weapons wp = mainWeapon.GetComponent<WeaponScript>().kind;
+                    if (wp != Weapons.SwordNHShield && wp != Weapons.SwordNShield)
+                    {
+                        controller.ResetLeftArm();
+                    }
+                    controller.PrepareHit();
+                    break;
+                case 2:
+                    controller.PrepareHit();
+                    Weapons wp1 = mainWeapon.GetComponent<WeaponScript>().kind;
+                    Weapons wp2 = backWeapon.GetComponent<WeaponScript>().kind;
+                    if (wp2 == Weapons.Bow)
+                    {
+                        controller.ResetLeftArm();
+                        backWeapon.GetComponent<BowScript>().StopShooting();
+                    }
+                    else if (wp1 != Weapons.SwordNHShield && wp1 != Weapons.SwordNShield && wp1 != Weapons.Bow)
+                    {
+                        controller.ResetLeftArm();
+                    }
+                    break;
+            }
+        }
     }
 }

@@ -18,8 +18,52 @@ public abstract class WeaponScript : MonoBehaviour
     protected List<bool> dropQueue = new List<bool>();
     protected bool destroyed;
 
-    public abstract void SetOnHandColliders();
-    public abstract void SetOnFloorColliders();
+    public bool dealingDamage;
+
+
+    public void DealDamage()
+    {
+        dealingDamage = true;
+    }
+    public void StopDealingDamage()
+    {
+        dealingDamage = false;
+    }
+    public virtual void SetOnHandColliders()
+    {
+        this.gameObject.layer = LayerMask.NameToLayer("Weapons");
+
+        foreach (Transform g in transform)
+        {
+            g.gameObject.layer = LayerMask.NameToLayer("Weapons");
+        }
+        foreach (Collider c in onHandCol)
+        {
+            c.enabled = true;
+        }
+        foreach (Collider c in onFloorCol)
+        {
+            c.enabled = false;
+        }
+    }
+    public virtual void SetOnFloorColliders()
+    {
+        this.gameObject.layer = LayerMask.NameToLayer("Default");
+
+        foreach (Transform g in transform)
+        {
+            g.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+        foreach (Collider c in onHandCol)
+        {
+            c.enabled = false;
+        }
+        foreach (Collider c in onFloorCol)
+        {
+            c.enabled = true;
+        }
+        StopDealingDamage();
+    }
     public abstract void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c);
     public abstract void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force);
     public virtual void GetWeapon(Transform rHand, Transform lHand, Characters character)

@@ -465,7 +465,7 @@ public class PlayerController : CharacterClass
 		if (Physics.Raycast(ray, out hit, balanceHeight, (1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Enemies"))) 
 			&& !inAir && !isJumping && !reachRightAxisUsed && !reachLeftAxisUsed)
 		{
-			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.magnitude < 1f)
+			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.sqrMagnitude < 1f)
 			{
 				if (autoGetUpWhenPossible)
 				{
@@ -712,6 +712,8 @@ public class PlayerController : CharacterClass
 				else if (!balanced)
 				{
 					DeactivateRagdoll();
+					usingLeft = false;
+					punchingLeft = false;
 				}
 			}
 
@@ -941,6 +943,15 @@ public class PlayerController : CharacterClass
 				break;
         }
 	}
+
+	public void StopPreparingHit()
+	{
+		APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = BodyTarget;
+		APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
+		APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
+		attacking = false;
+	}
+
 	//---Player Punch---//
 	/////////////////////
 	private IEnumerator JustDid(float tts)
@@ -1042,6 +1053,7 @@ public class PlayerController : CharacterClass
 				{
 					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 					APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;
+					if (weapon != null) weapon.StopDealingDamage();
 				}
 			}
 		}
@@ -1094,7 +1106,7 @@ public class PlayerController : CharacterClass
 			IEnumerator DelayCoroutine()
 			{
 				yield return new WaitForSeconds(0.05f);
-				if(!Input.GetButton(left))
+				if(!Input.GetButton(left) && weapon != null && weapon.kind != Weapons.Bow)
 				{
 					APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
 					APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
@@ -1367,8 +1379,11 @@ public class PlayerController : CharacterClass
 			APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = BodyTarget;
 			APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 			APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;
-			APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
-			APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
+            if (!usingLeft)
+			{
+				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
+				APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
+			}
 
 			MouseYAxisArms = 0;
 

@@ -64,7 +64,7 @@ public abstract class CharacterClass : MonoBehaviour
         }
         if (!character.Equals(Characters.Enemy))
         {
-            hUD.GetComponent<HealthHUD>().HurtHUD(1);
+            hUD.GetComponent<HealthHUD>().HurtHUD(amount);
             if (life == 0)
             {
                 GameController.Instance.AddDeath(character);

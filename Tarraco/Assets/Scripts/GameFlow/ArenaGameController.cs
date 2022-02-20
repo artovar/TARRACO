@@ -326,7 +326,7 @@ public class ArenaGameController : GameController
             {
                 if (thePlayer != null)
                 {
-                    trying = (point - thePlayer.transform.position).magnitude;
+                    trying = (point - thePlayer.transform.position).sqrMagnitude;
                     if (trying < shortestToPlayers)
                     {
                         shortestToPlayers = trying;

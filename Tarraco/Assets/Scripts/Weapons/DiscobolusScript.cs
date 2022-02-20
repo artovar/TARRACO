@@ -9,7 +9,6 @@ public class DiscobolusScript : WeaponScript
     private Vector3 axisToRotate;
     private bool thrown = false;
     private bool stop = false;
-    private Vector3 dir;
 
     private bool rotated;
     private float rotacion = 0f;
@@ -46,48 +45,9 @@ public class DiscobolusScript : WeaponScript
         throwing = false;
     }
 
-    public override void SetOnHandColliders()
-    {
-        onAirCollider.enabled = false;
-        this.gameObject.layer = LayerMask.NameToLayer("Weapons");
-
-        foreach (Transform g in GetComponentsInChildren<Transform>())
-        {
-            g.gameObject.layer = LayerMask.NameToLayer("Weapons");
-        }
-        foreach (Collider c in onHandCol)
-        {
-            c.enabled = true;
-        }
-        foreach (Collider c in onFloorCol)
-        {
-            c.enabled = false;
-        }
-    }
-
-    public override void SetOnFloorColliders()
-    {
-        onAirCollider.enabled = false;
-        this.gameObject.layer = LayerMask.NameToLayer("Default");
-
-        foreach (Transform g in GetComponentsInChildren<Transform>())
-        {
-            g.gameObject.layer = LayerMask.NameToLayer("Default");
-        }
-        foreach (Collider c in onHandCol)
-        {
-            c.enabled = false;
-        }
-        foreach (Collider c in onFloorCol)
-        {
-            c.enabled = true;
-        }
-    }
-
     public override void SendToBack(Transform back)
     {
         transform.position = back.position;
-        //shield.position = back.position + back.forward / 2f;
         transform.rotation = back.rotation * Quaternion.Euler(0, 0, 90);
         transform.GetComponent<FixedJoint>().connectedBody = back.GetComponent<Rigidbody>();
     }
@@ -103,6 +63,7 @@ public class DiscobolusScript : WeaponScript
         b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
         c.targetRotation = new Quaternion(-0.7f, 0.5f, 0.8f, 1f);
 
+        DealDamage();
     }
 
     public override void MakeCurve(Vector3 direction)
@@ -110,9 +71,7 @@ public class DiscobolusScript : WeaponScript
         transform.tag = "ThrownWeapon";
         rb.useGravity = false;
         thrown = true;
-        //transform.rotation = Quaternion.identity;
         axisToRotate = transform.position + direction * 4;
-        //rb.centerOfMass = axisToRotate;
         onAirCollider.enabled = true;
         
         rotacionEx = Mathf.Asin((transform.position - axisToRotate).normalized.x);
@@ -133,6 +92,7 @@ public class DiscobolusScript : WeaponScript
 
     private void Start() {
         rb = GetComponent<Rigidbody>();
+        dealingDamage = false;
     }
 
     private void FixedUpdate() {
@@ -143,16 +103,12 @@ public class DiscobolusScript : WeaponScript
             float y = axisToRotate.y;
             float z = axisToRotate.z - Mathf.Cos(rotacionEx) * 4;
 
-            //print(axisToRotate);
             Vector3 auxPosition = transform.position;
 
-            //transform.RotateAround(axisToRotate, -Vector3.up, 300 * Time.fixedDeltaTime);
-            //rb.MoveRotation(transform.rotation * Quaternion.Euler(0, 180 * Time.fixedDeltaTime, 0));
             transform.position += new Vector3(x,y,z) - transform.position;
 
             rotated = true;
 
-            //print(anglesRotated);
             if(anglesRotated >= Mathf.PI*1.65f || stop)
             {
                 rotated = false;
@@ -162,8 +118,6 @@ public class DiscobolusScript : WeaponScript
                 owner = Characters.None;
                 thrown = false;
                 rb.useGravity = true;
-                //SetOnFloorColliders();
-                //rb.velocity = (transform.position - auxPosition).normalized * 500;
                 GetComponent<Rigidbody>().AddForce((transform.position - auxPosition).normalized * 40, ForceMode.Impulse);
                 DestroyAfterSpawning();
             }
@@ -173,7 +127,6 @@ public class DiscobolusScript : WeaponScript
             rotacion += 360 * Time.fixedDeltaTime * 2;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, rotacion, 0), 360 * Time.fixedDeltaTime * 2);
         }
-        //GetComponent<Rigidbody>().AddForce(Vector3.up * 50);
     }
 
     private void OnCollisionEnter(Collision other) {
@@ -182,19 +135,9 @@ public class DiscobolusScript : WeaponScript
         {
             rotated = false;
         }
-        PlayerController p = other.gameObject.GetComponentInParent<PlayerController>();
-
         if(other.gameObject.GetComponent<ShieldDetector>() != null && thrown)
         {
             stop = true;
-        }
-
-        if(p != null && this.gameObject.CompareTag("ThrownWeapon")) {
-            if(p.waitForDisco) {
-                //thrown = false;
-                //p.detector.PickDisco(this.transform);
-                //p.waitForDisco = false;
-            }
         }
     }
 }

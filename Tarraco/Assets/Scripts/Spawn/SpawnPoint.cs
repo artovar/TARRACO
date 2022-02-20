@@ -330,7 +330,7 @@ public class SpawnPoint : MonoBehaviour
             foreach(Transform thePlayer in players) {
                 if(thePlayer != null)
                 {
-                    trying = (point.transform.position - thePlayer.position).magnitude;
+                    trying = (point.transform.position - thePlayer.position).sqrMagnitude;
                     if (trying < shortestToPlayers)
                     {
                         shortestToPlayers = trying;

@@ -53,6 +53,7 @@ public class HealthHUD : MonoBehaviour
 
     public void HurtHUD(int damage)
     {
+        if (damage == 0) return;
         if (life <= 0) return;
         life -= damage;
         animator.SetInteger("Life", life);
