@@ -180,7 +180,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 7856645191755881168, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 0c97fa8ec1b1d7743b0868a42d9080d5, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4208,6 +4208,7 @@ MonoBehaviour:
   weaponCoolDown: 0
   timeToHit: 0
   forcePoint: {fileID: 0}
+  dealingDamage: 0
 --- !u!1 &7050211734096921476
 GameObject:
   m_ObjectHideFlags: 0
