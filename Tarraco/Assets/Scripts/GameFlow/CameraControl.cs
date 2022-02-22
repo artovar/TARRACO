@@ -73,10 +73,10 @@ public class CameraControl : MonoBehaviour
     IEnumerator LookAtBoss()
     {
         bossing = true;
-        bossOffset = (Vector3.up * 6) + (transform.position - Vector3.up * 6)/2 - currentBoss.position;
+        bossOffset = (Vector3.up * 10) + Vector3.back*10 + (Vector3.up * 10 - currentBoss.position) /3 - currentBoss.position;
         mode = CAMMODE.LookingAtBoss;
         int sc = SceneManager.GetActiveScene().buildIndex;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1.2f);
         bossing = false;
         if(sc == SceneManager.GetActiveScene().buildIndex)
         {

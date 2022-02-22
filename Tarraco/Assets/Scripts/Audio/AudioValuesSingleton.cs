@@ -13,6 +13,8 @@ public class AudioValuesSingleton : MonoBehaviour
     public float peopleVolume;
     public float masterVolume;
 
+    public bool lockKeyboard;
+
 
     private void Awake()
     {
@@ -23,5 +25,10 @@ public class AudioValuesSingleton : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         instance = this;
+    }
+
+    public void LockKeyboard(bool lck)
+    {
+        lockKeyboard = lck;
     }
 }

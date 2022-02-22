@@ -69,11 +69,11 @@ MonoBehaviour:
   - {fileID: 4558571559650145343}
   onFloorCol:
   - {fileID: 6353140013278363527}
-  kind: 6
+  kind: 7
   owner: 0
   damageDealed: 1
-  weaponCoolDown: 1
-  timeToHit: 0.35
+  weaponCoolDown: 0.6
+  timeToHit: 0.4
   forcePoint: {fileID: 865474410915194924}
   onAirCollider: {fileID: 2614364229174293025}
 --- !u!65 &6353140013278363527
@@ -242,7 +242,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a7723c566c95484419f274ae52c0928c, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6c952f3e3063c73438812583be61b2d5, type: 2}
+      objectReference: {fileID: 2100000, guid: b8073f62e7256a04d904f07c7d0529d5, type: 2}
     - target: {fileID: 919132149155446097, guid: a7723c566c95484419f274ae52c0928c, type: 3}
       propertyPath: m_Name
       value: Boomerang

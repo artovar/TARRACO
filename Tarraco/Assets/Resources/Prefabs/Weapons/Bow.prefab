@@ -99,7 +99,7 @@ MonoBehaviour:
   - {fileID: 3821448982003539069}
   onFloorCol:
   - {fileID: 5874155213928409199}
-  kind: 4
+  kind: 5
   owner: 0
   damageDealed: 0
   weaponCoolDown: 0.55
@@ -382,7 +382,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ce4a39e3bdaba9a4f99aee7e69feee11, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 41cb4859a167558408f98d237b815a56, type: 2}
+      objectReference: {fileID: 2100000, guid: 4582e6619d286d24fba86082e0fa9f5d, type: 2}
     - target: {fileID: 919132149155446097, guid: ce4a39e3bdaba9a4f99aee7e69feee11, type: 3}
       propertyPath: m_Name
       value: Arco

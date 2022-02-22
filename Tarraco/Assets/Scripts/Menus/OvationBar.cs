@@ -98,6 +98,7 @@ public class OvationBar : MonoBehaviour
 
     public void ResetBar()
     {
+        StopAllCoroutines();
         score.text = "0";
         scoreInt = 0;
         ovationMeter = 0f;

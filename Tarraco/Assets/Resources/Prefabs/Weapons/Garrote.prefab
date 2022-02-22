@@ -175,7 +175,7 @@ MonoBehaviour:
   onFloorCol:
   - {fileID: 5605154853071694228}
   - {fileID: 7526740844660588440}
-  kind: 7
+  kind: 8
   owner: 0
   damageDealed: 1
   weaponCoolDown: 0.4
@@ -292,7 +292,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 4a65340aae3fb154e8cac782c426c270, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 0983afac30dbc6444a189c6d2e3b3b22, type: 2}
+      objectReference: {fileID: 2100000, guid: 47c64fb93a7320f4d82503c65b72cbb7, type: 2}
     - target: {fileID: 919132149155446097, guid: 4a65340aae3fb154e8cac782c426c270, type: 3}
       propertyPath: m_Name
       value: Garrote

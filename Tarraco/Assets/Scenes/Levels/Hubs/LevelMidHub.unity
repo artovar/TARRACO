@@ -541,7 +541,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.7176471, b: 0.33333334, a: 1}
   m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30
@@ -616,7 +616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1616216508}
   - component: {fileID: 1616216507}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -632,14 +632,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1616216506}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 86aaee02ac5caf34086525620017e881, type: 2}
   isGlobal: 1
+  priority: 0
   blendDistance: 0
   weight: 1
-  priority: 0
+  sharedProfile: {fileID: 11400000, guid: f5e9b12c9251c9e499c44d57ecf048af, type: 2}
 --- !u!4 &1616216508
 Transform:
   m_ObjectHideFlags: 0

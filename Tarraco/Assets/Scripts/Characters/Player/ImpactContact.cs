@@ -14,9 +14,28 @@ public class ImpactContact : MonoBehaviour
         if (col.gameObject.CompareTag("Weapon") || layer == APR_Player.gameObject.layer || APR_Player.detector.IsOneOfMine(col.transform)) return;
         //Knockout by impact
         bool also = col.gameObject.CompareTag("ThrownWeapon");
-        if ((APR_Player.canBeKnockoutByImpact && col.relativeVelocity.magnitude > APR_Player.requiredForceToBeKO) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
+        WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
+        if ((APR_Player.canBeKnockoutByImpact && col.relativeVelocity.sqrMagnitude > APR_Player.requiredForceToBeKO * APR_Player.requiredForceToBeKO) || (wp != null && wp.dealingDamage) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
         {
             Characters from = Characters.Enemy;
+            if(layer >= 10 && layer <= 13)
+            {
+                switch (layer)
+                {
+                    case 10:
+                        from = Characters.Player1;
+                        break;
+                    case 11:
+                        from = Characters.Player2;
+                        break;
+                    case 12:
+                        from = Characters.Player3;
+                        break;
+                    case 13:
+                        from = Characters.Player4;
+                        break;
+                }
+            }
             if (layer >= 16 && layer <= 20 && col.collider.enabled)
             {
                 switch (layer)
@@ -43,14 +62,15 @@ public class ImpactContact : MonoBehaviour
             bool dead = false;
             if (GameController.Instance.inGame)
             {
-                WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
+                int dmg = 1;
+                if (wp != null && !wp.dealingDamage) dmg = 0;
                 if (from.Equals(Characters.Enemy) && wp != null)
                 {
                     from = wp.owner;
                 }
 
                 APR_Player.ActivateRagdoll();
-                dead = APR_Player.Damage(1, from);
+                dead = APR_Player.Damage(dmg, from, col.contacts[0].point);
             }
             //Debug.Log("AU!! ¡Qué daño! Me queda esta vida:" + APR_Player.life);
 
@@ -73,7 +93,7 @@ public class ImpactContact : MonoBehaviour
             }
         }
         //Sound on impact & normal impact
-        if ((col.relativeVelocity.magnitude > APR_Player.ImpactForce) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
+        if ((col.relativeVelocity.sqrMagnitude > APR_Player.ImpactForce * APR_Player.ImpactForce) || (also && col.gameObject.GetComponent<WeaponScript>().owner != APR_Player.character))
         {
             //Sound
             if (APR_Player.SoundSource != null)

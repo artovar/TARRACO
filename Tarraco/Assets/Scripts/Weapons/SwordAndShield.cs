@@ -14,36 +14,15 @@ public class SwordAndShield : WeaponScript
     Transform shieldPoint;
 
 
-    public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
-    {
-        /* a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
-         b.targetRotation = new Quaternion(-0.62f, -0.51f, 0.02f, 1);
-         c.targetRotation = new Quaternion(1.31f, 0.5f, -0.5f, 1);*/
-        a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
-        b.targetRotation = new Quaternion(-0.360000014f, -0.939999998f, 0.560000002f, 1.38f);
-        c.targetRotation = new Quaternion(0.709999979f, -0.610000014f, 0.839999974f, 1f);
-    }
-    public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force)
-    {
-        /*a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
-        b.targetRotation = new Quaternion(0.150000006f, -0.439999998f, 0.649999976f, 0.360000014f);
-        c.targetRotation = new Quaternion(-0.439999998f, 0.5f, 0.439999998f, 1f);*/
-
-        a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
-        b.targetRotation = new Quaternion(.79f, -.23f, .33f, .46f);
-        c.targetRotation = new Quaternion(0f, -.63f, .53f, .56f);
-        sword.GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.right * force, forcePoint.position, ForceMode.Impulse);
-    }
-
     public override void SetOnHandColliders()
     {
         this.gameObject.layer = LayerMask.NameToLayer("Weapons");
 
-        foreach (Transform g in GetComponentsInChildren<Transform>())
+        foreach (Transform g in transform)
         {
             g.gameObject.layer = LayerMask.NameToLayer("Weapons");
         }
-        switch(owner)
+        switch (owner)
         {
             case Characters.Enemy:
                 shield.GetComponent<ShieldDetector>().gameObject.layer = LayerMask.NameToLayer("ShieldLayer_E");
@@ -62,22 +41,20 @@ public class SwordAndShield : WeaponScript
         }
     }
 
-    public override void SetOnFloorColliders()
+    public override void PrepareHit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c)
     {
-        this.gameObject.layer = LayerMask.NameToLayer("Default");
+        a.targetRotation = new Quaternion(-0.15f, -0.15f, 0, 1);
+        b.targetRotation = new Quaternion(-0.360000014f, -0.939999998f, 0.560000002f, 1.38f);
+        c.targetRotation = new Quaternion(0.709999979f, -0.610000014f, 0.839999974f, 1f);
+    }
+    public override void Hit(ConfigurableJoint a, ConfigurableJoint b, ConfigurableJoint c, float force)
+    {
+        a.targetRotation = new Quaternion(-0.15f, 0.15f, 0, 1);
+        b.targetRotation = new Quaternion(.79f, -.23f, .33f, .46f);
+        c.targetRotation = new Quaternion(0f, -.63f, .53f, .56f);
+        DealDamage();
 
-        foreach (Transform g in GetComponentsInChildren<Transform>())
-        {
-            g.gameObject.layer = LayerMask.NameToLayer("Default");
-        }
-        foreach (Collider c in onHandCol)
-        {
-            c.enabled = false;
-        }
-        foreach (Collider c in onFloorCol)
-        {
-            c.enabled = true;
-        }
+        sword.GetComponent<Rigidbody>().AddForceAtPosition(forcePoint.right * force, forcePoint.position, ForceMode.Impulse);
     }
     public override void GetWeapon(Transform rHand, Transform lHand, Characters character)
     {

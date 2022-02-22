@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instructions> //Value r goes for random //Write time as "s.m" //Minimo hacer los tres tipo de instrucciones antes de random
+  <setMax n="1"/>
+  <setTime t="5.0"/>
+  <spawn kind="0" wp="13"/>
+  <setMax n="2"/>
+  <setTime t="4.0"/>
+  <spMult num="6"/>
+  <setMax n="3"/>
+  <setTime t="3.0"/>
+  <spawn kind="1" wp="2"/>
+  <setMax n="4"/>
+  <setTime t="2.0"/>
+  <spMult num="10"/>
+  <setMax n="5"/>
+  <setTime t="1.0"/>
+  <spawn kind="0" wp="12"/>
+  <setMax n="7"/>
+  <setTime t="0.5"/>
+  <spMult num="10"/>
+  <setMax n="10"/>
+  <setTime t="0.2"/>
+</instructions>

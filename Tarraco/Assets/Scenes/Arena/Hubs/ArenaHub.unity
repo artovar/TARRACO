@@ -1494,7 +1494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1429179669}
   - component: {fileID: 1429179668}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1510,14 +1510,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1429179667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 86aaee02ac5caf34086525620017e881, type: 2}
   isGlobal: 1
+  priority: 0
   blendDistance: 0
   weight: 1
-  priority: 0
+  sharedProfile: {fileID: 11400000, guid: f5e9b12c9251c9e499c44d57ecf048af, type: 2}
 --- !u!4 &1429179669
 Transform:
   m_ObjectHideFlags: 0
@@ -2451,7 +2451,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 0.7176471, b: 0.33333334, a: 1}
   m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30
@@ -2634,10 +2634,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materials:
-  - {fileID: 2100000, guid: fa10114577bee6540983f5c7e92115de, type: 2}
-  - {fileID: 2100000, guid: 84e51a58902f7d643834ba479e26adc4, type: 2}
-  - {fileID: 2100000, guid: 258bf6fc75a8a0442b9b5179d81b577a, type: 2}
-  - {fileID: 2100000, guid: 9fff0949231d96c4392352eae09c841f, type: 2}
+  - {fileID: 2100000, guid: 257f2956446e8224a9c7939066799c3d, type: 2}
+  - {fileID: 2100000, guid: dd0bb921c13443144a4d29cf1fe3ac0d, type: 2}
+  - {fileID: 2100000, guid: 2d92486d539165f4ca8fc6c9ef3202ab, type: 2}
+  - {fileID: 2100000, guid: 3354ed5320fe6b6439e7f4f3df5fa889, type: 2}
   - {fileID: 2100000, guid: 76253e62c6848ca4f86b6dc8ef709187, type: 2}
   - {fileID: 2100000, guid: 88104ba339505e446bcbb13e26785c69, type: 2}
   meshes:
@@ -2666,13 +2666,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 7856645191755881168, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 8300000, guid: 200303a162c244d4cabbf2689abbebd8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 180
+  Priority: 220
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
