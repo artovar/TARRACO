@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Xml.Linq;
+
 public class SpawnPoint : MonoBehaviour
 {
+    public static string LevelsPath = "Assets/Scripts/LevelXmls/Level";
+
     private int numPlayers;
     private List<Transform> players = new List<Transform>();
 
@@ -26,6 +30,8 @@ public class SpawnPoint : MonoBehaviour
     private bool spawnedBoss;
 
     private List<EnemyController> enemies = new List<EnemyController>();
+    private List<int> enemiesReady = new List<int>();
+    private List<int> weaponsReady = new List<int>();
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +41,6 @@ public class SpawnPoint : MonoBehaviour
         ArenaGameController arena = GameController.Instance.GetComponent<ArenaGameController>();
 
         maxDef = maxEnemies;
-
         if(arena != null)
         {
             switch (arena.modeSelected)
@@ -62,7 +67,8 @@ public class SpawnPoint : MonoBehaviour
         {
             LevelGameController level = GameController.Instance.GetComponent<LevelGameController>();
             level.spawn = this;
-            coroutine = SpawnEnemy(secondsSpawn);
+            if(level.currentLevel == 1) coroutine = SpawnFromFile(secondsSpawn);
+            else coroutine = SpawnEnemy(secondsSpawn);
             StartCoroutine(coroutine);
         }
     }
@@ -92,6 +98,138 @@ public class SpawnPoint : MonoBehaviour
             yield return new WaitForSeconds(UnityEngine.Random.Range(lowerLimit, upperLimit));
         }
     }
+    private IEnumerator SpawnFromFile(float time)
+    {
+        LevelGameController controller = GameController.Instance.GetComponent<LevelGameController>();
+        bool finishedReading = false;
+        while (true)
+        {
+            if(!finishedReading)
+            {
+                int level = controller.currentLevel;
+                string curLevelPath = LevelsPath + level + ".xml";
+                XDocument doc = XDocument.Load(curLevelPath);
+                int element = 0;
+                foreach (XElement node in doc.Root.Elements())
+                {
+                    print("Im reading " + element + " element");
+                    if (spawnedBoss) break;
+                    while (WaitForSpace(time) > 0)
+                    {
+                        print("Waiting");
+                        yield return new WaitForSeconds(.5f);
+                    }
+                    switch (node.Name.LocalName)
+                    {
+                        case "spawn":
+                            LevelSpawn(controller, node.Attribute("kind").Value, node.Attribute("wp").Value);
+                            yield return new WaitForSeconds(time);
+                            break;
+                        case "setTime":
+                            time = ParseStrToFloat(node.Attribute("t").Value);
+                            print(time);
+                            break;
+                        case "setMax":
+                            maxEnemies = int.Parse(node.Attribute("n").Value);
+                            print(maxEnemies);
+                            break;
+                        case "spMult":
+                            int num = int.Parse(node.Attribute("num").Value);
+                            while(num > 0)
+                            {
+                                while (WaitForSpace(time) > 0)
+                                {
+                                    print("Waiting");
+                                    yield return new WaitForSeconds(.5f);
+                                }
+                                LevelSpawn(controller, "r", "r");
+                                yield return new WaitForSeconds(time);
+                                num--;
+                            }
+                            break;
+                    }
+                    element++;
+                }
+                finishedReading = true;
+            }
+            while (WaitForSpace(time) > 0)
+            {
+                yield return new WaitForSeconds(.5f);
+            }
+            LevelSpawn(controller, "r", "r");
+            yield return new WaitForSeconds(time);
+            if (spawnedBoss) break;
+        }
+    }
+    float ParseStrToFloat(string s)
+    {
+        string sleft = s.Substring(0,s.IndexOf("."));
+        string srigth = s.Substring(s.IndexOf(".")+1);
+        return ((float)int.Parse(sleft) + int.Parse(srigth)/(10f*srigth.Length));        
+    }
+    void LevelSpawn(LevelGameController controller, string kind, string wp)
+    {
+        int e = 0;
+        GameObject enemy;
+        switch (kind)
+        {
+            case "r":
+                e = enemiesReady[UnityEngine.Random.Range(0, enemiesReady.Count)];
+                break;
+            default:
+                e = int.Parse(kind);
+                if (!enemiesReady.Contains(e)) enemiesReady.Add(e);
+                break;
+        }
+        enemy = enemyPrefabs[e];
+        if (e == 0) enemy.GetComponentInChildren<SkinnedMeshRenderer>().material = materialsForSpartan[UnityEngine.Random.Range(0, materialsForSpartan.Length)];
+        GameObject sp = BetterSP();
+        //Instanciamos el prefab del enemigo en el punto
+        enemies.Add(Instantiate(enemy, sp.transform.position, Quaternion.identity).GetComponent<EnemyController>());
+        enemies[enemies.Count - 1].MoveTowardsInSpawn(sp.transform.forward);
+        enemies[enemies.Count - 1].SetAccuracy(controller.currentLevel / controller.GetTotalLevels());
+        int w = 0;
+        switch(wp)
+        {
+            case "r":
+                w = weaponsReady[UnityEngine.Random.Range(0, enemiesReady.Count)];
+                break;
+            default:
+                w = int.Parse(wp);
+                if (!weaponsReady.Contains(w)) weaponsReady.Add(w);
+                break;
+        }
+        if(w != 0) Instantiate(weaponPrefabs[w-1], sp.transform.position, Quaternion.identity);
+    }
+
+    float WaitForSpace(float intervalo)
+    {
+        if (enemies.Count >= maxEnemies)
+        {
+            int i = 0;
+            List<int> deadGuys = new List<int>();
+            foreach (EnemyController e in enemies)
+            {
+                if (e.IsDead())
+                {
+                    deathCount++;
+                    deadGuys.Add(i); // ESTO PUEDE DAR PROBLEMAS SI EL TIEMPO DE MUERTE ES MENOR QUE EL INTERVALO DE SPAWN
+                }
+                i++;
+            }
+            i = 0;
+            foreach (int d in deadGuys)
+            {
+                enemies.RemoveAt(d - i);
+                i++;
+            }
+            print("Cant come yet");
+            return intervalo;
+        }
+        print("Im here");
+        return 0;
+    }
+
     private IEnumerator SpawnEnemy(float time)  {
         LevelGameController controller = GameController.Instance.GetComponent<LevelGameController>();
         while(true) {
@@ -192,7 +330,7 @@ public class SpawnPoint : MonoBehaviour
             foreach(Transform thePlayer in players) {
                 if(thePlayer != null)
                 {
-                    trying = (point.transform.position - thePlayer.position).magnitude;
+                    trying = (point.transform.position - thePlayer.position).sqrMagnitude;
                     if (trying < shortestToPlayers)
                     {
                         shortestToPlayers = trying;
@@ -220,10 +358,11 @@ public class SpawnPoint : MonoBehaviour
         }
         BossController e = (Instantiate(bossesPrefabs[level - 1], sp.transform.position, Quaternion.identity).GetComponent<BossController>());
         e.MoveTowardsInSpawn(sp.transform.forward);
-        GameObject garrote = Instantiate(weaponPrefabs[6], sp.transform.position, Quaternion.identity);
-        GameObject bow = Instantiate(weaponPrefabs[3], sp.transform.position, Quaternion.identity);
+        GameObject garrote = Instantiate(weaponPrefabs[7], sp.transform.position, Quaternion.identity);
+        GameObject bow = Instantiate(weaponPrefabs[4], sp.transform.position, Quaternion.identity);
         e.GetBow(bow.transform);
         e.GetGarrote(garrote.transform);
+        StopAllCoroutines();
         return e.enemyScript.Root.transform;
     }
 }

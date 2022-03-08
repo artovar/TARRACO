@@ -50,7 +50,7 @@ public class TrapController : MonoBehaviour
                 if (py == null || py.player == null) return;
                 Transform t = py.player.GetComponentInParent<PlayerController>().Root.transform;
                 //Buscamos el jugador más cerca de la trampa (que será el que ha metido alli el enemigo)
-                if ((py.enemyScript.Root.transform.position - t.position).magnitude < 10) {
+                if ((py.enemyScript.Root.transform.position - t.position).sqrMagnitude < 100) {
                     if (type == trapType.MUD) OvationSingleton.Instance.IncreaseMeter(2f, py.player.GetComponentInParent<CharacterClass>().character);
                     if (type == trapType.SPIKES) OvationSingleton.Instance.IncreaseMeter(5f, py.player.GetComponentInParent<CharacterClass>().character);
                     //Debug.Log("Me ha metido en este berenjenal: "+fromPlayer.GetComponent<CharacterClass>().character.ToString());
@@ -81,7 +81,7 @@ public class TrapController : MonoBehaviour
 
     private void IsSpikes(CharacterClass controller)
     {
-        controller.Damage(1, Characters.Enemy, .5f);
+        controller.Damage(1, Characters.Enemy, transform.position, .5f);
         Rigidbody rootRigidbody;
         switch(controller.character) {
             case Characters.None:

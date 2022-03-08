@@ -153,6 +153,7 @@ public class BasicEnemyController : CharacterClass
 		PlayerSetup();
 		YoureDead += OnDead;
 		life = maxLife;
+		system = Instantiate(particleObj).GetComponent<ParticleSystem>();
 	}
 
 
@@ -301,7 +302,7 @@ public class BasicEnemyController : CharacterClass
 		//Balance when ground is detected
 		if (Physics.Raycast(ray, out hit, balanceHeight, 1 << LayerMask.NameToLayer("Ground")) && !inAir && !isJumping && !reachRightAxisUsed && !reachLeftAxisUsed)
 		{
-			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.magnitude < 1f)
+			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.sqrMagnitude < 1f)
 			{
 				if (autoGetUpWhenPossible)
 				{
@@ -755,6 +756,7 @@ public class BasicEnemyController : CharacterClass
 				{
 					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 					APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;
+					if (weapon != null) weapon.StopDealingDamage();
 				}
 			}
 		}
@@ -1155,6 +1157,7 @@ public class BasicEnemyController : CharacterClass
 				isDead = true;
 				if (UnityEngine.Random.Range(0, 100) < 25) Destroy(Instantiate(healingOrb, Root.transform.position, Quaternion.identity), 20f);
 			}
+			Destroy(system);
 			yield return new WaitForSeconds(3f);
 			Destroy(this.gameObject);
 		}

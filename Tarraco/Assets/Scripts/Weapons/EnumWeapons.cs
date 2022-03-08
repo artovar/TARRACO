@@ -1,5 +1,6 @@
 public enum Weapons
 {
+    None,
     Axe,
     BallChain,
     BigShield,
@@ -14,5 +15,5 @@ public enum Weapons
     Spear,
     Sword,
     SwordNShield,
-    None
+    SwordNHShield
 }

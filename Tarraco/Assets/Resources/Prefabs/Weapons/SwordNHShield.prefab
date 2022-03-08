@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 2758997493542017622}
   m_Layer: 0
   m_Name: Sword
-  m_TagString: Weapon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -593,7 +593,7 @@ MonoBehaviour:
   onFloorCol:
   - {fileID: 2758997493542016627}
   - {fileID: 2758997493542016678}
-  kind: 13
+  kind: 14
   owner: 0
   damageDealed: 1
   weaponCoolDown: 0.45
@@ -776,7 +776,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 1991d4a12e870e84090b75f74164abd2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 347051b8bf9f8874495224c46ad4f690, type: 2}
+      objectReference: {fileID: 2100000, guid: 64a1cbe39106e564d8bae4a467279b38, type: 2}
     - target: {fileID: 919132149155446097, guid: 1991d4a12e870e84090b75f74164abd2, type: 3}
       propertyPath: m_Name
       value: Espada
@@ -854,7 +854,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: efa2ef4a202a59b48acdb1876b612d50, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 63d0995539c9ed34db18b6529a39f694, type: 2}
+      objectReference: {fileID: 2100000, guid: aae2265bd7180cb4bba29cb95fbe2782, type: 2}
     - target: {fileID: 919132149155446097, guid: efa2ef4a202a59b48acdb1876b612d50, type: 3}
       propertyPath: m_Name
       value: EscudoHache

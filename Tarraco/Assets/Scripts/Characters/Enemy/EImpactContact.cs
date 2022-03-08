@@ -14,17 +14,16 @@ public class EImpactContact : MonoBehaviour
     {
         if (!Object.ReferenceEquals(enemyController.weapon, null) && (col.transform.IsChildOf(enemyController.transform) || col.transform.IsChildOf(enemyController.weapon.transform))) return;
         //Knockout by impact
-        if ((enemyController.canBeKnockoutByImpact && col.relativeVelocity.magnitude > enemyController.requiredForceToBeKO) || col.gameObject.CompareTag("ThrownWeapon"))
+
+        WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
+
+        if ((enemyController.canBeKnockoutByImpact && col.relativeVelocity.sqrMagnitude > enemyController.requiredForceToBeKO * enemyController.requiredForceToBeKO) || (wp != null && wp.dealingDamage) || col.gameObject.CompareTag("ThrownWeapon"))
         {
-            bool usingArrow = false;
-            bool fromPlayer = false;
             Vector3 vel = col.relativeVelocity;
             Characters from = Characters.None;
             LayerMask layer = col.gameObject.layer;
             if (layer >= 16 && layer <= 19)
             {
-                fromPlayer = true;
-                usingArrow = true;
                 switch(layer)
                 {
                     case 16:
@@ -40,7 +39,6 @@ public class EImpactContact : MonoBehaviour
                         from = Characters.Player4;
                         break;
                     default:
-                        fromPlayer = false;
                         break;
                 }
                 if (damageTaken != 0)
@@ -58,19 +56,27 @@ public class EImpactContact : MonoBehaviour
             //SUSTITUIR ESTO POR MUERTE
 
             int damage = 1 * damageTaken;
-            WeaponScript wp = col.gameObject.GetComponentInParent<WeaponScript>();
             if (wp != null)
             {
                 from = wp.owner;
-                fromPlayer = true;
-                switch (wp.kind)
+                if (wp.dealingDamage)
                 {
-                    case Weapons.Spear:
-                        damage = wp.damageDealed * (damageTaken + 1);
-                        break;
-                    default:
-                        damage = wp.damageDealed * damageTaken;
-                        break;
+                    switch (wp.kind)
+                    {
+                        case Weapons.Spear:
+                            damage = wp.damageDealed * (damageTaken + 1);
+                            break;
+                        case Weapons.Discobolus:
+                            if (wp.owner == enemyController.character) damage = 0;
+                            break;
+                        default:
+                            damage = wp.damageDealed * damageTaken;
+                            break;
+                    }
+                }
+                else
+                {
+                    damage = 0;
                 }
             }
             else
@@ -83,18 +89,12 @@ public class EImpactContact : MonoBehaviour
                     case 13:
                         from = col.gameObject.GetComponentInParent<CharacterClass>().character;
                         damage = damageTaken;
-                        fromPlayer = true;
                         break;
                 }
             }
-            if (!usingArrow && fromPlayer) print((int)vel.magnitude);
-            if (vel.magnitude > 61 && !usingArrow && fromPlayer)
-            {
-                print("Too much");
-                damage *= 2;
-            }
             //Damage
-            bool dead = enemyController.Damage(damage, from, .5f);
+            bool dead = enemyController.Damage(damage, from, col.contacts[0].point, .5f);
+
             if (dead)
             {
                 enemyController.ActivateRagdoll();
@@ -140,7 +140,7 @@ public class EImpactContact : MonoBehaviour
         }
 
         //Sound on impact
-        if (col.relativeVelocity.magnitude > enemyController.ImpactForce)
+        if (col.relativeVelocity.sqrMagnitude > enemyController.ImpactForce * enemyController.ImpactForce)
         {
 
             if (enemyController.SoundSource != null)

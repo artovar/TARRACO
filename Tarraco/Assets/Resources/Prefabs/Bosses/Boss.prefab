@@ -359,7 +359,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 450f11a7f5b2ea94a9ccb2b8d2710f31, type: 2}
+  - {fileID: 2100000, guid: 98b880ad0469c7549a64ec1ea106f241, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1394,6 +1394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda77247621a2a4428a111181a186ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleObj: {fileID: 2018041976435277923, guid: aceb42bd52541d243baac7ecf65a658e, type: 3}
+  system: {fileID: 0}
   character: 5
   hUD: {fileID: 0}
   life: 0
@@ -1401,6 +1403,7 @@ MonoBehaviour:
   moveSpeed: 4
   isDead: 0
   alreadyDied: 0
+  bowAccuracy: 0
   weapon: {fileID: 0}
   healingOrb: {fileID: 3769096260543673073, guid: a30bc10baee8f334a976138cc6ecefd8, type: 3}
   Root: {fileID: 3427173354746802410}
@@ -1833,8 +1836,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Center: {x: 0, y: -0.1, z: 0.14}
+  m_Radius: 0.35
+  m_Center: {x: 0, y: -0.1, z: 0}
 --- !u!54 &3427173354746802489
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1956,7 +1959,7 @@ AudioSource:
   m_GameObject: {fileID: 3427173354746802408}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8259940131765533417, guid: 053e5273d1e203b47afce9224a45804e, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -3458,7 +3461,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0663deba656c2aa4197d813e72596b24, type: 2}
+  - {fileID: 2100000, guid: 22fef4cdd5ac1bc4785a1b8cd3ac3bdc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4104,7 +4107,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 450f11a7f5b2ea94a9ccb2b8d2710f31, type: 2}
+  - {fileID: 2100000, guid: 98b880ad0469c7549a64ec1ea106f241, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

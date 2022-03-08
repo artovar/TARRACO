@@ -5,39 +5,6 @@ using UnityEngine;
 public class BossController : EnemyController
 {
     public EWeaponDetection detector;
-    Transform playerTransform;
-
-    private bool foundSomeone;
-
-    private float attackCD;
-    private float originalSpeed;
-
-    private bool slowed;
-    private bool alreadyDead;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        foundSomeone = false;
-        attackCD = 0;
-        originalSpeed = enemyScript.moveSpeed;
-        estado = -1; //"Haciendo el tonto"
-    }
-
-    public override void Detect(GameObject jugador)
-    {
-        foundSomeone = true;
-        player = jugador;
-        playerTransform = player.GetComponentInParent<PlayerController>().Root.transform;
-
-        estado = 0; //"Buscando"
-    }
-
-    public override void MoveTowardsInSpawn(Vector3 dir)
-    {
-        enemyScript.forwardBackward = dir.x;
-        enemyScript.leftRight = dir.z;
-    }
 
     // Update is called once per frame
     void Update()

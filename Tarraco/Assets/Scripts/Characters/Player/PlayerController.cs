@@ -155,6 +155,7 @@ public class PlayerController : CharacterClass
 	public bool waitForDisco = false;
 	
 	private bool metralletaCheat = false;
+	private bool lockedKeyb = false;
 
 
 
@@ -182,30 +183,69 @@ public class PlayerController : CharacterClass
 
     private void Start()
     {
+		system = Instantiate(particleObj).GetComponent<ParticleSystem>();
 		foreach(GameObject g in GameObject.FindGameObjectsWithTag("Respawn"))
         {
 			g.GetComponent<SpawnPoint>().AddPlayer(Root.transform);
 		}
 		//StressManagerSingleton.Instance.SetBar(id, Root.transform);
     }
-    public void SetUp(GameObject hUI, int i, int playerN)
+    public void SetUp(GameObject hUI, int i, int playerN, bool lockedKeyboard = false)
 	{
 		id = i;
-		if (id != 1)
+		bool addSetup = false;
+		string added = "";
+		if(lockedKeyboard)
 		{
-			forwardBackward += id;
-			leftRight += id;
-			jump += id;
-			left += id;
-			attack += id;
-			drop += id;
-			interact += id;
-			lookX += id;
-			lookY += id;
-			dash += id;
+			lockedKeyb = true;
+			if (id == 1)
+			{
+				added = "0";
+				forwardBackward += added;
+				leftRight += added;
+				jump += added;
+				left += added;
+				attack += added;
+				drop += added;
+				interact += added;
+				dash += added;
+				detector.SetUp(added);
+			}
+			else if (id == 5)
+			{
+				addSetup = true;
+				added = "1";
+				forwardBackward += added;
+				leftRight += added;
+				jump += added;
+				left += added;
+				attack += added;
+				drop += added;
+				interact += added;
+				lookX += added;
+				lookY += added;
+				dash += added;
+			}
+		}
+		if (id > 1 && id < 5)
+		{
+			addSetup = true;
+			added = "" + id;
+			forwardBackward += added;
+			leftRight += added;
+			jump += added;
+			left += added;
+			attack += added;
+			drop += added;
+			interact += added;
+			lookX += added;
+			lookY += added;
+			dash += added;
+		}
+		if(addSetup)
+        {
 			usingController = true;
 			LayerMask layer = 10;
-			print(id);
 			switch (playerN)
 			{
 				case 1:
@@ -225,7 +265,7 @@ public class PlayerController : CharacterClass
 			{
 				g.gameObject.layer = layer;
 			}
-			detector.SetUp();
+			detector.SetUp(added);
 		}
 		hUD = hUI.GetComponent<HealthHUD>();
 		detector.GetComponent<WeaponDetection>().healthUI = hUI.GetComponent<HealthHUD>();
@@ -236,11 +276,27 @@ public class PlayerController : CharacterClass
 		detector.GetWeapons(out w1, out w2);
     }
 
+	void ChangeControls()
+    {
+		if(!lockedKeyb)
+        {
+			float toControl = Input.GetAxis("Horizontal1") + Input.GetAxis("Vertical1") + Input.GetAxis(lookX) + Input.GetAxis(lookY);
+			if (usingController && (Abs(Input.GetAxis("Mouse X")) + Abs(Input.GetAxis("Mouse Y")) != 0))
+            {
+				usingController = false;
+            }
+			else if(!usingController && (toControl != 0))
+            {
+				usingController = true;
+			}
+        }
+    }
 
 	//---Updates---//
 	////////////////
 	void Update()
 	{
+		ChangeControls();
 		if (IsDead())
 		{
 			detector.DropAllWeapons();
@@ -251,8 +307,17 @@ public class PlayerController : CharacterClass
 		if (attacking && !Object.ReferenceEquals(weapon, null) && weapon.kind.Equals(Weapons.Bow)) chargingTime += Time.deltaTime * 1.4f;
 		x = Input.GetAxis(leftRight);
 		y = Input.GetAxis(forwardBackward);
-		cX = Input.GetAxis(lookY);
-		cY = -Input.GetAxis(lookX);
+		if(usingController)
+        {
+			cX = Input.GetAxis(lookY);
+			cY = -Input.GetAxis(lookX);
+		}
+		else
+		{
+			Vector3 dir = pPos.normalized;
+			cX = dir.x;
+			cY = dir.y;
+		}
 		if (Input.GetKeyDown(KeyCode.Y)) metralletaCheat = !metralletaCheat;
 		if(hitCoolDown > 0)
         {
@@ -400,7 +465,7 @@ public class PlayerController : CharacterClass
 		if (Physics.Raycast(ray, out hit, balanceHeight, (1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Enemies"))) 
 			&& !inAir && !isJumping && !reachRightAxisUsed && !reachLeftAxisUsed)
 		{
-			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.magnitude < 1f)
+			if (!balanced && APR_Parts[0].GetComponent<Rigidbody>().velocity.sqrMagnitude < 1f)
 			{
 				if (autoGetUpWhenPossible)
 				{
@@ -532,7 +597,7 @@ public class PlayerController : CharacterClass
 		float y = Input.GetAxis(forwardBackward);
 		float cX = Input.GetAxis(lookY);
 		float cY = -Input.GetAxis(lookX);*/
-		if (!usingController && (Input.GetAxis("Horizontal1") != 0 || Input.GetAxis("Vertical1") != 0)) usingController = true;
+		
 		if(!isRagdoll)
 		{
 			Direction = new Vector3(x, 0.0f, y).normalized;
@@ -592,7 +657,7 @@ public class PlayerController : CharacterClass
 	////////////////////////
 	void PlayerRotation()
 	{
-		if (usingController || Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0)
+		if (usingController)
         {
 			if(Input.GetAxis(lookX) != 0 || Input.GetAxis(lookY) != 0)
             {
@@ -647,6 +712,8 @@ public class PlayerController : CharacterClass
 				else if (!balanced)
 				{
 					DeactivateRagdoll();
+					usingLeft = false;
+					punchingLeft = false;
 				}
 			}
 
@@ -876,6 +943,15 @@ public class PlayerController : CharacterClass
 				break;
         }
 	}
+
+	public void StopPreparingHit()
+	{
+		APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = BodyTarget;
+		APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
+		APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
+		attacking = false;
+	}
+
 	//---Player Punch---//
 	/////////////////////
 	private IEnumerator JustDid(float tts)
@@ -977,6 +1053,7 @@ public class PlayerController : CharacterClass
 				{
 					APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 					APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;
+					if (weapon != null) weapon.StopDealingDamage();
 				}
 			}
 		}
@@ -1029,7 +1106,7 @@ public class PlayerController : CharacterClass
 			IEnumerator DelayCoroutine()
 			{
 				yield return new WaitForSeconds(0.05f);
-				if(!Input.GetButton(left))
+				if(!Input.GetButton(left) && weapon != null && weapon.kind != Weapons.Bow)
 				{
 					APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
 					APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
@@ -1046,12 +1123,16 @@ public class PlayerController : CharacterClass
 	{
 		if (!inAir && balanced)
 		{
+			float local11z = APR_Parts[11].transform.localPosition.z;
+			float local12z = APR_Parts[12].transform.localPosition.z;
+			float local11x = APR_Parts[11].transform.localPosition.x;
+			float local12x = APR_Parts[12].transform.localPosition.x;
 			if (WalkForward)
 			{
 				Alert_Leg_Left = false;
 				Alert_Leg_Right = false;
 				//right leg
-				if (APR_Parts[11].transform.localPosition.z < APR_Parts[12].transform.localPosition.z && !StepLeft && !Alert_Leg_Right)
+				if ((local11z < local12z || local11x > 0) && !StepLeft && !Alert_Leg_Right)
 				{
 					StepRight = true;
 					Alert_Leg_Right = true;
@@ -1059,7 +1140,7 @@ public class PlayerController : CharacterClass
 				}
 
 				//left leg
-				if (APR_Parts[11].transform.localPosition.z > APR_Parts[12].transform.localPosition.z && !StepRight && !Alert_Leg_Left)
+				if ((local11z > local12z || local12x < 0) && !StepRight && !Alert_Leg_Left)
 				{
 					StepLeft = true;
 					Alert_Leg_Left = true;
@@ -1070,7 +1151,7 @@ public class PlayerController : CharacterClass
 			if (WalkBackward)
 			{
 				//right leg
-				if (APR_Parts[11].transform.position.z > APR_Parts[12].transform.position.z && !StepLeft && !Alert_Leg_Right)
+				if ((local11z > local12z || local11x > 0) && !StepLeft && !Alert_Leg_Right)
 				{
 					StepRight = true;
 					Alert_Leg_Right = true;
@@ -1078,7 +1159,7 @@ public class PlayerController : CharacterClass
 				}
 
 				//left leg
-				if (APR_Parts[11].transform.position.z < APR_Parts[12].transform.position.z && !StepRight && !Alert_Leg_Left)
+				if ((local11z < local12z || local12x < 0) && !StepRight && !Alert_Leg_Left)
 				{
 					StepLeft = true;
 					Alert_Leg_Left = true;
@@ -1298,8 +1379,11 @@ public class PlayerController : CharacterClass
 			APR_Parts[1].GetComponent<ConfigurableJoint>().targetRotation = BodyTarget;
 			APR_Parts[3].GetComponent<ConfigurableJoint>().targetRotation = UpperRightArmTarget;
 			APR_Parts[4].GetComponent<ConfigurableJoint>().targetRotation = LowerRightArmTarget;
-			APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
-			APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
+            if (!usingLeft)
+			{
+				APR_Parts[5].GetComponent<ConfigurableJoint>().targetRotation = UpperLeftArmTarget;
+				APR_Parts[6].GetComponent<ConfigurableJoint>().targetRotation = LowerLeftArmTarget;
+			}
 
 			MouseYAxisArms = 0;
 
@@ -1357,8 +1441,8 @@ public class PlayerController : CharacterClass
 				r.velocity = Vector3.down * 2;
 			}
 			cam.gameObject.GetComponent<CameraControl>().RemovePlayer(character);
+			Destroy(system);
 			yield return new WaitForSeconds(2f);
-			print(life);
 			Destroy(this.gameObject);
 		}
 	}
